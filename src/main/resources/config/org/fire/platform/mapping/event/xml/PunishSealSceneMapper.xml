@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fire.platform.modules.event.dao.PunishSealSceneMapper">
+
+    <select id="selectAll" resultMap="PunishSealScene">
+        SELECT A.* FROM PUNISH_SEAL_SCENE A
+        <if test="extraOrderColumns != null and extraOrderColumns !=''">
+            ORDER BY ${extraOrderColumns}
+        </if>
+    </select>
+
+    <select id="selectByMap" resultMap="PunishSealScene" parameterType="map">
+        SELECT A.* FROM PUNISH_SEAL_SCENE A
+        <where>
+            <include refid="queryCondition"/>
+        </where>
+        <if test="extraOrderColumns != null and extraOrderColumns !=''">
+            ORDER BY ${extraOrderColumns}
+        </if>
+    </select>
+
+
+    <select id="selectByParam" resultMap="PunishSealScene"
+            parameterType="org.fire.platform.modules.event.domain.PunishSealScene">
+        SELECT A.* FROM PUNISH_SEAL_SCENE A
+        <where>
+            <include refid="queryCondition"/>
+        </where>
+        <if test="extraOrderColumns != null and extraOrderColumns !=''">
+            ORDER BY ${extraOrderColumns}
+        </if>
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="PunishSealScene"
+            parameterType="org.fire.platform.modules.event.domain.PunishSealScene">
+   SELECT  A.*  FROM  PUNISH_SEAL_SCENE A 
+   WHERE id=#{id,jdbcType=NUMERIC}
+  </select>
+
+    <update id="updateByPrimaryKey">
+        UPDATE PUNISH_SEAL_SCENE
+        <set>
+            <if test="punishEventId != null">
+                punish_event_id = #{punishEventId,jdbcType=NUMERIC},
+            </if>
+            <if test="decisionNumber != null">
+                decision_number = #{decisionNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="entryTime != null">
+                entry_time = #{entryTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="basis != null">
+                basis = #{basis,jdbcType=VARCHAR},
+            </if>
+            <if test="sceneRange != null">
+                scene_range = #{sceneRange,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="extraUpdateColumns != null and extraUpdateColumns !=''">
+                ${extraUpdateColumns}
+            </if>
+        </set>
+        WHERE id=#{id,jdbcType=NUMERIC}
+    </update>
+
+    <delete id="deleteByPrimaryKey">
+   DELETE FROM PUNISH_SEAL_SCENE
+     WHERE id=#{id,jdbcType=NUMERIC}
+  </delete>
+
+    <delete id="deleteByParam">
+        DELETE FROM PUNISH_SEAL_SCENE WHERE
+        <trim prefixOverrides="AND">
+            <if test="id!=null">
+                AND id=#{id,jdbcType=NUMERIC}
+            </if>
+            <if test="punishEventId!=null">
+                AND punish_event_id=#{punishEventId,jdbcType=NUMERIC}
+            </if>
+            <if test="decisionNumber!=null and  decisionNumber !=''">
+                AND decision_number=#{decisionNumber,jdbcType=VARCHAR}
+            </if>
+            <if test="entryTime!=null">
+                AND entry_time = #{entryTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="basis!=null and  basis !=''">
+                AND basis=#{basis,jdbcType=VARCHAR}
+            </if>
+            <if test="sceneRange!=null and  sceneRange !=''">
+                AND scene_range=#{sceneRange,jdbcType=VARCHAR}
+            </if>
+            <if test="createTime!=null">
+                AND create_time = #{createTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="extraCondition!=null and extraCondition!=''">
+                AND ( ${extraCondition} )
+            </if>
+        </trim>
+    </delete>
+
+    <insert id="insert">
+        <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO PUNISH_SEAL_SCENE (
+        id,
+        punish_event_id,
+        decision_number,
+        entry_time,
+        basis,
+        scene_range,
+        create_time
+        ) VALUES(
+        #{id,jdbcType=NUMERIC},
+        #{punishEventId,jdbcType=NUMERIC},
+        #{decisionNumber,jdbcType=VARCHAR},
+        #{entryTime,jdbcType=TIMESTAMP},
+        #{basis,jdbcType=VARCHAR},
+        #{sceneRange,jdbcType=VARCHAR},
+        #{createTime,jdbcType=TIMESTAMP}
+        )
+    </insert>
+
+
+    <resultMap id="PunishSealScene" type="org.fire.platform.modules.event.domain.PunishSealScene">
+        <result property="id" column="id" jdbcType="NUMERIC"/>
+        <result property="punishEventId" column="punish_event_id" jdbcType="NUMERIC"/>
+        <result property="decisionNumber" column="decision_number" jdbcType="VARCHAR"/>
+        <result property="entryTime" column="entry_time" jdbcType="TIMESTAMP"/>
+        <result property="basis" column="basis" jdbcType="VARCHAR"/>
+        <result property="sceneRange" column="scene_range" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="queryCondition">
+        <if test="id!=null">
+            AND A.id=#{id,jdbcType=NUMERIC}
+        </if>
+        <if test="punishEventId!=null">
+            AND A.punish_event_id=#{punishEventId,jdbcType=NUMERIC}
+        </if>
+        <if test="decisionNumber!=null and  decisionNumber !=''">
+            AND decision_number = #{decisionNumber,jdbcType=VARCHAR}
+        </if>
+        <if test="decisionNumberLike!=null and  decisionNumberLike !=''">
+            AND decision_number LIKE CONCAT(CONCAT('%', #{decisionNumberLike,jdbcType=VARCHAR}),'%')
+        </if>
+        <if test="entryTimeRange1!=null">
+            AND entry_time &gt; #{entryTimeRange1,jdbcType=TIMESTAMP}
+        </if>
+        <if test="entryTimeRange2!=null">
+            AND entry_time &lt; #{entryTimeRange2,jdbcType=TIMESTAMP}
+        </if>
+        <if test="entryTime!=null">
+            AND entry_time = #{entryTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="basis!=null and  basis !=''">
+            AND basis = #{basis,jdbcType=VARCHAR}
+        </if>
+        <if test="basisLike!=null and  basisLike !=''">
+            AND basis LIKE CONCAT(CONCAT('%', #{basisLike,jdbcType=VARCHAR}),'%')
+        </if>
+        <if test="sceneRange!=null and  sceneRange !=''">
+            AND scene_range = #{sceneRange,jdbcType=VARCHAR}
+        </if>
+        <if test="sceneRangeLike!=null and  sceneRangeLike !=''">
+            AND scene_range LIKE CONCAT(CONCAT('%', #{sceneRangeLike,jdbcType=VARCHAR}),'%')
+        </if>
+        <if test="createTimeRange1!=null">
+            AND create_time &gt; #{createTimeRange1,jdbcType=TIMESTAMP}
+        </if>
+        <if test="createTimeRange2!=null">
+            AND create_time &lt; #{createTimeRange2,jdbcType=TIMESTAMP}
+        </if>
+        <if test="createTime!=null">
+            AND create_time = #{createTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="extraCondition!=null and extraCondition!=''">
+            AND ( ${extraCondition} )
+        </if>
+    </sql>
+
+</mapper>

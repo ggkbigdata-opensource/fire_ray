@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fire.platform.modules.sys.dao.RoleMenuMapper">
+  
+  <select id="selectAll" resultMap="RoleMenu">
+      SELECT A.*   FROM ROLE_MENU A
+      <if test="extraOrderColumns != null and extraOrderColumns !=''">
+    		ORDER BY ${extraOrderColumns}
+      </if>
+  </select> 
+  
+  <select id="selectByMap" resultMap="RoleMenu"  parameterType="map"> 
+   SELECT A.*   FROM ROLE_MENU A
+   <where>
+      <include refid="queryCondition"/>
+   </where>
+	<if test="extraOrderColumns != null and extraOrderColumns !=''">
+    		ORDER BY ${extraOrderColumns}
+    </if>
+  </select> 
+
+  <select id="selectByPrimaryKey"  resultMap="RoleMenu"   parameterType="org.fire.platform.modules.sys.domain.RoleMenu"> 
+   SELECT  A.*  FROM  ROLE_MENU A 
+   WHERE id=#{id,jdbcType=NUMERIC}
+  </select>  
+  
+  <update id="updateByPrimaryKey"> 
+   UPDATE ROLE_MENU
+  <set>  
+     <if test="roleId != null">  
+            role_id = #{roleId,jdbcType=NUMERIC},
+      </if> 
+     <if test="menuId != null">  
+            menu_id = #{menuId,jdbcType=NUMERIC},
+      </if> 
+   <if test="extraUpdateColumns != null and extraUpdateColumns !=''">
+    		${extraUpdateColumns}
+   </if>
+  </set>  
+   WHERE id=#{id,jdbcType=NUMERIC}
+  </update>  
+  
+  <delete id="deleteByPrimaryKey"> 
+   DELETE FROM ROLE_MENU
+     WHERE id=#{id,jdbcType=NUMERIC}
+  </delete>  
+
+  <delete id="deleteByParam"> 
+   DELETE FROM ROLE_MENU  WHERE 
+   <trim prefixOverrides="AND" > 
+  <if test="id!=null">
+  		AND id=#{id,jdbcType=NUMERIC}
+  </if>
+  <if test="roleId!=null">
+  		AND role_id=#{roleId,jdbcType=NUMERIC}
+  </if>
+  <if test="menuId!=null">
+  		AND menu_id=#{menuId,jdbcType=NUMERIC}
+  </if>
+   <if test="extraCondition!=null and extraCondition!=''">
+	   AND  ( ${extraCondition} )
+	</if> 
+   </trim>
+  </delete>  
+ 
+  <insert id="insert"> 
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey> 
+    INSERT INTO ROLE_MENU (
+	id,
+	role_id,
+	menu_id
+	)  VALUES(
+	#{id,jdbcType=NUMERIC},
+	#{roleId,jdbcType=NUMERIC},
+	#{menuId,jdbcType=NUMERIC}
+    ) 
+  </insert>  
+
+
+
+  <resultMap  id="RoleMenu"  type="org.fire.platform.modules.sys.domain.RoleMenu" >
+	<result property="id" column="id"  jdbcType="NUMERIC" />
+	<result property="roleId" column="role_id"  jdbcType="NUMERIC" />
+	<result property="menuId" column="menu_id"  jdbcType="NUMERIC" />
+  </resultMap>
+ 
+  <sql id="queryCondition">
+  <if test="id!=null">
+  		AND A.id=#{id,jdbcType=NUMERIC}
+  </if>
+  <if test="roleId!=null">
+  		AND A.role_id=#{roleId,jdbcType=NUMERIC}
+  </if>
+  <if test="menuId!=null">
+  		AND A.menu_id=#{menuId,jdbcType=NUMERIC}
+  </if>
+   <if test="extraCondition!=null and extraCondition!=''">
+	   AND  ( ${extraCondition} )
+	</if>
+    </sql>
+    
+</mapper>

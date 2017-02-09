@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fire.platform.modules.sys.dao.AppVersionMapper">
+  
+  <select id="selectAPPVersionByMap" resultMap="AppVersion"  parameterType="map"> 
+   SELECT A.*   FROM APP_VERSION A
+   <where>
+      <if test="appVersion  != null">  
+          AND <![CDATA[ a.app_version > #{appVersion,jdbcType=VARCHAR}  ]]> 
+      </if>
+      <if test="appUpdateTime != null">  
+          AND <![CDATA[ a.app_update_time <= #{appUpdateTime,jdbcType=TIMESTAMP}  ]]> 
+      </if>
+      <if test="mapVersion  != null">  
+          AND <![CDATA[ a.map_version > #{mapVersion,jdbcType=VARCHAR}  ]]> 
+      </if>
+      <if test="mapUpdateTime != null">  
+          AND <![CDATA[ a.map_update_time <= #{mapUpdateTime,jdbcType=TIMESTAMP}  ]]> 
+      </if>
+      <if test="state != null">  
+         and a.state = #{state,jdbcType=NUMERIC}
+      </if>
+   </where>
+   order by a.app_version,a.map_version desc;
+  </select> 
+    
+</mapper>

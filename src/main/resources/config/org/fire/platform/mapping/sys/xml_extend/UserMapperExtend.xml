@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fire.platform.modules.sys.dao.UserMapper">
+  
+  <select id="selectBeanByMap" resultMap="UserBean"  parameterType="map"> 
+   SELECT A.*,B.NAME  as  disctrict_name   FROM USER A,DISTRICT B  
+   where a.district_id = b.id 
+      <include refid="queryBeanCondition"/>
+	<if test="extraOrderColumns != null and extraOrderColumns !=''">
+    		ORDER BY ${extraOrderColumns}
+    </if>
+  </select> 
+
+ <resultMap id="UserBean" type="org.fire.platform.modules.sys.bean.UserBean" extends="User">  
+    <result property="disctrictName" column="disctrict_name"  jdbcType="VARCHAR" />  
+</resultMap>  
+ 
+  <sql id="queryBeanCondition">
+  <if test="uid!=null">
+  		AND A.uid=#{uid,jdbcType=NUMERIC}
+  </if>
+  <if test="username!=null and  username !=''">
+   		AND A.username = #{username,jdbcType=VARCHAR}
+  </if>
+  <if test="usernameLike!=null and  usernameLike !=''">
+  		AND A.username LIKE CONCAT(CONCAT('%', #{usernameLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="password!=null and  password !=''">
+   		AND PASSWORD = #{password,jdbcType=VARCHAR}
+  </if>
+  <if test="passwordLike!=null and  passwordLike !=''">
+  		AND PASSWORD LIKE CONCAT(CONCAT('%', #{passwordLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="deptId!=null">
+  		AND A.dept_id=#{deptId,jdbcType=NUMERIC}
+  </if>
+  <if test="realName!=null and  realName !=''">
+   		AND real_name = #{realName,jdbcType=VARCHAR}
+  </if>
+  <if test="realNameLike!=null and  realNameLike !=''">
+  		AND real_name LIKE CONCAT(CONCAT('%', #{realNameLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="gender!=null">
+  		AND A.gender=#{gender,jdbcType=NUMERIC}
+  </if>
+  <if test="mobile!=null and  mobile !=''">
+   		AND A.mobile = #{mobile,jdbcType=VARCHAR}
+  </if>
+  <if test="mobileLike!=null and  mobileLike !=''">
+  		AND A.mobile LIKE CONCAT(CONCAT('%', #{mobileLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="email!=null and  email !=''">
+   		AND email = #{email,jdbcType=VARCHAR}
+  </if>
+  <if test="emailLike!=null and  emailLike !=''">
+  		AND email LIKE CONCAT(CONCAT('%', #{emailLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="job!=null and  job !=''">
+   		AND job = #{job,jdbcType=VARCHAR}
+  </if>
+  <if test="jobLike!=null and  jobLike !=''">
+  		AND job LIKE CONCAT(CONCAT('%', #{jobLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="roleId!=null">
+  		AND A.role_id=#{roleId,jdbcType=NUMERIC}
+  </if>
+  <if test="state!=null">
+  		AND A.state=#{state,jdbcType=NUMERIC}
+  </if>
+   <if test="lastLoginTimeRange1!=null">
+    		AND last_login_time &gt; #{lastLoginTimeRange1,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="lastLoginTimeRange2!=null">
+    		AND last_login_time &lt; #{lastLoginTimeRange2,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="lastLoginTime!=null">
+    		AND last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP} 
+    </if>
+  <if test="token!=null and  token !=''">
+   		AND token = #{token,jdbcType=VARCHAR}
+  </if>
+  <if test="tokenLike!=null and  tokenLike !=''">
+  		AND token LIKE CONCAT(CONCAT('%', #{tokenLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="loginType!=null">
+  		AND A.login_type=#{loginType,jdbcType=NUMERIC}
+  </if>
+  <if test="modUser!=null">
+  		AND A.mod_user=#{modUser,jdbcType=NUMERIC}
+  </if>
+   <if test="modDateRange1!=null">
+    		AND mod_date &gt; #{modDateRange1,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="modDateRange2!=null">
+    		AND mod_date &lt; #{modDateRange2,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="modDate!=null">
+    		AND mod_date = #{modDate,jdbcType=TIMESTAMP} 
+    </if>
+  <if test="remark!=null and  remark !=''">
+   		AND remark = #{remark,jdbcType=VARCHAR}
+  </if>
+  <if test="remarkLike!=null and  remarkLike !=''">
+  		AND remark LIKE CONCAT(CONCAT('%', #{remarkLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="imeiNum!=null and  imeiNum !=''">
+   		AND IMEI_Num = #{imeiNum,jdbcType=VARCHAR}
+  </if>
+  <if test="imeiNumLike!=null and  imeiNumLike !=''">
+  		AND IMEI_Num LIKE CONCAT(CONCAT('%', #{imeiNumLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="districtId!=null">
+  		AND A.district_id=#{districtId,jdbcType=NUMERIC}
+  </if>
+   <if test="extraCondition!=null and extraCondition!=''">
+	   AND  ( ${extraCondition} )
+	</if>
+    </sql>
+    
+</mapper>

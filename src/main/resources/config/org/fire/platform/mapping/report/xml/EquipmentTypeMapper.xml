@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fire.platform.modules.report.dao.EquipmentTypeMapper">
+  
+  <select id="selectAll" resultMap="EquipmentType">
+      SELECT A.*   FROM EQUIPMENT_TYPE A
+      <if test="extraOrderColumns != null and extraOrderColumns !=''">
+    		ORDER BY ${extraOrderColumns}
+      </if>
+  </select> 
+  
+  <select id="selectByMap" resultMap="EquipmentType"  parameterType="map"> 
+   SELECT A.*   FROM EQUIPMENT_TYPE A
+   <where>
+      <include refid="queryCondition"/>
+   </where>
+	<if test="extraOrderColumns != null and extraOrderColumns !=''">
+    		ORDER BY ${extraOrderColumns}
+    </if>
+  </select> 
+  
+  
+  <select id="selectByParam" resultMap="EquipmentType"  parameterType="org.fire.platform.modules.report.domain.EquipmentType"> 
+   SELECT A.*   FROM EQUIPMENT_TYPE A
+   <where>
+      <include refid="queryCondition"/>
+   </where>
+	<if test="extraOrderColumns != null and extraOrderColumns !=''">
+    		ORDER BY ${extraOrderColumns}
+    </if>
+  </select> 
+
+  <select id="selectByPrimaryKey"  resultMap="EquipmentType"   parameterType="org.fire.platform.modules.report.domain.EquipmentType"> 
+   SELECT  A.*  FROM  EQUIPMENT_TYPE A 
+   WHERE id=#{id,jdbcType=NUMERIC}
+  </select>  
+  
+  <update id="updateByPrimaryKey"> 
+   UPDATE EQUIPMENT_TYPE
+  <set>  
+     <if test="code != null">  
+            code = #{code,jdbcType=VARCHAR},
+      </if> 
+     <if test="name != null">  
+            name = #{name,jdbcType=VARCHAR},
+      </if> 
+   <if test="extraUpdateColumns != null and extraUpdateColumns !=''">
+    		${extraUpdateColumns}
+   </if>
+  </set>  
+   WHERE id=#{id,jdbcType=NUMERIC}
+  </update>  
+  
+  <delete id="deleteByPrimaryKey"> 
+   DELETE FROM EQUIPMENT_TYPE
+     WHERE id=#{id,jdbcType=NUMERIC}
+  </delete>  
+
+  <delete id="deleteByParam"> 
+   DELETE FROM EQUIPMENT_TYPE  WHERE 
+   <trim prefixOverrides="AND" > 
+  <if test="id!=null">
+  		AND id=#{id,jdbcType=NUMERIC}
+  </if>
+  <if test="code!=null and  code !=''">
+    <if test="code!=null">
+  		AND code=#{code,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="name!=null and  name !=''">
+    <if test="name!=null">
+  		AND name=#{name,jdbcType=VARCHAR}
+  </if>
+  </if>
+   <if test="extraCondition!=null and extraCondition!=''">
+	   AND  ( ${extraCondition} )
+	</if> 
+   </trim>
+  </delete>  
+ 
+  <insert id="insert"> 
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey> 
+    INSERT INTO EQUIPMENT_TYPE (
+	id,
+	code,
+	name
+	)  VALUES(
+	#{id,jdbcType=NUMERIC},
+	#{code,jdbcType=VARCHAR},
+	#{name,jdbcType=VARCHAR}
+    ) 
+  </insert>  
+
+
+
+  <resultMap  id="EquipmentType"  type="org.fire.platform.modules.report.domain.EquipmentType" >
+	<result property="id" column="id"  jdbcType="NUMERIC" />
+	<result property="code" column="code"  jdbcType="VARCHAR" />
+	<result property="name" column="name"  jdbcType="VARCHAR" />
+  </resultMap>
+ 
+  <sql id="queryCondition">
+  <if test="id!=null">
+  		AND A.id=#{id,jdbcType=NUMERIC}
+  </if>
+  <if test="code!=null and  code !=''">
+   		AND code = #{code,jdbcType=VARCHAR}
+  </if>
+  <if test="codeLike!=null and  codeLike !=''">
+  		AND code LIKE CONCAT(CONCAT('%', #{codeLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="name!=null and  name !=''">
+   		AND name = #{name,jdbcType=VARCHAR}
+  </if>
+  <if test="nameLike!=null and  nameLike !=''">
+  		AND name LIKE CONCAT(CONCAT('%', #{nameLike,jdbcType=VARCHAR}),'%')  
+  </if>
+   <if test="extraCondition!=null and extraCondition!=''">
+	   AND  ( ${extraCondition} )
+	</if>
+    </sql>
+    
+</mapper>

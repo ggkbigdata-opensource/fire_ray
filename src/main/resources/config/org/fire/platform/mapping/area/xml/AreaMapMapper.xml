@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fire.platform.modules.area.dao.AreaMapMapper">
+  
+  <select id="selectAll" resultMap="AreaMap">
+      SELECT A.*   FROM AREA_MAP A
+      <if test="extraOrderColumns != null and extraOrderColumns !=''">
+    		ORDER BY ${extraOrderColumns}
+      </if>
+  </select> 
+  
+  <select id="selectByMap" resultMap="AreaMap"  parameterType="map"> 
+   SELECT A.*   FROM AREA_MAP A
+   <where>
+      <include refid="queryCondition"/>
+   </where>
+	<if test="extraOrderColumns != null and extraOrderColumns !=''">
+    		ORDER BY ${extraOrderColumns}
+    </if>
+  </select> 
+
+  <select id="selectByPrimaryKey"  resultMap="AreaMap"   parameterType="org.fire.platform.modules.area.domain.AreaMap"> 
+   SELECT  A.*  FROM  AREA_MAP A 
+   WHERE ID=#{id,jdbcType=NUMERIC}
+  </select>  
+  
+  <update id="updateByPrimaryKey"> 
+   UPDATE AREA_MAP
+  <set>  
+     <if test="areaCode != null">  
+            area_code = #{areaCode,jdbcType=VARCHAR},
+      </if> 
+     <if test="areaName != null">  
+            area_name = #{areaName,jdbcType=VARCHAR},
+      </if> 
+     <if test="mapData != null">  
+            map_data = #{mapData,jdbcType=VARCHAR},
+      </if> 
+     <if test="areaCenter != null">  
+            area_center = #{areaCenter,jdbcType=VARCHAR},
+      </if> 
+   <if test="extraUpdateColumns != null and extraUpdateColumns !=''">
+    		${extraUpdateColumns}
+   </if>
+  </set>  
+   WHERE ID=#{id,jdbcType=NUMERIC}
+  </update>  
+  
+  <delete id="deleteByPrimaryKey"> 
+   DELETE FROM AREA_MAP
+     WHERE ID=#{id,jdbcType=NUMERIC}
+  </delete>  
+
+  <delete id="deleteByParam"> 
+   DELETE FROM AREA_MAP  WHERE 
+   <trim prefixOverrides="AND" > 
+  <if test="id!=null">
+  		AND ID=#{id,jdbcType=NUMERIC}
+  </if>
+  <if test="areaCode!=null and  areaCode !=''">
+    <if test="areaCode!=null">
+  		AND area_code=#{areaCode,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="areaName!=null and  areaName !=''">
+    <if test="areaName!=null">
+  		AND area_name=#{areaName,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="mapData!=null and  mapData !=''">
+    <if test="mapData!=null">
+  		AND map_data=#{mapData,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="areaCenter!=null and  areaCenter !=''">
+    <if test="areaCenter!=null">
+  		AND area_center=#{areaCenter,jdbcType=VARCHAR}
+  </if>
+  </if>
+   <if test="extraCondition!=null and extraCondition!=''">
+	   AND  ( ${extraCondition} )
+	</if> 
+   </trim>
+  </delete>  
+ 
+  <insert id="insert"> 
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey> 
+    INSERT INTO AREA_MAP (
+	ID,
+	area_code,
+	area_name,
+	map_data,
+	area_center
+	)  VALUES(
+	#{id,jdbcType=NUMERIC},
+	#{areaCode,jdbcType=VARCHAR},
+	#{areaName,jdbcType=VARCHAR},
+	#{mapData,jdbcType=VARCHAR},
+	#{areaCenter,jdbcType=VARCHAR}
+    ) 
+  </insert>  
+
+
+
+  <resultMap  id="AreaMap"  type="org.fire.platform.modules.area.domain.AreaMap" >
+	<result property="id" column="ID"  jdbcType="NUMERIC" />
+	<result property="areaCode" column="area_code"  jdbcType="VARCHAR" />
+	<result property="areaName" column="area_name"  jdbcType="VARCHAR" />
+	<result property="mapData" column="map_data"  jdbcType="VARCHAR" />
+	<result property="areaCenter" column="area_center"  jdbcType="VARCHAR" />
+  </resultMap>
+ 
+  <sql id="queryCondition">
+  <if test="id!=null">
+  		AND A.ID=#{id,jdbcType=NUMERIC}
+  </if>
+  <if test="areaCode!=null and  areaCode !=''">
+   		AND area_code = #{areaCode,jdbcType=VARCHAR}
+  </if>
+  <if test="areaCodeLike!=null and  areaCodeLike !=''">
+  		AND area_code LIKE CONCAT(CONCAT('%', #{areaCodeLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="areaName!=null and  areaName !=''">
+   		AND area_name = #{areaName,jdbcType=VARCHAR}
+  </if>
+  <if test="areaNameLike!=null and  areaNameLike !=''">
+  		AND area_name LIKE CONCAT(CONCAT('%', #{areaNameLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="mapData!=null and  mapData !=''">
+   		AND map_data = #{mapData,jdbcType=VARCHAR}
+  </if>
+  <if test="mapDataLike!=null and  mapDataLike !=''">
+  		AND map_data LIKE CONCAT(CONCAT('%', #{mapDataLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="areaCenter!=null and  areaCenter !=''">
+   		AND area_center = #{areaCenter,jdbcType=VARCHAR}
+  </if>
+  <if test="areaCenterLike!=null and  areaCenterLike !=''">
+  		AND area_center LIKE CONCAT(CONCAT('%', #{areaCenterLike,jdbcType=VARCHAR}),'%')  
+  </if>
+   <if test="extraCondition!=null and extraCondition!=''">
+	   AND  ( ${extraCondition} )
+	</if>
+    </sql>
+    
+</mapper>

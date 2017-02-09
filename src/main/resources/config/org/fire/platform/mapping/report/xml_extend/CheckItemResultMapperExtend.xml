@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fire.platform.modules.report.dao.CheckItemResultMapper">
+
+    <resultMap id="CheckItemResultBean" type="org.fire.platform.modules.report.bean.CheckItemResultBean" extends="CheckItemResult">
+        <result property="code" column="code" jdbcType="VARCHAR"/>
+        <result property="parentCode" column="parent_code" jdbcType="VARCHAR"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="level" column="level" jdbcType="VARCHAR"/>
+        <result property="standard" column="standard" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <insert id="batchInsertResult">
+        INSERT INTO check_item_result (report_id,item_id,check_num,unqualified_num)
+        VALUES
+        <foreach collection="resultList" item="item" separator=",">
+            (
+              #{reportId,jdbcType=NUMERIC} , #{item.itemId,jdbcType=NUMERIC},
+              #{item.checkNum,jdbcType=NUMERIC} , #{item.unqualifiedNum,jdbcType=NUMERIC}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="insertResult">
+        INSERT INTO check_item_result (report_id,item_id,check_num,unqualified_num) value (
+          #{param1,jdbcType=NUMERIC} , #{param2,jdbcType=NUMERIC}, #{param3,jdbcType=NUMERIC} , #{param4,jdbcType=NUMERIC}
+        )
+    </insert>
+
+    <select id="selectResultBeanByReportId" resultMap="CheckItemResultBean">
+        SELECT cir.* , cid.code , cid.level , cid.name , cid.parent_code , cid.standard
+        FROM check_item_result cir
+        LEFT JOIN check_item_def cid on cir.item_id = cid.id
+        WHERE cir.report_id = #{param1}
+        ORDER BY cid.code+0
+    </select>
+</mapper>

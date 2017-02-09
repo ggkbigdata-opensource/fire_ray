@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fire.platform.modules.building.dao.BuildingMapper">
+   <resultMap  id="BuildingVo"  type="org.fire.platform.modules.building.vo.BuildingVo" >
+	<result property="buildingId" column="id"  jdbcType="NUMERIC" />
+	<result property="blockName" column="block_name"  jdbcType="VARCHAR" />
+	<result property="streetName" column="street_name"  jdbcType="VARCHAR" />
+	<result property="name" column="base_name"  jdbcType="VARCHAR" />
+	<result property="address" column="base_address"  jdbcType="VARCHAR" />
+	<result property="thumbImg" column="thumb_img"  jdbcType="VARCHAR" />
+	<result property="modelImg" column="model_img"  jdbcType="VARCHAR" />
+	<result property="longitude" column="longitude"  jdbcType="NUMERIC" />
+	<result property="latitude" column="latitude"  jdbcType="NUMERIC" />
+	<result property="buildingClass" column="base_building_class"  jdbcType="VARCHAR" />
+	<result property="buildingType" column="base_building_type"  jdbcType="VARCHAR" />
+	<result property="level" column="base_level"  jdbcType="VARCHAR" />
+	<result property="remark" column="base_remark"  jdbcType="VARCHAR" />
+	<result property="fireManager" column="fire_manager"  jdbcType="VARCHAR" />
+	<result property="fireContact" column="fire_contact"  jdbcType="VARCHAR" />
+	<result property="fireContactPhone" column="fire_contact_phone"  jdbcType="VARCHAR" />
+	<result property="conType" column="con_type"  jdbcType="VARCHAR" />
+	<result property="conClass" column="con_class"  jdbcType="VARCHAR" />
+	<result property="height" column="con_build_hight"  jdbcType="VARCHAR" />
+	<result property="coverArea" column="con_cover_area"  jdbcType="VARCHAR" />
+	<result property="floors" column="con_floors"  jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap  id="BuildingEventVo"  type="org.fire.platform.modules.building.vo.BuildingEventVo" >
+	<result property="id" column="id"  jdbcType="NUMERIC" />
+	<result property="name" column="name"  jdbcType="VARCHAR" />
+	<result property="createTime" column="create_time"  jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <resultMap  id="CountValueData"  type="org.fire.platform.common.base.CountValueData" >
+	<result property="key" column="key1"  jdbcType="VARCHAR" />
+	<result property="data" column="data1"  jdbcType="NUMERIC" />
+  </resultMap>
+  
+   
+   <select id="selectBuildingReport" resultMap="BuildingEventVo"> 
+	   select a.id,a.name,a.pub_time as create_time from check_report a 
+	   where a.building_id = #{buildingId}
+   </select>
+   
+   <select id="selectBuildingPunish" resultMap="BuildingEventVo"> 	   
+	   select a.id,a.name,a.punish_time as create_time from punish_event a 
+	   where a.building_id = #{buildingId}
+   </select>
+   
+   <select id="selectConcernBuildings" resultMap="BuildingVo">
+       SELECT a.id,b.name AS street_name,c.name as block_name, A.base_name,
+       A.base_address,A.thumb_img,A.model_img,a.longitude,a.latitude,
+       a.base_building_class,A.base_level,a.base_remark,
+       a.fire_manager,a.fire_contact,a.fire_contact_phone,
+       a.con_type,a.con_build_hight,a.con_cover_area,a.con_floors
+       FROM BUILDING A
+	   LEFT JOIN street b ON a.street_id = b.id
+	   LEFT JOIN block c ON a.block_id = c.id
+       inner JOIN user_concern_building d ON a.id = d.building_id
+	   and d.user_id = #{userId}
+   </select>
+   
+   <select id="selectBuildingBaseInfo" resultMap="BuildingVo"> 
+	   SELECT a.id,b.name AS block_name,c.name AS street_name,A.base_name,
+       A.base_address,A.thumb_img,A.model_img,a.longitude,a.latitude,
+       a.base_building_class,A.base_level,a.base_remark,
+       a.fire_manager,a.fire_contact,a.fire_contact_phone,
+       a.con_type,a.con_build_hight,a.con_cover_area,a.con_floors
+       FROM BUILDING A
+       left join block b on A.block_id = B.id
+       left join street c on a.street_id = c.id
+	   <where>
+	   <if test="buildingId!=null">
+	  	AND A.id=#{buildingId,jdbcType=NUMERIC}
+	   </if>
+	   <if test="nameLike!=null and  nameLike !=''">
+  		AND a.base_name LIKE CONCAT(CONCAT('%', #{nameLike,jdbcType=VARCHAR}),'%')  
+  	   </if>
+  	   </where>
+   </select>
+   
+   <select id="selectBuildingTypeCount" resultMap="CountValueData"> 	   
+	   select b.name as key1,count(a.id) as data1  from building_subject a,dict b
+	   where a.base_building_class = b.code
+	   and b.type_code = 'building_class'
+	   <if test="districtId != null">  
+          and  a.district_id = #{districtId,jdbcType=NUMERIC}
+       </if>
+       <if test="streetId != null">  
+          and  a.street_id = #{streetId,jdbcType=NUMERIC}
+       </if>
+       <if test="blockId != null">  
+          and  a.block_id = #{blockId,jdbcType=NUMERIC}
+       </if>
+       group by b.name
+   </select>
+   
+     
+</mapper>

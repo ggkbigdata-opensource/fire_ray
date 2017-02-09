@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fire.platform.modules.sys.dao.AppVersionMapper">
+  
+  <select id="selectAll" resultMap="AppVersion">
+      SELECT A.*   FROM APP_VERSION A
+      <if test="extraOrderColumns != null and extraOrderColumns !=''">
+    		ORDER BY ${extraOrderColumns}
+      </if>
+  </select> 
+  
+  <select id="selectByMap" resultMap="AppVersion"  parameterType="map"> 
+   SELECT A.*   FROM APP_VERSION A
+   <where>
+      <include refid="queryCondition"/>
+   </where>
+	<if test="extraOrderColumns != null and extraOrderColumns !=''">
+    		ORDER BY ${extraOrderColumns}
+    </if>
+  </select> 
+
+  <select id="selectByPrimaryKey"  resultMap="AppVersion"   parameterType="org.fire.platform.modules.sys.domain.AppVersion"> 
+   SELECT  A.*  FROM  APP_VERSION A 
+   WHERE id=#{id,jdbcType=NUMERIC}
+  </select>  
+  
+  <update id="updateByPrimaryKey"> 
+   UPDATE APP_VERSION
+  <set>  
+     <if test="appVersion != null">  
+            app_version = #{appVersion,jdbcType=VARCHAR},
+      </if> 
+     <if test="appDownUrl != null">  
+            app_down_url = #{appDownUrl,jdbcType=VARCHAR},
+      </if> 
+     <if test="appUpdateTime != null">  
+            app_update_time = #{appUpdateTime,jdbcType=TIMESTAMP},
+      </if> 
+     <if test="mapVersion != null">  
+            map_version = #{mapVersion,jdbcType=VARCHAR},
+      </if> 
+     <if test="mapDownUrl != null">  
+            map_down_url = #{mapDownUrl,jdbcType=VARCHAR},
+      </if> 
+     <if test="mapUpdateTime != null">  
+            map_update_time = #{mapUpdateTime,jdbcType=TIMESTAMP},
+      </if> 
+     <if test="state != null">  
+            state = #{state,jdbcType=NUMERIC},
+      </if> 
+   <if test="extraUpdateColumns != null and extraUpdateColumns !=''">
+    		${extraUpdateColumns}
+   </if>
+  </set>  
+   WHERE id=#{id,jdbcType=NUMERIC}
+  </update>  
+  
+  <delete id="deleteByPrimaryKey"> 
+   DELETE FROM APP_VERSION
+     WHERE id=#{id,jdbcType=NUMERIC}
+  </delete>  
+
+  <delete id="deleteByParam"> 
+   DELETE FROM APP_VERSION  WHERE 
+   <trim prefixOverrides="AND" > 
+  <if test="id!=null">
+  		AND id=#{id,jdbcType=NUMERIC}
+  </if>
+  <if test="appVersion!=null and  appVersion !=''">
+    <if test="appVersion!=null">
+  		AND app_version=#{appVersion,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="appDownUrl!=null and  appDownUrl !=''">
+    <if test="appDownUrl!=null">
+  		AND app_down_url=#{appDownUrl,jdbcType=VARCHAR}
+  </if>
+  </if>
+    <if test="appUpdateTime!=null">
+    		AND app_update_time = #{appUpdateTime,jdbcType=TIMESTAMP} 
+    </if>
+  <if test="mapVersion!=null and  mapVersion !=''">
+    <if test="mapVersion!=null">
+  		AND map_version=#{mapVersion,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="mapDownUrl!=null and  mapDownUrl !=''">
+    <if test="mapDownUrl!=null">
+  		AND map_down_url=#{mapDownUrl,jdbcType=VARCHAR}
+  </if>
+  </if>
+    <if test="mapUpdateTime!=null">
+    		AND map_update_time = #{mapUpdateTime,jdbcType=TIMESTAMP} 
+    </if>
+  <if test="state!=null">
+  		AND state=#{state,jdbcType=NUMERIC}
+  </if>
+   <if test="extraCondition!=null and extraCondition!=''">
+	   AND  ( ${extraCondition} )
+	</if> 
+   </trim>
+  </delete>  
+ 
+  <insert id="insert"> 
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey> 
+    INSERT INTO APP_VERSION (
+	id,
+	app_version,
+	app_down_url,
+	app_update_time,
+	map_version,
+	map_down_url,
+	map_update_time,
+	state
+	)  VALUES(
+	#{id,jdbcType=NUMERIC},
+	#{appVersion,jdbcType=VARCHAR},
+	#{appDownUrl,jdbcType=VARCHAR},
+	#{appUpdateTime,jdbcType=TIMESTAMP},
+	#{mapVersion,jdbcType=VARCHAR},
+	#{mapDownUrl,jdbcType=VARCHAR},
+	#{mapUpdateTime,jdbcType=TIMESTAMP},
+	#{state,jdbcType=NUMERIC}
+    ) 
+  </insert>  
+
+
+
+  <resultMap  id="AppVersion"  type="org.fire.platform.modules.sys.domain.AppVersion" >
+	<result property="id" column="id"  jdbcType="NUMERIC" />
+	<result property="appVersion" column="app_version"  jdbcType="VARCHAR" />
+	<result property="appDownUrl" column="app_down_url"  jdbcType="VARCHAR" />
+	<result property="appUpdateTime" column="app_update_time"  jdbcType="TIMESTAMP" />
+	<result property="mapVersion" column="map_version"  jdbcType="VARCHAR" />
+	<result property="mapDownUrl" column="map_down_url"  jdbcType="VARCHAR" />
+	<result property="mapUpdateTime" column="map_update_time"  jdbcType="TIMESTAMP" />
+	<result property="state" column="state"  jdbcType="NUMERIC" />
+  </resultMap>
+ 
+  <sql id="queryCondition">
+  <if test="id!=null">
+  		AND A.id=#{id,jdbcType=NUMERIC}
+  </if>
+  <if test="appVersion!=null and  appVersion !=''">
+   		AND app_version = #{appVersion,jdbcType=VARCHAR}
+  </if>
+  <if test="appVersionLike!=null and  appVersionLike !=''">
+  		AND app_version LIKE CONCAT(CONCAT('%', #{appVersionLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="appDownUrl!=null and  appDownUrl !=''">
+   		AND app_down_url = #{appDownUrl,jdbcType=VARCHAR}
+  </if>
+  <if test="appDownUrlLike!=null and  appDownUrlLike !=''">
+  		AND app_down_url LIKE CONCAT(CONCAT('%', #{appDownUrlLike,jdbcType=VARCHAR}),'%')  
+  </if>
+   <if test="appUpdateTimeRange1!=null">
+    		AND app_update_time &gt; #{appUpdateTimeRange1,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="appUpdateTimeRange2!=null">
+    		AND app_update_time &lt; #{appUpdateTimeRange2,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="appUpdateTime!=null">
+    		AND app_update_time = #{appUpdateTime,jdbcType=TIMESTAMP} 
+    </if>
+  <if test="mapVersion!=null and  mapVersion !=''">
+   		AND map_version = #{mapVersion,jdbcType=VARCHAR}
+  </if>
+  <if test="mapVersionLike!=null and  mapVersionLike !=''">
+  		AND map_version LIKE CONCAT(CONCAT('%', #{mapVersionLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="mapDownUrl!=null and  mapDownUrl !=''">
+   		AND map_down_url = #{mapDownUrl,jdbcType=VARCHAR}
+  </if>
+  <if test="mapDownUrlLike!=null and  mapDownUrlLike !=''">
+  		AND map_down_url LIKE CONCAT(CONCAT('%', #{mapDownUrlLike,jdbcType=VARCHAR}),'%')  
+  </if>
+   <if test="mapUpdateTimeRange1!=null">
+    		AND map_update_time &gt; #{mapUpdateTimeRange1,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="mapUpdateTimeRange2!=null">
+    		AND map_update_time &lt; #{mapUpdateTimeRange2,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="mapUpdateTime!=null">
+    		AND map_update_time = #{mapUpdateTime,jdbcType=TIMESTAMP} 
+    </if>
+  <if test="state!=null">
+  		AND A.state=#{state,jdbcType=NUMERIC}
+  </if>
+   <if test="extraCondition!=null and extraCondition!=''">
+	   AND  ( ${extraCondition} )
+	</if>
+    </sql>
+    
+</mapper>

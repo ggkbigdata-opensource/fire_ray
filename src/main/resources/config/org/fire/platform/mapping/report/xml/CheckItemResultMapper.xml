@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fire.platform.modules.report.dao.CheckItemResultMapper">
+  
+  <select id="selectAll" resultMap="CheckItemResult">
+      SELECT A.*   FROM CHECK_ITEM_RESULT A
+      <if test="extraOrderColumns != null and extraOrderColumns !=''">
+    		ORDER BY ${extraOrderColumns}
+      </if>
+  </select> 
+  
+  <select id="selectByMap" resultMap="CheckItemResult"  parameterType="map"> 
+   SELECT A.*   FROM CHECK_ITEM_RESULT A
+   <where>
+      <include refid="queryCondition"/>
+   </where>
+	<if test="extraOrderColumns != null and extraOrderColumns !=''">
+    		ORDER BY ${extraOrderColumns}
+    </if>
+  </select> 
+  
+  
+  <select id="selectByParam" resultMap="CheckItemResult"  parameterType="org.fire.platform.modules.report.domain.CheckItemResult">
+   SELECT A.*   FROM CHECK_ITEM_RESULT A
+   <where>
+      <include refid="queryCondition"/>
+   </where>
+	<if test="extraOrderColumns != null and extraOrderColumns !=''">
+    		ORDER BY ${extraOrderColumns}
+    </if>
+  </select> 
+
+  <select id="selectByPrimaryKey"  resultMap="CheckItemResult"   parameterType="org.fire.platform.modules.report.domain.CheckItemResult">
+   SELECT  A.*  FROM  CHECK_ITEM_RESULT A 
+   WHERE id=#{id,jdbcType=NUMERIC}
+  </select>  
+  
+  <update id="updateByPrimaryKey"> 
+   UPDATE CHECK_ITEM_RESULT
+  <set>  
+     <if test="reportId != null">  
+            report_id = #{reportId,jdbcType=NUMERIC},
+      </if> 
+     <if test="itemId != null">  
+            item_id = #{itemId,jdbcType=NUMERIC},
+      </if> 
+     <if test="checkNum != null">  
+            check_num = #{checkNum,jdbcType=NUMERIC},
+      </if> 
+     <if test="unqualifiedNum != null">  
+            unqualified_num = #{unqualifiedNum,jdbcType=NUMERIC},
+      </if> 
+   <if test="extraUpdateColumns != null and extraUpdateColumns !=''">
+    		${extraUpdateColumns}
+   </if>
+  </set>  
+   WHERE id=#{id,jdbcType=NUMERIC}
+  </update>  
+  
+  <delete id="deleteByPrimaryKey"> 
+   DELETE FROM CHECK_ITEM_RESULT
+     WHERE id=#{id,jdbcType=NUMERIC}
+  </delete>  
+
+  <delete id="deleteByParam"> 
+   DELETE FROM CHECK_ITEM_RESULT  WHERE 
+   <trim prefixOverrides="AND" > 
+  <if test="id!=null">
+  		AND id=#{id,jdbcType=NUMERIC}
+  </if>
+  <if test="reportId!=null">
+  		AND report_id=#{reportId,jdbcType=NUMERIC}
+  </if>
+  <if test="itemId!=null">
+  		AND item_id=#{itemId,jdbcType=NUMERIC}
+  </if>
+  <if test="checkNum!=null">
+  		AND check_num=#{checkNum,jdbcType=NUMERIC}
+  </if>
+  <if test="unqualifiedNum!=null">
+  		AND unqualified_num=#{unqualifiedNum,jdbcType=NUMERIC}
+  </if>
+   <if test="extraCondition!=null and extraCondition!=''">
+	   AND  ( ${extraCondition} )
+	</if> 
+   </trim>
+  </delete>  
+ 
+  <insert id="insert"> 
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey> 
+    INSERT INTO CHECK_ITEM_RESULT (
+	id,
+	report_id,
+	item_id,
+	check_num,
+	unqualified_num
+	)  VALUES(
+	#{id,jdbcType=NUMERIC},
+	#{reportId,jdbcType=NUMERIC},
+	#{itemId,jdbcType=NUMERIC},
+	#{checkNum,jdbcType=NUMERIC},
+	#{unqualifiedNum,jdbcType=NUMERIC}
+    ) 
+  </insert>  
+
+
+
+  <resultMap  id="CheckItemResult"  type="org.fire.platform.modules.report.domain.CheckItemResult" >
+	<result property="id" column="id"  jdbcType="NUMERIC" />
+	<result property="reportId" column="report_id"  jdbcType="NUMERIC" />
+	<result property="itemId" column="item_id"  jdbcType="NUMERIC" />
+	<result property="checkNum" column="check_num"  jdbcType="NUMERIC" />
+	<result property="unqualifiedNum" column="unqualified_num"  jdbcType="NUMERIC" />
+  </resultMap>
+ 
+  <sql id="queryCondition">
+  <if test="id!=null">
+  		AND A.id=#{id,jdbcType=NUMERIC}
+  </if>
+  <if test="reportId!=null">
+  		AND A.report_id=#{reportId,jdbcType=NUMERIC}
+  </if>
+  <if test="itemId!=null">
+  		AND A.item_id=#{itemId,jdbcType=NUMERIC}
+  </if>
+  <if test="checkNum!=null">
+  		AND A.check_num=#{checkNum,jdbcType=NUMERIC}
+  </if>
+  <if test="unqualifiedNum!=null">
+  		AND A.unqualified_num=#{unqualifiedNum,jdbcType=NUMERIC}
+  </if>
+   <if test="extraCondition!=null and extraCondition!=''">
+	   AND  ( ${extraCondition} )
+	</if>
+    </sql>
+    
+</mapper>

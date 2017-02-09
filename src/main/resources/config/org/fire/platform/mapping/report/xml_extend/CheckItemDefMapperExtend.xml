@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fire.platform.modules.report.dao.CheckItemDefMapper">
+
+    <select id="getCheckItem" resultMap="CheckItemDef">
+        select * from check_item_def WHERE level is not null
+    </select>
+
+    <select id="getStatisItem" resultType="org.fire.platform.modules.report.domain.CheckItemResultStatis">
+        SELECT a.code , c.level
+        FROM check_item_def a
+        LEFT JOIN check_item_def b on a.code = b.parent_code
+        LEFT JOIN check_item_def c on b.code = c.parent_code
+        WHERE a.parent_code = 0
+        GROUP BY a.code , c.level
+        ORDER BY a.code+0 , c.level
+    </select>
+
+    <select id="getItemResult" resultMap="org.fire.platform.modules.report.dao.CheckItemResultMapper.CheckItemResultBean">
+        select code , id as item_id from check_item_def WHERE level is not null
+    </select>
+
+</mapper>

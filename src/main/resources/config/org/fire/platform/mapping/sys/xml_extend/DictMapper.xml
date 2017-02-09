@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fire.platform.modules.sys.dao.DictMapper">
+
+  <select id="selectByTypeAndCode"  resultType="String"> 
+   SELECT  A.name  FROM  DICT A 
+   WHERE code = #{param1,jdbcType=VARCHAR}
+   and   type_code = #{param2,jdbcType=VARCHAR}
+  </select>  
+
+  <select id="selectByName"  resultType="String"> 
+   SELECT  A.code  FROM  DICT A 
+   WHERE name = #{param1,jdbcType=VARCHAR}
+    and   type_code = #{param2,jdbcType=VARCHAR}
+  </select>  
+  
+</mapper>

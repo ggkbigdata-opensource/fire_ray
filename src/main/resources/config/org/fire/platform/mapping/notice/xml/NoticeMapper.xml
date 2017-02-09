@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fire.platform.modules.notice.dao.NoticeMapper">
+
+    <select id="selectAll" resultMap="Notice">
+        SELECT A.* FROM NOTICE A
+        <if test="extraOrderColumns != null and extraOrderColumns !=''">
+            ORDER BY ${extraOrderColumns}
+        </if>
+    </select>
+
+    <select id="selectByMap" resultMap="Notice" parameterType="map">
+        SELECT A.* FROM NOTICE A
+        <where>
+            <include refid="queryCondition"/>
+        </where>
+        <if test="extraOrderColumns != null and extraOrderColumns !=''">
+            ORDER BY ${extraOrderColumns}
+        </if>
+    </select>
+
+
+    <select id="selectByParam" resultMap="Notice" parameterType="org.fire.platform.modules.notice.domain.Notice">
+        SELECT A.* FROM NOTICE A
+        <where>
+            <include refid="queryCondition"/>
+        </where>
+        <if test="extraOrderColumns != null and extraOrderColumns !=''">
+            ORDER BY ${extraOrderColumns}
+        </if>
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="Notice" parameterType="org.fire.platform.modules.notice.domain.Notice">
+   SELECT  A.*  FROM  NOTICE A 
+   WHERE id=#{id,jdbcType=NUMERIC}
+  </select>
+
+    <update id="updateByPrimaryKey">
+        UPDATE NOTICE
+        <set>
+            <if test="uuid != null">
+                uuid = #{uuid,jdbcType=VARCHAR},
+            </if>
+            <if test="title != null">
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                content = #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="url != null">
+                url = #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="publisher != null">
+                publisher = #{publisher,jdbcType=NUMERIC},
+            </if>
+            <if test="pubTime != null">
+                pub_time = #{pubTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createdTime != null">
+                created_time = #{createdTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="state != null">
+                state = #{state,jdbcType=NUMERIC},
+            </if>
+            <if test="enabled != null">
+                enabled = #{enabled,jdbcType=NUMERIC},
+            </if>
+            <if test="modTime != null">
+                mod_time = #{modTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="extraUpdateColumns != null and extraUpdateColumns !=''">
+                ${extraUpdateColumns}
+            </if>
+        </set>
+        WHERE id=#{id,jdbcType=NUMERIC}
+    </update>
+
+    <delete id="deleteByPrimaryKey">
+   DELETE FROM NOTICE
+     WHERE id=#{id,jdbcType=NUMERIC}
+  </delete>
+
+    <delete id="deleteByParam">
+        DELETE FROM NOTICE WHERE
+        <trim prefixOverrides="AND">
+            <if test="id!=null">
+                AND id=#{id,jdbcType=NUMERIC}
+            </if>
+            <if test="uuid!=null and  uuid !=''">
+                AND uuid=#{uuid,jdbcType=VARCHAR}
+            </if>
+            <if test="title!=null and  title !=''">
+                AND title=#{title,jdbcType=VARCHAR}
+            </if>
+            <if test="content!=null and  content !=''">
+                AND content=#{content,jdbcType=VARCHAR}
+            </if>
+            <if test="url!=null and  url !=''">
+                AND url=#{url,jdbcType=VARCHAR}
+            </if>
+            <if test="publisher!=null">
+                AND publisher=#{publisher,jdbcType=NUMERIC}
+            </if>
+            <if test="pubTime!=null">
+                AND pub_time = #{pubTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="createdTime!=null">
+                AND created_time = #{createdTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="state!=null">
+                AND state=#{state,jdbcType=NUMERIC}
+            </if>
+            <if test="enabled!=null">
+                AND enabled=#{enabled,jdbcType=NUMERIC}
+            </if>
+            <if test="modTime!=null">
+                AND mod_time = #{modTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="extraCondition!=null and extraCondition!=''">
+                AND ( ${extraCondition} )
+            </if>
+        </trim>
+    </delete>
+
+    <insert id="insert">
+        <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO NOTICE (
+        id,
+        uuid,
+        title,
+        content,
+        url,
+        publisher,
+        pub_time,
+        created_time,
+        state,
+        enabled,
+        mod_time
+        ) VALUES(
+        #{id,jdbcType=NUMERIC},
+        #{uuid,jdbcType=VARCHAR},
+        #{title,jdbcType=VARCHAR},
+        #{content,jdbcType=VARCHAR},
+        #{url,jdbcType=VARCHAR},
+        #{publisher,jdbcType=NUMERIC},
+        #{pubTime,jdbcType=TIMESTAMP},
+        #{createdTime,jdbcType=TIMESTAMP},
+        #{state,jdbcType=NUMERIC},
+        #{enabled,jdbcType=NUMERIC},
+        #{modTime,jdbcType=TIMESTAMP}
+        )
+    </insert>
+
+
+    <resultMap id="Notice" type="org.fire.platform.modules.notice.domain.Notice">
+        <result property="id" column="id" jdbcType="NUMERIC"/>
+        <result property="uuid" column="uuid" jdbcType="VARCHAR"/>
+        <result property="title" column="title" jdbcType="VARCHAR"/>
+        <result property="content" column="content" jdbcType="VARCHAR"/>
+        <result property="url" column="url" jdbcType="VARCHAR"/>
+        <result property="publisher" column="publisher" jdbcType="NUMERIC"/>
+        <result property="pubTime" column="pub_time" jdbcType="TIMESTAMP"/>
+        <result property="createdTime" column="created_time" jdbcType="TIMESTAMP"/>
+        <result property="state" column="state" jdbcType="NUMERIC"/>
+        <result property="enabled" column="enabled" jdbcType="NUMERIC"/>
+        <result property="modTime" column="mod_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="queryCondition">
+        <if test="id!=null">
+            AND A.id=#{id,jdbcType=NUMERIC}
+        </if>
+        <if test="uuid!=null and  uuid !=''">
+            AND uuid = #{uuid,jdbcType=VARCHAR}
+        </if>
+        <if test="uuidLike!=null and  uuidLike !=''">
+            AND uuid LIKE CONCAT(CONCAT('%', #{uuidLike,jdbcType=VARCHAR}),'%')
+        </if>
+        <if test="title!=null and  title !=''">
+            AND title = #{title,jdbcType=VARCHAR}
+        </if>
+        <if test="titleLike!=null and  titleLike !=''">
+            AND title LIKE CONCAT(CONCAT('%', #{titleLike,jdbcType=VARCHAR}),'%')
+        </if>
+        <if test="content!=null and  content !=''">
+            AND content = #{content,jdbcType=VARCHAR}
+        </if>
+        <if test="contentLike!=null and  contentLike !=''">
+            AND content LIKE CONCAT(CONCAT('%', #{contentLike,jdbcType=VARCHAR}),'%')
+        </if>
+        <if test="url!=null and  url !=''">
+            AND url = #{url,jdbcType=VARCHAR}
+        </if>
+        <if test="urlLike!=null and  urlLike !=''">
+            AND url LIKE CONCAT(CONCAT('%', #{urlLike,jdbcType=VARCHAR}),'%')
+        </if>
+        <if test="publisher!=null">
+            AND A.publisher=#{publisher,jdbcType=NUMERIC}
+        </if>
+        <if test="pubTimeRange1!=null">
+            AND pub_time &gt; #{pubTimeRange1,jdbcType=TIMESTAMP}
+        </if>
+        <if test="pubTimeRange2!=null">
+            AND pub_time &lt; #{pubTimeRange2,jdbcType=TIMESTAMP}
+        </if>
+        <if test="pubTime!=null">
+            AND pub_time = #{pubTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="createdTimeRange1!=null">
+            AND created_time &gt; #{createdTimeRange1,jdbcType=TIMESTAMP}
+        </if>
+        <if test="createdTimeRange2!=null">
+            AND created_time &lt; #{createdTimeRange2,jdbcType=TIMESTAMP}
+        </if>
+        <if test="createdTime!=null">
+            AND created_time = #{createdTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="state!=null">
+            AND A.state=#{state,jdbcType=NUMERIC}
+        </if>
+        <if test="enabled!=null">
+            AND A.enabled=#{enabled,jdbcType=NUMERIC}
+        </if>
+        <if test="modTimeRange1!=null">
+            AND mod_time &gt; #{modTimeRange1,jdbcType=TIMESTAMP}
+        </if>
+        <if test="modTimeRange2!=null">
+            AND mod_time &lt; #{modTimeRange2,jdbcType=TIMESTAMP}
+        </if>
+        <if test="modTime!=null">
+            AND mod_time = #{modTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="extraCondition!=null and extraCondition!=''">
+            AND ( ${extraCondition} )
+        </if>
+    </sql>
+
+</mapper>

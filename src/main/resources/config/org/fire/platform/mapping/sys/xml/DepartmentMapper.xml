@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fire.platform.modules.sys.dao.DepartmentMapper">
+  
+  <select id="selectAll" resultMap="Department">
+      SELECT A.*   FROM DEPARTMENT A
+      <if test="extraOrderColumns != null and extraOrderColumns !=''">
+    		ORDER BY ${extraOrderColumns}
+      </if>
+  </select> 
+  
+  <select id="selectByMap" resultMap="Department"  parameterType="map"> 
+   SELECT A.*   FROM DEPARTMENT A
+   <where>
+      <include refid="queryCondition"/>
+   </where>
+	<if test="extraOrderColumns != null and extraOrderColumns !=''">
+    		ORDER BY ${extraOrderColumns}
+    </if>
+  </select> 
+
+  <select id="selectByPrimaryKey"  resultMap="Department"   parameterType="org.fire.platform.modules.sys.domain.Department"> 
+   SELECT  A.*  FROM  DEPARTMENT A 
+   WHERE id=#{id,jdbcType=NUMERIC}
+  </select>  
+  
+  <update id="updateByPrimaryKey"> 
+   UPDATE DEPARTMENT
+  <set>  
+     <if test="deptName != null">  
+            dept_name = #{deptName,jdbcType=VARCHAR},
+      </if> 
+     <if test="deptCode != null">  
+            dept_code = #{deptCode,jdbcType=VARCHAR},
+      </if> 
+     <if test="deptType != null">  
+            dept_type = #{deptType,jdbcType=VARCHAR},
+      </if> 
+     <if test="parentId != null">  
+            parent_id = #{parentId,jdbcType=NUMERIC},
+      </if> 
+     <if test="remark != null">  
+            remark = #{remark,jdbcType=VARCHAR},
+      </if> 
+     <if test="state != null">  
+            state = #{state,jdbcType=NUMERIC},
+      </if> 
+     <if test="modUser != null">  
+            mod_user = #{modUser,jdbcType=NUMERIC},
+      </if> 
+     <if test="modDate != null">  
+            mod_date = #{modDate,jdbcType=VARCHAR},
+      </if> 
+   <if test="extraUpdateColumns != null and extraUpdateColumns !=''">
+    		${extraUpdateColumns}
+   </if>
+  </set>  
+   WHERE id=#{id,jdbcType=NUMERIC}
+  </update>  
+  
+  <delete id="deleteByPrimaryKey"> 
+   DELETE FROM DEPARTMENT
+     WHERE id=#{id,jdbcType=NUMERIC}
+  </delete>  
+
+  <delete id="deleteByParam"> 
+   DELETE FROM DEPARTMENT  WHERE 
+   <trim prefixOverrides="AND" > 
+  <if test="id!=null">
+  		AND id=#{id,jdbcType=NUMERIC}
+  </if>
+  <if test="deptName!=null and  deptName !=''">
+    <if test="deptName!=null">
+  		AND dept_name=#{deptName,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="deptCode!=null and  deptCode !=''">
+    <if test="deptCode!=null">
+  		AND dept_code=#{deptCode,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="deptType!=null and  deptType !=''">
+    <if test="deptType!=null">
+  		AND dept_type=#{deptType,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="parentId!=null">
+  		AND parent_id=#{parentId,jdbcType=NUMERIC}
+  </if>
+  <if test="remark!=null and  remark !=''">
+    <if test="remark!=null">
+  		AND remark=#{remark,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="state!=null">
+  		AND state=#{state,jdbcType=NUMERIC}
+  </if>
+  <if test="modUser!=null">
+  		AND mod_user=#{modUser,jdbcType=NUMERIC}
+  </if>
+  <if test="modDate!=null and  modDate !=''">
+    <if test="modDate!=null">
+  		AND mod_date=#{modDate,jdbcType=VARCHAR}
+  </if>
+  </if>
+   <if test="extraCondition!=null and extraCondition!=''">
+	   AND  ( ${extraCondition} )
+	</if> 
+   </trim>
+  </delete>  
+ 
+  <insert id="insert"> 
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey> 
+    INSERT INTO DEPARTMENT (
+	id,
+	dept_name,
+	dept_code,
+	dept_type,
+	parent_id,
+	remark,
+	state,
+	mod_user,
+	mod_date
+	)  VALUES(
+	#{id,jdbcType=NUMERIC},
+	#{deptName,jdbcType=VARCHAR},
+	#{deptCode,jdbcType=VARCHAR},
+	#{deptType,jdbcType=VARCHAR},
+	#{parentId,jdbcType=NUMERIC},
+	#{remark,jdbcType=VARCHAR},
+	#{state,jdbcType=NUMERIC},
+	#{modUser,jdbcType=NUMERIC},
+	#{modDate,jdbcType=VARCHAR}
+    ) 
+  </insert>  
+
+
+
+  <resultMap  id="Department"  type="org.fire.platform.modules.sys.domain.Department" >
+	<result property="id" column="id"  jdbcType="NUMERIC" />
+	<result property="deptName" column="dept_name"  jdbcType="VARCHAR" />
+	<result property="deptCode" column="dept_code"  jdbcType="VARCHAR" />
+	<result property="deptType" column="dept_type"  jdbcType="VARCHAR" />
+	<result property="parentId" column="parent_id"  jdbcType="NUMERIC" />
+	<result property="remark" column="remark"  jdbcType="VARCHAR" />
+	<result property="state" column="state"  jdbcType="NUMERIC" />
+	<result property="modUser" column="mod_user"  jdbcType="NUMERIC" />
+	<result property="modDate" column="mod_date"  jdbcType="VARCHAR" />
+  </resultMap>
+ 
+  <sql id="queryCondition">
+  <if test="id!=null">
+  		AND A.id=#{id,jdbcType=NUMERIC}
+  </if>
+  <if test="deptName!=null and  deptName !=''">
+   		AND dept_name = #{deptName,jdbcType=VARCHAR}
+  </if>
+  <if test="deptNameLike!=null and  deptNameLike !=''">
+  		AND dept_name LIKE CONCAT(CONCAT('%', #{deptNameLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="deptCode!=null and  deptCode !=''">
+   		AND dept_code = #{deptCode,jdbcType=VARCHAR}
+  </if>
+  <if test="deptCodeLike!=null and  deptCodeLike !=''">
+  		AND dept_code LIKE CONCAT(CONCAT('%', #{deptCodeLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="deptType!=null and  deptType !=''">
+   		AND dept_type = #{deptType,jdbcType=VARCHAR}
+  </if>
+  <if test="deptTypeLike!=null and  deptTypeLike !=''">
+  		AND dept_type LIKE CONCAT(CONCAT('%', #{deptTypeLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="parentId!=null">
+  		AND A.parent_id=#{parentId,jdbcType=NUMERIC}
+  </if>
+  <if test="remark!=null and  remark !=''">
+   		AND remark = #{remark,jdbcType=VARCHAR}
+  </if>
+  <if test="remarkLike!=null and  remarkLike !=''">
+  		AND remark LIKE CONCAT(CONCAT('%', #{remarkLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="state!=null">
+  		AND A.state=#{state,jdbcType=NUMERIC}
+  </if>
+  <if test="modUser!=null">
+  		AND A.mod_user=#{modUser,jdbcType=NUMERIC}
+  </if>
+  <if test="modDate!=null and  modDate !=''">
+   		AND mod_date = #{modDate,jdbcType=VARCHAR}
+  </if>
+  <if test="modDateLike!=null and  modDateLike !=''">
+  		AND mod_date LIKE CONCAT(CONCAT('%', #{modDateLike,jdbcType=VARCHAR}),'%')  
+  </if>
+   <if test="extraCondition!=null and extraCondition!=''">
+	   AND  ( ${extraCondition} )
+	</if>
+    </sql>
+    
+</mapper>

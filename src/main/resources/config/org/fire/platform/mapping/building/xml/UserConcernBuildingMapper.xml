@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fire.platform.modules.building.dao.UserConcernBuildingMapper">
+  
+  <select id="selectAll" resultMap="UserConcernBuilding">
+      SELECT A.*   FROM USER_CONCERN_BUILDING A
+      <if test="extraOrderColumns != null and extraOrderColumns !=''">
+    		ORDER BY ${extraOrderColumns}
+      </if>
+  </select> 
+  
+  <select id="selectByMap" resultMap="UserConcernBuilding"  parameterType="map"> 
+   SELECT A.*   FROM USER_CONCERN_BUILDING A
+   <where>
+      <include refid="queryCondition"/>
+   </where>
+	<if test="extraOrderColumns != null and extraOrderColumns !=''">
+    		ORDER BY ${extraOrderColumns}
+    </if>
+  </select> 
+
+  <select id="selectByPrimaryKey"  resultMap="UserConcernBuilding"   parameterType="org.fire.platform.modules.building.domain.UserConcernBuilding"> 
+   SELECT  A.*  FROM  USER_CONCERN_BUILDING A 
+   WHERE id=#{id,jdbcType=NUMERIC}
+  </select>  
+  
+  <update id="updateByPrimaryKey"> 
+   UPDATE USER_CONCERN_BUILDING
+  <set>  
+     <if test="userId != null">  
+            user_id = #{userId,jdbcType=NUMERIC},
+      </if> 
+     <if test="buildingId != null">  
+            building_id = #{buildingId,jdbcType=NUMERIC},
+      </if> 
+     <if test="createDate != null">  
+            create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if> 
+   <if test="extraUpdateColumns != null and extraUpdateColumns !=''">
+    		${extraUpdateColumns}
+   </if>
+  </set>  
+   WHERE id=#{id,jdbcType=NUMERIC}
+  </update>  
+  
+  <delete id="deleteByPrimaryKey"> 
+   DELETE FROM USER_CONCERN_BUILDING
+     WHERE id=#{id,jdbcType=NUMERIC}
+  </delete>  
+
+  <delete id="deleteByParam"> 
+   DELETE FROM USER_CONCERN_BUILDING  WHERE 
+   <trim prefixOverrides="AND" > 
+  <if test="id!=null">
+  		AND id=#{id,jdbcType=NUMERIC}
+  </if>
+  <if test="userId!=null">
+  		AND user_id=#{userId,jdbcType=NUMERIC}
+  </if>
+  <if test="buildingId!=null">
+  		AND building_id=#{buildingId,jdbcType=NUMERIC}
+  </if>
+    <if test="createDate!=null">
+    		AND create_date = #{createDate,jdbcType=TIMESTAMP} 
+    </if>
+   <if test="extraCondition!=null and extraCondition!=''">
+	   AND  ( ${extraCondition} )
+	</if> 
+   </trim>
+  </delete>  
+ 
+  <insert id="insert"> 
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey> 
+    INSERT INTO USER_CONCERN_BUILDING (
+	id,
+	user_id,
+	building_id,
+	create_date
+	)  VALUES(
+	#{id,jdbcType=NUMERIC},
+	#{userId,jdbcType=NUMERIC},
+	#{buildingId,jdbcType=NUMERIC},
+	#{createDate,jdbcType=TIMESTAMP}
+    ) 
+  </insert>  
+
+
+
+  <resultMap  id="UserConcernBuilding"  type="org.fire.platform.modules.building.domain.UserConcernBuilding" >
+	<result property="id" column="id"  jdbcType="NUMERIC" />
+	<result property="userId" column="user_id"  jdbcType="NUMERIC" />
+	<result property="buildingId" column="building_id"  jdbcType="NUMERIC" />
+	<result property="createDate" column="create_date"  jdbcType="TIMESTAMP" />
+  </resultMap>
+ 
+  <sql id="queryCondition">
+  <if test="id!=null">
+  		AND A.id=#{id,jdbcType=NUMERIC}
+  </if>
+  <if test="userId!=null">
+  		AND A.user_id=#{userId,jdbcType=NUMERIC}
+  </if>
+  <if test="buildingId!=null">
+  		AND A.building_id=#{buildingId,jdbcType=NUMERIC}
+  </if>
+   <if test="createDateRange1!=null">
+    		AND create_date &gt; #{createDateRange1,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="createDateRange2!=null">
+    		AND create_date &lt; #{createDateRange2,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="createDate!=null">
+    		AND create_date = #{createDate,jdbcType=TIMESTAMP} 
+    </if>
+   <if test="extraCondition!=null and extraCondition!=''">
+	   AND  ( ${extraCondition} )
+	</if>
+    </sql>
+    
+</mapper>

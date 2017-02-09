@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fire.platform.modules.report.dao.CheckItemDefMapper">
+  
+  <select id="selectAll" resultMap="CheckItemDef">
+      SELECT A.*   FROM CHECK_ITEM_DEF A
+      <if test="extraOrderColumns != null and extraOrderColumns !=''">
+    		ORDER BY ${extraOrderColumns}
+      </if>
+  </select> 
+  
+  <select id="selectByMap" resultMap="CheckItemDef"  parameterType="map"> 
+   SELECT A.*   FROM CHECK_ITEM_DEF A
+   <where>
+      <include refid="queryCondition"/>
+   </where>
+	<if test="extraOrderColumns != null and extraOrderColumns !=''">
+    		ORDER BY ${extraOrderColumns}
+    </if>
+  </select> 
+
+  <select id="selectByPrimaryKey"  resultMap="CheckItemDef"   parameterType="org.fire.platform.modules.report.domain.CheckItemDef">
+   SELECT  A.*  FROM  CHECK_ITEM_DEF A 
+   WHERE id=#{id,jdbcType=NUMERIC}
+  </select>  
+  
+  <update id="updateByPrimaryKey">
+   UPDATE CHECK_ITEM_DEF
+  <set>  
+     <if test="code != null">  
+            code = #{code,jdbcType=VARCHAR},
+      </if> 
+     <if test="parentCode != null">
+            parent_id = #{parentCode,jdbcType=VARCHAR},
+      </if> 
+     <if test="name != null">  
+            name = #{name,jdbcType=VARCHAR},
+      </if> 
+     <if test="level != null">  
+            level = #{level,jdbcType=VARCHAR},
+      </if> 
+     <if test="standard != null">  
+            standard = #{standard,jdbcType=VARCHAR},
+      </if> 
+     <if test="createUser != null">  
+            create_user = #{createUser,jdbcType=NUMERIC},
+      </if> 
+     <if test="createTime != null">  
+            create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if> 
+     <if test="modUser != null">  
+            mod_user = #{modUser,jdbcType=NUMERIC},
+      </if> 
+     <if test="modTime != null">  
+            mod_time = #{modTime,jdbcType=TIMESTAMP},
+      </if> 
+   <if test="extraUpdateColumns != null and extraUpdateColumns !=''">
+    		${extraUpdateColumns}
+   </if>
+  </set>  
+   WHERE id=#{id,jdbcType=NUMERIC}
+  </update>  
+  
+  <delete id="deleteByPrimaryKey"> 
+   DELETE FROM CHECK_ITEM_DEF
+     WHERE id=#{id,jdbcType=NUMERIC}
+  </delete>  
+
+  <delete id="deleteByParam"> 
+   DELETE FROM CHECK_ITEM_DEF  WHERE 
+   <trim prefixOverrides="AND" > 
+  <if test="id!=null">
+  		AND id=#{id,jdbcType=NUMERIC}
+  </if>
+  <if test="code!=null and  code !=''">
+    <if test="code!=null">
+  		AND code=#{code,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="parentCode!=null">
+  		AND parent_code=#{parentCode,jdbcType=VARCHAR}
+  </if>
+  <if test="name!=null and  name !=''">
+    <if test="name!=null">
+  		AND name=#{name,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="level!=null and  level !=''">
+    <if test="level!=null">
+  		AND level=#{level,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="standard!=null and  standard !=''">
+    <if test="standard!=null">
+  		AND standard=#{standard,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="createUser!=null">
+  		AND create_user=#{createUser,jdbcType=NUMERIC}
+  </if>
+    <if test="createTime!=null">
+    		AND create_time = #{createTime,jdbcType=TIMESTAMP} 
+    </if>
+  <if test="modUser!=null">
+  		AND mod_user=#{modUser,jdbcType=NUMERIC}
+  </if>
+    <if test="modTime!=null">
+    		AND mod_time = #{modTime,jdbcType=TIMESTAMP} 
+    </if>
+   <if test="extraCondition!=null and extraCondition!=''">
+	   AND  ( ${extraCondition} )
+	</if> 
+   </trim>
+  </delete>  
+ 
+  <insert id="insert"> 
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey> 
+    INSERT INTO CHECK_ITEM_DEF (
+	id,
+	code,
+    parent_code,
+	name,
+	level,
+	standard,
+	create_user,
+	create_time,
+	mod_user,
+	mod_time
+	)  VALUES(
+	#{id,jdbcType=NUMERIC},
+	#{code,jdbcType=VARCHAR},
+	#{parentCode,jdbcType=VARCHAR},
+	#{name,jdbcType=VARCHAR},
+	#{level,jdbcType=VARCHAR},
+	#{standard,jdbcType=VARCHAR},
+	#{createUser,jdbcType=NUMERIC},
+	#{createTime,jdbcType=TIMESTAMP},
+	#{modUser,jdbcType=NUMERIC},
+	#{modTime,jdbcType=TIMESTAMP}
+    ) 
+  </insert>  
+
+
+
+  <resultMap  id="CheckItemDef"  type="org.fire.platform.modules.report.domain.CheckItemDef" >
+	<result property="id" column="id"  jdbcType="NUMERIC" />
+	<result property="code" column="code"  jdbcType="VARCHAR" />
+	<result property="parentCode" column="parent_code"  jdbcType="NUMERIC" />
+	<result property="name" column="name"  jdbcType="VARCHAR" />
+	<result property="level" column="level"  jdbcType="VARCHAR" />
+	<result property="standard" column="standard"  jdbcType="VARCHAR" />
+	<result property="createUser" column="create_user"  jdbcType="NUMERIC" />
+	<result property="createTime" column="create_time"  jdbcType="TIMESTAMP" />
+	<result property="modUser" column="mod_user"  jdbcType="NUMERIC" />
+	<result property="modTime" column="mod_time"  jdbcType="TIMESTAMP" />
+  </resultMap>
+ 
+  <sql id="queryCondition">
+  <if test="id!=null">
+  		AND A.id=#{id,jdbcType=NUMERIC}
+  </if>
+  <if test="code!=null and  code !=''">
+   		AND code = #{code,jdbcType=VARCHAR}
+  </if>
+  <if test="codeLike!=null and  codeLike !=''">
+  		AND code LIKE CONCAT(CONCAT('%', #{codeLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="parentCode!=null">
+  		AND A.parent_code=#{parentCode,jdbcType=NUMERIC}
+  </if>
+  <if test="parentCodeLike!=null">
+  		AND A.parent_code LIKE CONCAT(CONCAT('%', #{parentCodeLike,jdbcType=VARCHAR}),'%')
+  </if>
+  <if test="name!=null and  name !=''">
+   		AND name = #{name,jdbcType=VARCHAR}
+  </if>
+  <if test="nameLike!=null and  nameLike !=''">
+  		AND name LIKE CONCAT(CONCAT('%', #{nameLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="level!=null and  level !=''">
+   		AND level = #{level,jdbcType=VARCHAR}
+  </if>
+  <if test="levelLike!=null and  levelLike !=''">
+  		AND level LIKE CONCAT(CONCAT('%', #{levelLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="standard!=null and  standard !=''">
+   		AND standard = #{standard,jdbcType=VARCHAR}
+  </if>
+  <if test="standardLike!=null and  standardLike !=''">
+  		AND standard LIKE CONCAT(CONCAT('%', #{standardLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="createUser!=null">
+  		AND A.create_user=#{createUser,jdbcType=NUMERIC}
+  </if>
+   <if test="createTimeRange1!=null">
+    		AND create_time &gt; #{createTimeRange1,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="createTimeRange2!=null">
+    		AND create_time &lt; #{createTimeRange2,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="createTime!=null">
+    		AND create_time = #{createTime,jdbcType=TIMESTAMP} 
+    </if>
+  <if test="modUser!=null">
+  		AND A.mod_user=#{modUser,jdbcType=NUMERIC}
+  </if>
+   <if test="modTimeRange1!=null">
+    		AND mod_time &gt; #{modTimeRange1,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="modTimeRange2!=null">
+    		AND mod_time &lt; #{modTimeRange2,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="modTime!=null">
+    		AND mod_time = #{modTime,jdbcType=TIMESTAMP} 
+    </if>
+   <if test="extraCondition!=null and extraCondition!=''">
+	   AND  ( ${extraCondition} )
+	</if>
+    </sql>
+    
+</mapper>

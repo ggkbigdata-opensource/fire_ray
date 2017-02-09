@@ -1,0 +1,528 @@
+@CHARSET "UTF-8";
+*{
+    font-family: Microsoft YaHei;
+}
+h1 {
+	font-size: 24px;
+}
+
+#fm{
+    margin:0;
+    padding:10px 30px;
+}
+.ftitle{
+    font-size:14px;
+    font-weight:bold;
+    padding:5px 0;
+    margin-bottom:10px;
+    border-bottom:1px solid #ccc;
+}
+.fitem{
+    margin-bottom:5px;
+    float:left;
+    height:70px;
+}
+
+.fitem label{
+    display:inline-block;
+    width:80px;
+    margin-bottom:5px;
+}
+
+.fitem .area{
+	display: inline-block;
+    width: 78px;
+    margin-bottom: 5px;
+    height: 66px;
+    line-height: 66px;
+    float: left;
+    text-align: right;
+    margin-left: 24px;
+    margin-right: 20px;
+}
+
+.fitem_building{
+	height:30px;
+    margin-bottom:5px;
+     float:left;
+     width:49%;
+}
+.fitem_building label{
+	width: 100px;
+    margin-bottom:5px;
+    margin-right:15px;
+    text-align: right;
+   	display: inline-block;
+}
+
+.inner-wrapper {
+	padding: 10px 20px;
+}
+
+#login_user_info {
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: 5px;
+	margin: 0;
+    color:#768392 ;
+    font-size: 16px;
+    margin-top: 15px;
+    margin-right: 20px;
+}
+
+.login-bg{
+    background: url("../../images/login_bg.png") repeat fixed;
+    background-size: 100% 100%;
+}
+
+.head-bg {
+	height:70px !important;
+	overflow:hidden;
+    border:0px !important;
+}
+
+.login-head{
+    width: 392px !important;
+    height: 56px;
+    padding: 0px;
+    color: #444444;
+    font-size:16px;
+    background: #ffffff;
+    border: 0px #e5e5e5 solid;
+}
+
+.login-head-font{
+    padding:20px 30px;
+    color: #444444;
+    font-size:16px;
+    font-family:Microsoft Yahei;
+    font-weight: normal;
+}
+
+.login-body{
+    height:269px;
+    background: #ffffff;
+    /*border: #e5e5e5 solid 0px;*/
+    border: 1px #e5e5e5 solid;
+}
+
+.login-input{
+    width:275px ;
+    height: 40px;
+    /*padding:0px;*/
+    border: #cccccc solid 1px;
+    font-size: 14px;
+    padding-left: 10px;
+}
+
+.login-btn{
+    width: 288px ;
+    height:50px ;
+    background: #39a4ed ;
+    color: #ffffff ;
+    font-size:16px ;
+    padding: 0px;
+    border-radius:7px;
+    font-family:Microsoft Yahei;
+    border: 0;
+    cursor: pointer;
+}
+
+.login-logo{
+    background: url("../../images/login_logo.png") no-repeat;
+    height: 72px;
+    width: 484px;
+    padding-bottom: 72px;
+}
+
+.login-item{
+    width: 80%;
+    padding: 15px 38px;
+}
+
+#d .panel{
+    margin-left: 47px;
+    box-shadow: 2px 2px 1px #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.input{
+	border: #95b8e7 1px solid ;
+}
+.tree-node{
+    height: 26px;
+}
+.tree-node .tree-title{
+    font-size: 12px;
+    line-height: 26px;
+}
+.tree-node .tree-icon{
+    margin-top: 4px;
+}
+
+.panel-title{
+    color: #333;
+    font-size: 15px;
+    font-weight: 500;
+    padding: 5px 0;
+    text-indent: 5px;
+}
+.accordion .accordion-header-selected{
+	background:#E0ECFF;
+}
+.tree-node-selected{
+    background:#e8f1ff;
+}
+
+#wnav a{
+    color: #000000;
+	text-decoration:none
+}
+
+#wnav a:hover{
+    color: #ff0000;
+}
+
+.login-footer{
+     /*position: fixed;
+     left: 0px;
+     bottom: 0;*/
+     padding-top:20px;
+     text-align:center;
+     font-size:14px;
+     color:#333;
+     width: 100%;
+     margin: 0 auto;
+     background-color: #fff;
+ }
+ .login-copyright{
+     margin-bottom:2px;
+ }
+ .login-fri-tips{
+     margin: 0 auto;
+     font-size: 12px;
+     color:#666;
+ }
+ .login-fri-tips-div{
+     text-align:center;
+     font-size:14px;
+     color:#333;
+     height:20px;
+     line-height:20px;
+ }
+
+ .home_logo{
+     margin:17px 0 0 20px;
+ }
+
+.login_user_info_username{
+    margin-right:30px;
+    background: url("../../images/user.png") 5px 5px no-repeat;
+    height: 30px;
+    line-height: 30px;
+    padding-left:35px;
+    display: inline-block;
+    font-size: 15px;
+}
+.login_user_info_logout{
+    margin-right:30px;
+    background: url("../../images/exit.png") 5px 6px no-repeat;
+    height: 30px;
+    line-height: 30px;
+    padding-left:30px;
+    display: inline-block;
+    color:#768392 ;
+    text-decoration: none;
+    font-size: 15px;
+}
+.login_user_info_logout:hover{
+    color: #333;
+}
+.layout-split-west .panel-header{
+    background: #fff !important;
+    height:60px;
+    line-height: 60px;
+    border-color:#e5e5e5;
+    padding: 0 !important;
+}
+.layout-split-west .panel-header .panel-title{
+    height: 60px;
+    line-height: 60px;
+    color: #666;
+    font-size: 15px;
+    font-weight: 500;
+    padding-left:20px;
+}
+.nav_div .panel{
+    background: #ecf1f7 !important;
+}
+.layout-panel{
+    border-bottom: 1px solid #e5e5e5;
+}
+#wnav div.panel{
+    width: auto !important;
+}
+#wnav div.panel .panel-header{
+    width: auto !important;
+    padding: 0 !important;
+}
+.layout-split-west .accordion-header-selected{
+    background: #57b6f7 !important;
+
+}
+.accordion-header-selected .panel-title{
+    color: #fff !important;
+}
+.tree-icon{
+    display: none;
+}
+.tree-node{
+    background: #F4F9FF !important;
+    height: 40px;
+    line-height: 40px;
+}
+.tree-title a{
+    color:#5BA5D8 !important;
+    display: block;
+    height: 40px;
+    line-height: 40px;
+    font-size: 14px !important;
+    padding-left: 20px;
+}
+.accordion-body{
+    width: auto !important;
+}
+.layout-split-west{
+    border-right: 0px !important;
+}
+.panel-body{
+    border-width: 0px 1px 0 0;
+    border-color: #e5e5e5;
+}
+.tabs-header, .tabs-tool{
+    background-color: #F4F9FF !important;
+    height: 40px;
+}
+.tabs{
+    height:39px !important;
+    border-color:#e5e5e5;
+    padding-left: 20px;
+}
+.tabs li{
+    margin: 13px 0px -1px 0 !important;
+}
+.tabs li a.tabs-inner, .tabs li.tabs-selected a.tabs-inner{
+    border-color:#e5e5e5;
+    border-bottom: 0;
+    padding: 0px 20px !important;
+    margin-right: 1px;
+}
+.tabs li a .tabs-title{
+    font-weight: 500;
+    color: #666;
+    font-size: 14px;
+}
+.tabs-selected{
+    background: #fff !important;
+}
+.tree-node:hover{
+    background:#57B6F7 !important;
+}
+.tree-node:hover a{
+    color: #fff !important;
+}
+
+
+/* input 查询条件共用CSS*/
+.clearB{
+    clear: both;
+    overflow:hidden;
+}
+.inputDiv{
+    border:1px solid #e5e5e5;
+    padding:15px 20px 5px 20px;
+    color: #666 !important;
+    border-radius: 3px;
+}
+.inputDiv span{
+    vertical-align: bottom;
+    height: 24px;
+    display: inline-block;
+
+}
+.inputDiv input{
+
+}
+.inputDiv a{
+
+}
+.textbox{
+    border: 1px solid #e5e5e5;
+    color: #666 !important;
+    padding:1px 10px;
+    margin-right: 20px;
+}
+.textbox .textbox-icon{
+    height:26px !important;
+}
+.textbox .textbox-text{
+    color: #666 !important;
+}
+.inputLabel{
+    font-size: 13px;
+}
+.queryBtn{
+    padding: 5px 20px;
+    color: #fff;
+    background: #8c96b1;
+    border-radius: 3px;
+    font-size: 13px;
+    text-decoration: none;
+    margin-right: 10px;
+    display: inline-block;
+}
+.removeBtn{
+    padding: 5px 20px;
+    color: #fff;
+    background: #EA6666;
+    border-radius: 3px;
+    font-size: 13px;
+    text-decoration: none;
+    margin-right: 10px;
+    display: inline-block;
+}
+.resetBtn{
+    padding: 5px 20px;
+    color: #fff;
+    background: #57b6f7;
+    border-radius: 3px;
+    font-size: 13px;
+    text-decoration: none;
+    margin-right: 10px;
+    display: inline-block;
+}
+.queryBtn:hover,.resetBtn:hover,.removeBtn:hover{
+    background:#E08216;
+}
+/* 内容标题 */
+.ConTitle{
+    height: 40px;
+    line-height: 40px;
+    background: url("../../images/partition.png") 0 13px no-repeat;
+    padding-left: 28px;
+    border-bottom:1px dotted #b9cbe4;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+.ConTitle a{
+    color: #444;
+    font-size: 14px;
+    text-decoration: none;
+}
+.ConTitleHref:hover{
+    color:#E08216 !important;
+}
+.ConDiv{
+    height:470px;
+    font-size: 12px;
+    color: #666;
+}
+.ConDiv .highcharts-title tspan{
+    font-size: 12px;
+    color: #666;
+}
+.punishEventDescClass{
+    width: 40%;
+    height:400px;
+    float:left;
+    padding-left: 50px;
+    padding-top: 100px;
+    font-size: larger;
+}
+.punishEventDescClass ul li{
+    margin-bottom: 10px;
+}
+.print{
+    position: absolute;
+    top:2px;
+    right: 10px;
+}
+.print span{
+    font-size: 14px;
+    color: #666;
+}
+.positionR{
+    position: relative;
+}
+.combobox-item-selected{
+    background: #57b6f7 !important;
+    color:#fff;
+}
+.combo-panel{
+    background: #f4f9ff;
+}
+
+/*表格样式*/
+.tableClass{
+    margin-top: 15px;
+}
+.tableClass .panel-title{
+    background: #EFEEEE !important;
+    height: 30px;
+    line-height: 30px;
+    color: #666;
+    font-size: 14px;
+    text-indent: 15px;
+    font-weight: 500;
+}
+.tableClass .panel-header{
+    padding: 0;
+    border-color:#e5e5e5 !important;
+    /*border-bottom-color: #BFBFBF !important;*/
+}
+.tableClass .datagrid-toolbar{
+    padding: 14px 10px !important;
+}
+
+.tableClass .datagrid-header-row{
+    height: 30px !important;
+    color: #333;
+}
+.tableClass .datagrid-row{
+    height: 30px !important;
+    color: #333;
+}
+.datagrid-header-row, .datagrid-row{
+    height: 30px;
+}
+
+.tableClass .pagination-page-list{
+    color: #666;
+}
+.tableClass .pagination-num{
+    color: #666;
+}
+.tableClass td span{
+    color: #666;
+}
+.tableClass .pagination-info{
+    color: #666;
+}
+.height10{
+    height: 10px;
+}
+.tableBtn{
+    margin: 0 5px;
+    text-decoration: none;
+    color: #666;
+}
+.tableBtn:hover{
+    color: #000;
+}
+
+.reportInputClass{
+    width:250px;height:32px;
+}
+
+.inputDivEg{ display: inline-block; vertical-align: -4px; margin-bottom: 10px;}

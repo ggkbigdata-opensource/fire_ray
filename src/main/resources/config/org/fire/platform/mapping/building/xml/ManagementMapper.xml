@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fire.platform.modules.building.dao.ManagementMapper">
+  
+  <select id="selectAll" resultMap="Management">
+      SELECT A.*   FROM MANAGEMENT A
+      <if test="extraOrderColumns != null and extraOrderColumns !=''">
+    		ORDER BY ${extraOrderColumns}
+      </if>
+  </select> 
+  
+  <select id="selectByMap" resultMap="Management"  parameterType="map"> 
+   SELECT A.*   FROM MANAGEMENT A
+   <where>
+      <include refid="queryCondition"/>
+   </where>
+	<if test="extraOrderColumns != null and extraOrderColumns !=''">
+    		ORDER BY ${extraOrderColumns}
+    </if>
+  </select> 
+  
+  
+  <select id="selectByParam" resultMap="Management"  parameterType="org.fire.platform.modules.building.domain.Management"> 
+   SELECT A.*   FROM MANAGEMENT A
+   <where>
+      <include refid="queryCondition"/>
+   </where>
+	<if test="extraOrderColumns != null and extraOrderColumns !=''">
+    		ORDER BY ${extraOrderColumns}
+    </if>
+  </select> 
+
+  <select id="selectByPrimaryKey"  resultMap="Management"   parameterType="org.fire.platform.modules.building.domain.Management"> 
+   SELECT  A.*  FROM  MANAGEMENT A 
+   WHERE id=#{id,jdbcType=NUMERIC}
+  </select>  
+  
+  <update id="updateByPrimaryKey"> 
+   UPDATE MANAGEMENT
+  <set>  
+     <if test="buildingId != null">  
+            building_id = #{buildingId,jdbcType=NUMERIC},
+      </if> 
+     <if test="managerUnitName != null">  
+            manager_unit_name = #{managerUnitName,jdbcType=VARCHAR},
+      </if> 
+     <if test="managerAddress != null">  
+            manager_address = #{managerAddress,jdbcType=VARCHAR},
+      </if> 
+     <if test="chargePerson != null">  
+            charge_person = #{chargePerson,jdbcType=VARCHAR},
+      </if> 
+     <if test="contactName != null">  
+            contact_name = #{contactName,jdbcType=VARCHAR},
+      </if> 
+     <if test="contactPhone != null">  
+            contact_phone = #{contactPhone,jdbcType=VARCHAR},
+      </if> 
+     <if test="supChargeUnitName != null">  
+            sup_charge_unit_name = #{supChargeUnitName,jdbcType=VARCHAR},
+      </if> 
+     <if test="industrySupervisionDepart != null">  
+            industry_supervision_depart = #{industrySupervisionDepart,jdbcType=VARCHAR},
+      </if> 
+     <if test="publishTime != null">  
+            publish_time = #{publishTime,jdbcType=TIMESTAMP},
+      </if> 
+     <if test="registeredMoney != null">  
+            registered_money = #{registeredMoney,jdbcType=NUMERIC},
+      </if> 
+     <if test="employeesNum != null">  
+            employees_num = #{employeesNum,jdbcType=NUMERIC},
+      </if> 
+     <if test="fireWitnessNum != null">  
+            fire_witness_num = #{fireWitnessNum,jdbcType=NUMERIC},
+      </if> 
+     <if test="baseCode != null">  
+            base_code = #{baseCode,jdbcType=VARCHAR},
+      </if> 
+     <if test="remark != null">  
+            remark = #{remark,jdbcType=VARCHAR},
+      </if> 
+     <if test="modDate != null">  
+            mod_date = #{modDate,jdbcType=TIMESTAMP},
+      </if> 
+     <if test="createDate != null">  
+            create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if> 
+     <if test="userId != null">  
+            user_id = #{userId,jdbcType=NUMERIC},
+      </if> 
+   <if test="extraUpdateColumns != null and extraUpdateColumns !=''">
+    		${extraUpdateColumns}
+   </if>
+  </set>  
+   WHERE id=#{id,jdbcType=NUMERIC}
+  </update>  
+  
+  <delete id="deleteByPrimaryKey"> 
+   DELETE FROM MANAGEMENT
+     WHERE id=#{id,jdbcType=NUMERIC}
+  </delete>  
+
+  <delete id="deleteByParam"> 
+   DELETE FROM MANAGEMENT  WHERE 
+   <trim prefixOverrides="AND" > 
+  <if test="id!=null">
+  		AND id=#{id,jdbcType=NUMERIC}
+  </if>
+  <if test="buildingId!=null">
+  		AND building_id=#{buildingId,jdbcType=NUMERIC}
+  </if>
+  <if test="managerUnitName!=null and  managerUnitName !=''">
+    <if test="managerUnitName!=null">
+  		AND manager_unit_name=#{managerUnitName,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="managerAddress!=null and  managerAddress !=''">
+    <if test="managerAddress!=null">
+  		AND manager_address=#{managerAddress,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="chargePerson!=null and  chargePerson !=''">
+    <if test="chargePerson!=null">
+  		AND charge_person=#{chargePerson,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="contactName!=null and  contactName !=''">
+    <if test="contactName!=null">
+  		AND contact_name=#{contactName,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="contactPhone!=null and  contactPhone !=''">
+    <if test="contactPhone!=null">
+  		AND contact_phone=#{contactPhone,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="supChargeUnitName!=null and  supChargeUnitName !=''">
+    <if test="supChargeUnitName!=null">
+  		AND sup_charge_unit_name=#{supChargeUnitName,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="industrySupervisionDepart!=null and  industrySupervisionDepart !=''">
+    <if test="industrySupervisionDepart!=null">
+  		AND industry_supervision_depart=#{industrySupervisionDepart,jdbcType=VARCHAR}
+  </if>
+  </if>
+    <if test="publishTime!=null">
+    		AND publish_time = #{publishTime,jdbcType=TIMESTAMP} 
+    </if>
+  <if test="registeredMoney!=null">
+  		AND registered_money=#{registeredMoney,jdbcType=NUMERIC}
+  </if>
+  <if test="employeesNum!=null">
+  		AND employees_num=#{employeesNum,jdbcType=NUMERIC}
+  </if>
+  <if test="fireWitnessNum!=null">
+  		AND fire_witness_num=#{fireWitnessNum,jdbcType=NUMERIC}
+  </if>
+  <if test="baseCode!=null and  baseCode !=''">
+    <if test="baseCode!=null">
+  		AND base_code=#{baseCode,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="remark!=null and  remark !=''">
+    <if test="remark!=null">
+  		AND remark=#{remark,jdbcType=VARCHAR}
+  </if>
+  </if>
+    <if test="modDate!=null">
+    		AND mod_date = #{modDate,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="createDate!=null">
+    		AND create_date = #{createDate,jdbcType=TIMESTAMP} 
+    </if>
+  <if test="userId!=null">
+  		AND user_id=#{userId,jdbcType=NUMERIC}
+  </if>
+   <if test="extraCondition!=null and extraCondition!=''">
+	   AND  ( ${extraCondition} )
+	</if> 
+   </trim>
+  </delete>  
+ 
+  <insert id="insert"> 
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey> 
+    INSERT INTO MANAGEMENT (
+	id,
+	building_id,
+	manager_unit_name,
+	manager_address,
+	charge_person,
+	contact_name,
+	contact_phone,
+	sup_charge_unit_name,
+	industry_supervision_depart,
+	publish_time,
+	registered_money,
+	employees_num,
+	fire_witness_num,
+	base_code,
+	remark,
+	mod_date,
+	create_date,
+	user_id
+	)  VALUES(
+	#{id,jdbcType=NUMERIC},
+	#{buildingId,jdbcType=NUMERIC},
+	#{managerUnitName,jdbcType=VARCHAR},
+	#{managerAddress,jdbcType=VARCHAR},
+	#{chargePerson,jdbcType=VARCHAR},
+	#{contactName,jdbcType=VARCHAR},
+	#{contactPhone,jdbcType=VARCHAR},
+	#{supChargeUnitName,jdbcType=VARCHAR},
+	#{industrySupervisionDepart,jdbcType=VARCHAR},
+	#{publishTime,jdbcType=TIMESTAMP},
+	#{registeredMoney,jdbcType=NUMERIC},
+	#{employeesNum,jdbcType=NUMERIC},
+	#{fireWitnessNum,jdbcType=NUMERIC},
+	#{baseCode,jdbcType=VARCHAR},
+	#{remark,jdbcType=VARCHAR},
+	#{modDate,jdbcType=TIMESTAMP},
+	#{createDate,jdbcType=TIMESTAMP},
+	#{userId,jdbcType=NUMERIC}
+    ) 
+  </insert>  
+
+
+
+  <resultMap  id="Management"  type="org.fire.platform.modules.building.domain.Management" >
+	<result property="id" column="id"  jdbcType="NUMERIC" />
+	<result property="buildingId" column="building_id"  jdbcType="NUMERIC" />
+	<result property="managerUnitName" column="manager_unit_name"  jdbcType="VARCHAR" />
+	<result property="managerAddress" column="manager_address"  jdbcType="VARCHAR" />
+	<result property="chargePerson" column="charge_person"  jdbcType="VARCHAR" />
+	<result property="contactName" column="contact_name"  jdbcType="VARCHAR" />
+	<result property="contactPhone" column="contact_phone"  jdbcType="VARCHAR" />
+	<result property="supChargeUnitName" column="sup_charge_unit_name"  jdbcType="VARCHAR" />
+	<result property="industrySupervisionDepart" column="industry_supervision_depart"  jdbcType="VARCHAR" />
+	<result property="publishTime" column="publish_time"  jdbcType="TIMESTAMP" />
+	<result property="registeredMoney" column="registered_money"  jdbcType="NUMERIC" />
+	<result property="employeesNum" column="employees_num"  jdbcType="NUMERIC" />
+	<result property="fireWitnessNum" column="fire_witness_num"  jdbcType="NUMERIC" />
+	<result property="baseCode" column="base_code"  jdbcType="VARCHAR" />
+	<result property="remark" column="remark"  jdbcType="VARCHAR" />
+	<result property="modDate" column="mod_date"  jdbcType="TIMESTAMP" />
+	<result property="createDate" column="create_date"  jdbcType="TIMESTAMP" />
+	<result property="userId" column="user_id"  jdbcType="NUMERIC" />
+  </resultMap>
+ 
+  <sql id="queryCondition">
+  <if test="id!=null">
+  		AND A.id=#{id,jdbcType=NUMERIC}
+  </if>
+  <if test="buildingId!=null">
+  		AND A.building_id=#{buildingId,jdbcType=NUMERIC}
+  </if>
+  <if test="managerUnitName!=null and  managerUnitName !=''">
+   		AND manager_unit_name = #{managerUnitName,jdbcType=VARCHAR}
+  </if>
+  <if test="managerUnitNameLike!=null and  managerUnitNameLike !=''">
+  		AND manager_unit_name LIKE CONCAT(CONCAT('%', #{managerUnitNameLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="managerAddress!=null and  managerAddress !=''">
+   		AND manager_address = #{managerAddress,jdbcType=VARCHAR}
+  </if>
+  <if test="managerAddressLike!=null and  managerAddressLike !=''">
+  		AND manager_address LIKE CONCAT(CONCAT('%', #{managerAddressLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="chargePerson!=null and  chargePerson !=''">
+   		AND charge_person = #{chargePerson,jdbcType=VARCHAR}
+  </if>
+  <if test="chargePersonLike!=null and  chargePersonLike !=''">
+  		AND charge_person LIKE CONCAT(CONCAT('%', #{chargePersonLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="contactName!=null and  contactName !=''">
+   		AND contact_name = #{contactName,jdbcType=VARCHAR}
+  </if>
+  <if test="contactNameLike!=null and  contactNameLike !=''">
+  		AND contact_name LIKE CONCAT(CONCAT('%', #{contactNameLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="contactPhone!=null and  contactPhone !=''">
+   		AND contact_phone = #{contactPhone,jdbcType=VARCHAR}
+  </if>
+  <if test="contactPhoneLike!=null and  contactPhoneLike !=''">
+  		AND contact_phone LIKE CONCAT(CONCAT('%', #{contactPhoneLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="supChargeUnitName!=null and  supChargeUnitName !=''">
+   		AND sup_charge_unit_name = #{supChargeUnitName,jdbcType=VARCHAR}
+  </if>
+  <if test="supChargeUnitNameLike!=null and  supChargeUnitNameLike !=''">
+  		AND sup_charge_unit_name LIKE CONCAT(CONCAT('%', #{supChargeUnitNameLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="industrySupervisionDepart!=null and  industrySupervisionDepart !=''">
+   		AND industry_supervision_depart = #{industrySupervisionDepart,jdbcType=VARCHAR}
+  </if>
+  <if test="industrySupervisionDepartLike!=null and  industrySupervisionDepartLike !=''">
+  		AND industry_supervision_depart LIKE CONCAT(CONCAT('%', #{industrySupervisionDepartLike,jdbcType=VARCHAR}),'%')  
+  </if>
+   <if test="publishTimeRange1!=null">
+    		AND publish_time &gt; #{publishTimeRange1,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="publishTimeRange2!=null">
+    		AND publish_time &lt; #{publishTimeRange2,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="publishTime!=null">
+    		AND publish_time = #{publishTime,jdbcType=TIMESTAMP} 
+    </if>
+  <if test="registeredMoney!=null">
+  		AND A.registered_money=#{registeredMoney,jdbcType=NUMERIC}
+  </if>
+  <if test="employeesNum!=null">
+  		AND A.employees_num=#{employeesNum,jdbcType=NUMERIC}
+  </if>
+  <if test="fireWitnessNum!=null">
+  		AND A.fire_witness_num=#{fireWitnessNum,jdbcType=NUMERIC}
+  </if>
+  <if test="baseCode!=null and  baseCode !=''">
+   		AND base_code = #{baseCode,jdbcType=VARCHAR}
+  </if>
+  <if test="baseCodeLike!=null and  baseCodeLike !=''">
+  		AND base_code LIKE CONCAT(CONCAT('%', #{baseCodeLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="remark!=null and  remark !=''">
+   		AND remark = #{remark,jdbcType=VARCHAR}
+  </if>
+  <if test="remarkLike!=null and  remarkLike !=''">
+  		AND remark LIKE CONCAT(CONCAT('%', #{remarkLike,jdbcType=VARCHAR}),'%')  
+  </if>
+   <if test="modDateRange1!=null">
+    		AND mod_date &gt; #{modDateRange1,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="modDateRange2!=null">
+    		AND mod_date &lt; #{modDateRange2,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="modDate!=null">
+    		AND mod_date = #{modDate,jdbcType=TIMESTAMP} 
+    </if>
+   <if test="createDateRange1!=null">
+    		AND create_date &gt; #{createDateRange1,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="createDateRange2!=null">
+    		AND create_date &lt; #{createDateRange2,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="createDate!=null">
+    		AND create_date = #{createDate,jdbcType=TIMESTAMP} 
+    </if>
+  <if test="userId!=null">
+  		AND A.user_id=#{userId,jdbcType=NUMERIC}
+  </if>
+   <if test="extraCondition!=null and extraCondition!=''">
+	   AND  ( ${extraCondition} )
+	</if>
+    </sql>
+    
+</mapper>

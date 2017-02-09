@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fire.platform.modules.building.dao.BuildingMapper">
+
+  <select id="selectByName"  resultType="Long" > 
+   SELECT  A.id  FROM  BUILDING A 
+   WHERE base_name=#{base_name,jdbcType=VARCHAR}
+  </select>  
+  
+  <select id="selectByBaseCode"  resultType="Long" > 
+   SELECT  A.id  FROM  BUILDING A 
+   WHERE base_code=#{base_code,jdbcType=VARCHAR}
+  </select>  
+
+      <select id="selectBeanByMap" resultMap="BuildingBean"  parameterType="map"> 
+		SELECT A.*,	b.name AS street_name,
+			c.name AS block_name,
+			d.name AS district_name, 
+			(SELECT name FROM dict WHERE code = a.base_building_class and type_code = 'building_class') as building_class_name,
+			(SELECT name FROM dict WHERE code = a.base_level and type_code = 'building_level') as base_level_name,
+			a.finish_time as finish_time_string
+			FROM BUILDING A,street b,block c,district d
+			WHERE a.street_id=b.id AND a.block_id=c.id AND a.district_id = d.id
+      <include refid="queryBeanCondition"/>
+	<if test="extraOrderColumns != null and extraOrderColumns !=''">
+    		ORDER BY ${extraOrderColumns}
+    </if>
+ </select> 
+       
+ <resultMap id="BuildingBean" type="org.fire.platform.modules.building.bean.BuildingBean" extends="Building">  
+    <result property="streetName" column="street_name"  jdbcType="VARCHAR" />  
+    <result property="blockName" column="block_name"  jdbcType="VARCHAR" />  
+    <result property="districtName" column="district_name"  jdbcType="VARCHAR" />
+    <result property="buildingClassName" column="building_class_name"  jdbcType="VARCHAR" />  
+    <result property="baseLevelName" column="base_level_name"  jdbcType="VARCHAR" />
+    <result property="finishTimeString" column="finish_time_string"  jdbcType="VARCHAR" />
+</resultMap>  
+   <sql id="queryBeanCondition">
+<if test="id!=null">
+  		AND A.id=#{id,jdbcType=NUMERIC}
+  </if>
+  <if test="districtId!=null">
+  		AND A.district_id=#{districtId,jdbcType=NUMERIC}
+  </if>
+  <if test="streetId!=null">
+  		AND A.street_id=#{streetId,jdbcType=NUMERIC}
+  </if>
+  <if test="blockId!=null">
+  		AND A.block_id=#{blockId,jdbcType=NUMERIC}
+  </if>
+  <if test="longitude!=null">
+  		AND A.longitude=#{longitude,jdbcType=NUMERIC}
+  </if>
+  <if test="latitude!=null">
+  		AND A.latitude=#{latitude,jdbcType=NUMERIC}
+  </if>
+  <if test="geoHashCode!=null and  geoHashCode !=''">
+   		AND geo_hash_code = #{geoHashCode,jdbcType=VARCHAR}
+  </if>
+  <if test="geoHashCodeLike!=null and  geoHashCodeLike !=''">
+  		AND geo_hash_code LIKE CONCAT(CONCAT('%', #{geoHashCodeLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="thumbImg!=null and  thumbImg !=''">
+   		AND thumb_img = #{thumbImg,jdbcType=VARCHAR}
+  </if>
+  <if test="thumbImgLike!=null and  thumbImgLike !=''">
+  		AND thumb_img LIKE CONCAT(CONCAT('%', #{thumbImgLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="modelImg!=null and  modelImg !=''">
+   		AND model_img = #{modelImg,jdbcType=VARCHAR}
+  </if>
+  <if test="modelImgLike!=null and  modelImgLike !=''">
+  		AND model_img LIKE CONCAT(CONCAT('%', #{modelImgLike,jdbcType=VARCHAR}),'%')  
+  </if>
+   <if test="finishTimeRange1!=null">
+    		AND finish_time &gt; #{finishTimeRange1,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="finishTimeRange2!=null">
+    		AND finish_time &lt; #{finishTimeRange2,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="finishTime!=null">
+    		AND finish_time = #{finishTime,jdbcType=TIMESTAMP} 
+    </if>
+  <if test="state!=null">
+  		AND A.state=#{state,jdbcType=NUMERIC}
+  </if>
+  <if test="baseName!=null and  baseName !=''">
+   		AND base_name = #{baseName,jdbcType=VARCHAR}
+  </if>
+  <if test="baseNameLike!=null and  baseNameLike !=''">
+  		AND base_name LIKE CONCAT(CONCAT('%', #{baseNameLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="baseCode!=null and  baseCode !=''">
+   		AND base_code = #{baseCode,jdbcType=VARCHAR}
+  </if>
+  <if test="baseCodeLike!=null and  baseCodeLike !=''">
+  		AND base_code LIKE CONCAT(CONCAT('%', #{baseCodeLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="baseBuildingClass!=null and  baseBuildingClass !=''">
+   		AND base_building_class = #{baseBuildingClass,jdbcType=VARCHAR}
+  </if>
+  <if test="baseBuildingClassLike!=null and  baseBuildingClassLike !=''">
+  		AND base_building_class LIKE CONCAT(CONCAT('%', #{baseBuildingClassLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="baseLevel!=null and  baseLevel !=''">
+   		AND base_level = #{baseLevel,jdbcType=VARCHAR}
+  </if>
+  <if test="baseLevelLike!=null and  baseLevelLike !=''">
+  		AND base_level LIKE CONCAT(CONCAT('%', #{baseLevelLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="baseAddress!=null and  baseAddress !=''">
+   		AND base_address = #{baseAddress,jdbcType=VARCHAR}
+  </if>
+  <if test="baseAddressLike!=null and  baseAddressLike !=''">
+  		AND base_address LIKE CONCAT(CONCAT('%', #{baseAddressLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="baseRemark!=null and  baseRemark !=''">
+   		AND base_remark = #{baseRemark,jdbcType=VARCHAR}
+  </if>
+  <if test="baseRemarkLike!=null and  baseRemarkLike !=''">
+  		AND base_remark LIKE CONCAT(CONCAT('%', #{baseRemarkLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="baseMark!=null and  baseMark !=''">
+   		AND base_mark = #{baseMark,jdbcType=VARCHAR}
+  </if>
+  <if test="baseMarkLike!=null and  baseMarkLike !=''">
+  		AND base_mark LIKE CONCAT(CONCAT('%', #{baseMarkLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="fireManager!=null and  fireManager !=''">
+   		AND fire_manager = #{fireManager,jdbcType=VARCHAR}
+  </if>
+  <if test="fireManagerLike!=null and  fireManagerLike !=''">
+  		AND fire_manager LIKE CONCAT(CONCAT('%', #{fireManagerLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="fireManagerPhone!=null and  fireManagerPhone !=''">
+   		AND fire_manager_phone = #{fireManagerPhone,jdbcType=VARCHAR}
+  </if>
+  <if test="fireManagerPhoneLike!=null and  fireManagerPhoneLike !=''">
+  		AND fire_manager_phone LIKE CONCAT(CONCAT('%', #{fireManagerPhoneLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="fireContact!=null and  fireContact !=''">
+   		AND fire_contact = #{fireContact,jdbcType=VARCHAR}
+  </if>
+  <if test="fireContactLike!=null and  fireContactLike !=''">
+  		AND fire_contact LIKE CONCAT(CONCAT('%', #{fireContactLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="fireContactPhone!=null and  fireContactPhone !=''">
+   		AND fire_contact_phone = #{fireContactPhone,jdbcType=VARCHAR}
+  </if>
+  <if test="fireContactPhoneLike!=null and  fireContactPhoneLike !=''">
+  		AND fire_contact_phone LIKE CONCAT(CONCAT('%', #{fireContactPhoneLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="conBuildArea!=null">
+  		AND A.con_build_area=#{conBuildArea,jdbcType=NUMERIC}
+  </if>
+  <if test="conType!=null and  conType !=''">
+   		AND con_type = #{conType,jdbcType=VARCHAR}
+  </if>
+  <if test="conTypeLike!=null and  conTypeLike !=''">
+  		AND con_type LIKE CONCAT(CONCAT('%', #{conTypeLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="conBuildHight!=null">
+  		AND A.con_build_hight=#{conBuildHight,jdbcType=NUMERIC}
+  </if>
+  <if test="conCoverArea!=null">
+  		AND A.con_cover_area=#{conCoverArea,jdbcType=NUMERIC}
+  </if>
+  <if test="conFloors!=null">
+  		AND A.con_floors=#{conFloors,jdbcType=NUMERIC}
+  </if>
+  <if test="conUnderFloors!=null">
+  		AND A.con_under_floors=#{conUnderFloors,jdbcType=NUMERIC}
+  </if>
+   <if test="extraCondition!=null and extraCondition!=''">
+	   AND  ( ${extraCondition} )
+	</if>
+    </sql>
+    
+</mapper>

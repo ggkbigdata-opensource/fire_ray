@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fire.platform.modules.area.dao.StreetMapper">
+
+  <select id="selectByName"  resultType="Long" > 
+   SELECT  A.id  FROM  STREET A 
+   WHERE name=#{name,jdbcType=VARCHAR}
+  </select>  
+  
+  <select id="selectBeanByMap" resultMap="StreetBean"  parameterType="map"> 
+   SELECT A.*,B.NAME  as  disctrict_name FROM STREET A,DISTRICT B  
+   where a.district_id = b.id
+   <include refid="queryBeanCondition"/>
+	<if test="extraOrderColumns != null and extraOrderColumns !=''">
+    		ORDER BY ${extraOrderColumns}
+    </if>
+  </select> 
+
+ <resultMap id="StreetBean" type="org.fire.platform.modules.area.bean.StreetBean" extends="Street">  
+    <result property="disctrictName" column="disctrict_name"  jdbcType="VARCHAR" />  
+</resultMap>  
+ 
+  <sql id="queryBeanCondition">
+  <if test="id!=null">
+  		AND A.id=#{id,jdbcType=NUMERIC}
+  </if>
+  <if test="name!=null and  name !=''">
+   		AND A.name = #{name,jdbcType=VARCHAR}
+  </if>
+  <if test="nameLike!=null and  nameLike !=''">
+  		AND A.name LIKE CONCAT(CONCAT('%', #{nameLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="districtId!=null">
+  		AND A.district_id=#{districtId,jdbcType=NUMERIC}
+  </if>
+  <if test="remark!=null and  remark !=''">
+   		AND A.remark = #{remark,jdbcType=VARCHAR}
+  </if>
+  <if test="remarkLike!=null and  remarkLike !=''">
+  		AND A.remark LIKE CONCAT(CONCAT('%', #{remarkLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="images!=null and  images !=''">
+   		AND images = #{images,jdbcType=VARCHAR}
+  </if>
+  <if test="imagesLike!=null and  imagesLike !=''">
+  		AND images LIKE CONCAT(CONCAT('%', #{imagesLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="longitude!=null">
+  		AND A.longitude=#{longitude,jdbcType=NUMERIC}
+  </if>
+  <if test="latitude!=null">
+  		AND A.latitude=#{latitude,jdbcType=NUMERIC}
+  </if>
+  <if test="modUser!=null">
+  		AND A.mod_user=#{modUser,jdbcType=NUMERIC}
+  </if>
+   <if test="modDateRange1!=null">
+    		AND mod_date &gt; #{modDateRange1,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="modDateRange2!=null">
+    		AND mod_date &lt; #{modDateRange2,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="modDate!=null">
+    		AND mod_date = #{modDate,jdbcType=TIMESTAMP} 
+    </if>
+  <if test="coverArea!=null and  coverArea !=''">
+   		AND cover_area = #{coverArea,jdbcType=VARCHAR}
+  </if>
+  <if test="coverAreaLike!=null and  coverAreaLike !=''">
+  		AND cover_area LIKE CONCAT(CONCAT('%', #{coverAreaLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="population!=null and  population !=''">
+   		AND population = #{population,jdbcType=VARCHAR}
+  </if>
+  <if test="populationLike!=null and  populationLike !=''">
+  		AND population LIKE CONCAT(CONCAT('%', #{populationLike,jdbcType=VARCHAR}),'%')  
+  </if>
+   <if test="extraCondition!=null and extraCondition!=''">
+	   AND  ( ${extraCondition} )
+	</if>
+    </sql>
+    
+</mapper>

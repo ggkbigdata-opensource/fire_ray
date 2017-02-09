@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fire.platform.modules.check.dao.CheckItemResultMapperBak">
+
+    <resultMap id="ResultSearchBean" type="org.fire.platform.modules.check.bean.ResultSearchBean">
+        <result property="code" column="item_sort_code" jdbcType="VARCHAR"/>
+        <result property="name" column="item_sort" jdbcType="VARCHAR"/>
+        <association property="typeBean" resultMap="typeBean" />
+    </resultMap>
+
+    <resultMap id="typeBean" type="org.fire.platform.modules.check.bean.ResultSearchBean">
+        <result property="code" column="item_type_code" jdbcType="VARCHAR" />
+        <result property="name" column="item_type" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <select id="getItemCodeByReportId" resultMap="ResultSearchBean">
+        SELECT c.item_sort_code , c.item_sort , substring_index(c.item_type_code,'.',2) as item_type_code , c.item_type
+		from check_item_result c
+		WHERE c.report_id = #{param1}
+		GROUP BY substring_index(c.item_type_code,'.',2)
+    </select>
+    
+</mapper>

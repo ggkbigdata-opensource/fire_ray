@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fire.platform.modules.event.dao.PunishRemoveMapper">
+
+    <select id="selectAll" resultMap="PunishRemove">
+        SELECT A.* FROM PUNISH_REMOVE A
+        <if test="extraOrderColumns != null and extraOrderColumns !=''">
+            ORDER BY ${extraOrderColumns}
+        </if>
+    </select>
+
+    <select id="selectByMap" resultMap="PunishRemove" parameterType="map">
+        SELECT A.* FROM PUNISH_REMOVE A
+        <where>
+            <include refid="queryCondition"/>
+        </where>
+        <if test="extraOrderColumns != null and extraOrderColumns !=''">
+            ORDER BY ${extraOrderColumns}
+        </if>
+    </select>
+
+
+    <select id="selectByParam" resultMap="PunishRemove"
+            parameterType="org.fire.platform.modules.event.domain.PunishRemove">
+        SELECT A.* FROM PUNISH_REMOVE A
+        <where>
+            <include refid="queryCondition"/>
+        </where>
+        <if test="extraOrderColumns != null and extraOrderColumns !=''">
+            ORDER BY ${extraOrderColumns}
+        </if>
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="PunishRemove"
+            parameterType="org.fire.platform.modules.event.domain.PunishRemove">
+   SELECT  A.*  FROM  PUNISH_REMOVE A 
+   WHERE id=#{id,jdbcType=NUMERIC}
+  </select>
+
+    <update id="updateByPrimaryKey">
+        UPDATE PUNISH_REMOVE
+        <set>
+            <if test="punishEventId != null">
+                punish_event_id = #{punishEventId,jdbcType=NUMERIC},
+            </if>
+            <if test="decisionNumber != null">
+                decision_number = #{decisionNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="removeTime != null">
+                remove_time = #{removeTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="basis != null">
+                basis = #{basis,jdbcType=VARCHAR},
+            </if>
+            <if test="checkSituation != null">
+                check_situation = #{checkSituation,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="extraUpdateColumns != null and extraUpdateColumns !=''">
+                ${extraUpdateColumns}
+            </if>
+        </set>
+        WHERE id=#{id,jdbcType=NUMERIC}
+    </update>
+
+    <delete id="deleteByPrimaryKey">
+   DELETE FROM PUNISH_REMOVE
+     WHERE id=#{id,jdbcType=NUMERIC}
+  </delete>
+
+    <delete id="deleteByParam">
+        DELETE FROM PUNISH_REMOVE WHERE
+        <trim prefixOverrides="AND">
+            <if test="punishEventId!=null">
+                AND punish_event_id=#{punishEventId,jdbcType=NUMERIC}
+            </if>
+            <if test="id!=null">
+                AND id=#{id,jdbcType=NUMERIC}
+            </if>
+            <if test="decisionNumber!=null and  decisionNumber !=''">
+                AND decision_number=#{decisionNumber,jdbcType=VARCHAR}
+            </if>
+            <if test="removeTime!=null">
+                AND remove_time = #{removeTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="basis!=null and  basis !=''">
+                AND basis=#{basis,jdbcType=VARCHAR}
+            </if>
+            <if test="checkSituation!=null and  checkSituation !=''">
+                AND check_situation=#{checkSituation,jdbcType=VARCHAR}
+            </if>
+            <if test="createTime!=null">
+                AND create_time = #{createTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="extraCondition!=null and extraCondition!=''">
+                AND ( ${extraCondition} )
+            </if>
+        </trim>
+    </delete>
+
+    <insert id="insert">
+        <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO PUNISH_REMOVE (
+        punish_event_id,
+        id,
+        decision_number,
+        remove_time,
+        basis,
+        check_situation,
+        create_time
+        ) VALUES(
+        #{punishEventId,jdbcType=NUMERIC},
+        #{id,jdbcType=NUMERIC},
+        #{decisionNumber,jdbcType=VARCHAR},
+        #{removeTime,jdbcType=TIMESTAMP},
+        #{basis,jdbcType=VARCHAR},
+        #{checkSituation,jdbcType=VARCHAR},
+        #{createTime,jdbcType=TIMESTAMP}
+        )
+    </insert>
+
+
+    <resultMap id="PunishRemove" type="org.fire.platform.modules.event.domain.PunishRemove">
+        <result property="punishEventId" column="punish_event_id" jdbcType="NUMERIC"/>
+        <result property="id" column="id" jdbcType="NUMERIC"/>
+        <result property="decisionNumber" column="decision_number" jdbcType="VARCHAR"/>
+        <result property="removeTime" column="remove_time" jdbcType="TIMESTAMP"/>
+        <result property="basis" column="basis" jdbcType="VARCHAR"/>
+        <result property="checkSituation" column="check_situation" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="queryCondition">
+        <if test="punishEventId!=null">
+            AND A.punish_event_id=#{punishEventId,jdbcType=NUMERIC}
+        </if>
+        <if test="id!=null">
+            AND A.id=#{id,jdbcType=NUMERIC}
+        </if>
+        <if test="decisionNumber!=null and  decisionNumber !=''">
+            AND decision_number = #{decisionNumber,jdbcType=VARCHAR}
+        </if>
+        <if test="decisionNumberLike!=null and  decisionNumberLike !=''">
+            AND decision_number LIKE CONCAT(CONCAT('%', #{decisionNumberLike,jdbcType=VARCHAR}),'%')
+        </if>
+        <if test="removeTimeRange1!=null">
+            AND remove_time &gt; #{removeTimeRange1,jdbcType=TIMESTAMP}
+        </if>
+        <if test="removeTimeRange2!=null">
+            AND remove_time &lt; #{removeTimeRange2,jdbcType=TIMESTAMP}
+        </if>
+        <if test="removeTime!=null">
+            AND remove_time = #{removeTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="basis!=null and  basis !=''">
+            AND basis = #{basis,jdbcType=VARCHAR}
+        </if>
+        <if test="basisLike!=null and  basisLike !=''">
+            AND basis LIKE CONCAT(CONCAT('%', #{basisLike,jdbcType=VARCHAR}),'%')
+        </if>
+        <if test="checkSituation!=null and  checkSituation !=''">
+            AND check_situation = #{checkSituation,jdbcType=VARCHAR}
+        </if>
+        <if test="checkSituationLike!=null and  checkSituationLike !=''">
+            AND check_situation LIKE CONCAT(CONCAT('%', #{checkSituationLike,jdbcType=VARCHAR}),'%')
+        </if>
+        <if test="createTimeRange1!=null">
+            AND create_time &gt; #{createTimeRange1,jdbcType=TIMESTAMP}
+        </if>
+        <if test="createTimeRange2!=null">
+            AND create_time &lt; #{createTimeRange2,jdbcType=TIMESTAMP}
+        </if>
+        <if test="createTime!=null">
+            AND create_time = #{createTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="extraCondition!=null and extraCondition!=''">
+            AND ( ${extraCondition} )
+        </if>
+    </sql>
+
+</mapper>

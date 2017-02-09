@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fire.platform.modules.building.dao.BuildingPanoramaMapper">
+  
+  <select id="selectAll" resultMap="BuildingPanorama">
+      SELECT A.*   FROM BUILDING_PANORAMA A
+      <if test="extraOrderColumns != null and extraOrderColumns !=''">
+    		ORDER BY ${extraOrderColumns}
+      </if>
+  </select> 
+  
+  <select id="selectByMap" resultMap="BuildingPanorama"  parameterType="map"> 
+   SELECT A.*   FROM BUILDING_PANORAMA A
+   <where>
+      <include refid="queryCondition"/>
+   </where>
+	<if test="extraOrderColumns != null and extraOrderColumns !=''">
+    		ORDER BY ${extraOrderColumns}
+    </if>
+  </select> 
+
+  <select id="selectByPrimaryKey"  resultMap="BuildingPanorama"   parameterType="org.fire.platform.modules.building.domain.BuildingPanorama"> 
+   SELECT  A.*  FROM  BUILDING_PANORAMA A 
+   WHERE id=#{id,jdbcType=NUMERIC}
+  </select>  
+  
+  <update id="updateByPrimaryKey"> 
+   UPDATE BUILDING_PANORAMA
+  <set>  
+     <if test="buildingId != null">  
+            building_id = #{buildingId,jdbcType=NUMERIC},
+      </if> 
+     <if test="name != null">  
+            name = #{name,jdbcType=VARCHAR},
+      </if> 
+     <if test="thumbImg != null">  
+            thumb_img = #{thumbImg,jdbcType=VARCHAR},
+      </if> 
+     <if test="url != null">  
+            url = #{url,jdbcType=VARCHAR},
+      </if> 
+     <if test="modUser != null">  
+            mod_user = #{modUser,jdbcType=NUMERIC},
+      </if> 
+     <if test="modDate != null">  
+            mod_date = #{modDate,jdbcType=TIMESTAMP},
+      </if> 
+     <if test="state != null">  
+            state = #{state,jdbcType=NUMERIC},
+      </if> 
+   <if test="extraUpdateColumns != null and extraUpdateColumns !=''">
+    		${extraUpdateColumns}
+   </if>
+  </set>  
+   WHERE id=#{id,jdbcType=NUMERIC}
+  </update>  
+  
+  <delete id="deleteByPrimaryKey"> 
+   DELETE FROM BUILDING_PANORAMA
+     WHERE id=#{id,jdbcType=NUMERIC}
+  </delete>  
+
+  <delete id="deleteByParam"> 
+   DELETE FROM BUILDING_PANORAMA  WHERE 
+   <trim prefixOverrides="AND" > 
+  <if test="id!=null">
+  		AND id=#{id,jdbcType=NUMERIC}
+  </if>
+  <if test="buildingId!=null">
+  		AND building_id=#{buildingId,jdbcType=NUMERIC}
+  </if>
+  <if test="name!=null and  name !=''">
+    <if test="name!=null">
+  		AND name=#{name,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="thumbImg!=null and  thumbImg !=''">
+    <if test="thumbImg!=null">
+  		AND thumb_img=#{thumbImg,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="url!=null and  url !=''">
+    <if test="url!=null">
+  		AND url=#{url,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="modUser!=null">
+  		AND mod_user=#{modUser,jdbcType=NUMERIC}
+  </if>
+    <if test="modDate!=null">
+    		AND mod_date = #{modDate,jdbcType=TIMESTAMP} 
+    </if>
+  <if test="state!=null">
+  		AND state=#{state,jdbcType=NUMERIC}
+  </if>
+   <if test="extraCondition!=null and extraCondition!=''">
+	   AND  ( ${extraCondition} )
+	</if> 
+   </trim>
+  </delete>  
+ 
+  <insert id="insert"> 
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey> 
+    INSERT INTO BUILDING_PANORAMA (
+	id,
+	building_id,
+	name,
+	thumb_img,
+	url,
+	mod_user,
+	mod_date,
+	state
+	)  VALUES(
+	#{id,jdbcType=NUMERIC},
+	#{buildingId,jdbcType=NUMERIC},
+	#{name,jdbcType=VARCHAR},
+	#{thumbImg,jdbcType=VARCHAR},
+	#{url,jdbcType=VARCHAR},
+	#{modUser,jdbcType=NUMERIC},
+	#{modDate,jdbcType=TIMESTAMP},
+	#{state,jdbcType=NUMERIC}
+    ) 
+  </insert>  
+
+
+
+  <resultMap  id="BuildingPanorama"  type="org.fire.platform.modules.building.domain.BuildingPanorama" >
+	<result property="id" column="id"  jdbcType="NUMERIC" />
+	<result property="buildingId" column="building_id"  jdbcType="NUMERIC" />
+	<result property="name" column="name"  jdbcType="VARCHAR" />
+	<result property="thumbImg" column="thumb_img"  jdbcType="VARCHAR" />
+	<result property="url" column="url"  jdbcType="VARCHAR" />
+	<result property="modUser" column="mod_user"  jdbcType="NUMERIC" />
+	<result property="modDate" column="mod_date"  jdbcType="TIMESTAMP" />
+	<result property="state" column="state"  jdbcType="NUMERIC" />
+  </resultMap>
+ 
+  <sql id="queryCondition">
+  <if test="id!=null">
+  		AND A.id=#{id,jdbcType=NUMERIC}
+  </if>
+  <if test="buildingId!=null">
+  		AND A.building_id=#{buildingId,jdbcType=NUMERIC}
+  </if>
+  <if test="name!=null and  name !=''">
+   		AND name = #{name,jdbcType=VARCHAR}
+  </if>
+  <if test="nameLike!=null and  nameLike !=''">
+  		AND name LIKE CONCAT(CONCAT('%', #{nameLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="thumbImg!=null and  thumbImg !=''">
+   		AND thumb_img = #{thumbImg,jdbcType=VARCHAR}
+  </if>
+  <if test="thumbImgLike!=null and  thumbImgLike !=''">
+  		AND thumb_img LIKE CONCAT(CONCAT('%', #{thumbImgLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="url!=null and  url !=''">
+   		AND url = #{url,jdbcType=VARCHAR}
+  </if>
+  <if test="urlLike!=null and  urlLike !=''">
+  		AND url LIKE CONCAT(CONCAT('%', #{urlLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="modUser!=null">
+  		AND A.mod_user=#{modUser,jdbcType=NUMERIC}
+  </if>
+   <if test="modDateRange1!=null">
+    		AND mod_date &gt; #{modDateRange1,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="modDateRange2!=null">
+    		AND mod_date &lt; #{modDateRange2,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="modDate!=null">
+    		AND mod_date = #{modDate,jdbcType=TIMESTAMP} 
+    </if>
+  <if test="state!=null">
+  		AND A.state=#{state,jdbcType=NUMERIC}
+  </if>
+   <if test="extraCondition!=null and extraCondition!=''">
+	   AND  ( ${extraCondition} )
+	</if>
+    </sql>
+    
+</mapper>

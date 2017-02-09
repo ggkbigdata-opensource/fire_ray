@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fire.platform.modules.area.dao.FireStationMapper">
+  
+  <select id="selectBeanByMap" resultMap="FireStationBean"  parameterType="map"> 
+   	SELECT A.*,	b.name AS street_name,
+			c.name AS block_name,
+			d.name AS district_name
+			FROM FIRE_STATION A,street b,block c,district d
+			WHERE a.street_id=b.id AND a.block_id=c.id AND a.district_id = d.id
+      <include refid="queryBeanCondition"/>
+	<if test="extraOrderColumns != null and extraOrderColumns !=''">
+    		ORDER BY ${extraOrderColumns}
+    </if>
+  </select> 
+  
+  <select id="selectByName"  resultType="Long" > 
+   SELECT  A.id  FROM  FIRE_STATION A 
+   WHERE name=#{name,jdbcType=VARCHAR}
+  </select>  
+  
+   <resultMap id="FireStationBean" type="org.fire.platform.modules.area.bean.FireStationBean" extends="FireStation">  
+    <result property="streetName" column="street_name"  jdbcType="VARCHAR" />  
+    <result property="blockName" column="block_name"  jdbcType="VARCHAR" />  
+    <result property="districtName" column="district_name"  jdbcType="VARCHAR" />
+</resultMap>  
+
+  <sql id="queryBeanCondition">
+  <if test="id!=null">
+  		AND A.id=#{id,jdbcType=NUMERIC}
+  </if>
+  <if test="name!=null and  name !=''">
+   		AND A.name = #{name,jdbcType=VARCHAR}
+  </if>
+  <if test="nameLike!=null and  nameLike !=''">
+  		AND A.name LIKE CONCAT(CONCAT('%', #{nameLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="code!=null and  code !=''">
+   		AND A.code = #{code,jdbcType=VARCHAR}
+  </if>
+  <if test="codeLike!=null and  codeLike !=''">
+  		AND A.code LIKE CONCAT(CONCAT('%', #{codeLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="districtId!=null">
+  		AND A.district_id=#{districtId,jdbcType=NUMERIC}
+  </if>
+  <if test="streetId!=null">
+  		AND A.street_id=#{streetId,jdbcType=NUMERIC}
+  </if>
+  <if test="blockId!=null">
+  		AND A.block_id=#{blockId,jdbcType=NUMERIC}
+  </if>
+  <if test="committeesAddress!=null and  committeesAddress !=''">
+   		AND committees_address = #{committeesAddress,jdbcType=VARCHAR}
+  </if>
+  <if test="committeesAddressLike!=null and  committeesAddressLike !=''">
+  		AND committees_address LIKE CONCAT(CONCAT('%', #{committeesAddressLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="committeesDirector!=null and  committeesDirector !=''">
+   		AND committees_director = #{committeesDirector,jdbcType=VARCHAR}
+  </if>
+  <if test="committeesDirectorLike!=null and  committeesDirectorLike !=''">
+  		AND committees_director LIKE CONCAT(CONCAT('%', #{committeesDirectorLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="committeesPhone!=null and  committeesPhone !=''">
+   		AND committees_phone = #{committeesPhone,jdbcType=VARCHAR}
+  </if>
+  <if test="committeesPhoneLike!=null and  committeesPhoneLike !=''">
+  		AND committees_phone LIKE CONCAT(CONCAT('%', #{committeesPhoneLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="stationAddress!=null and  stationAddress !=''">
+   		AND station_address = #{stationAddress,jdbcType=VARCHAR}
+  </if>
+  <if test="stationAddressLike!=null and  stationAddressLike !=''">
+  		AND station_address LIKE CONCAT(CONCAT('%', #{stationAddressLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="stationMaster!=null and  stationMaster !=''">
+   		AND station_master = #{stationMaster,jdbcType=VARCHAR}
+  </if>
+  <if test="stationMasterLike!=null and  stationMasterLike !=''">
+  		AND station_master LIKE CONCAT(CONCAT('%', #{stationMasterLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="stationPhone!=null and  stationPhone !=''">
+   		AND station_phone = #{stationPhone,jdbcType=VARCHAR}
+  </if>
+  <if test="stationPhoneLike!=null and  stationPhoneLike !=''">
+  		AND station_phone LIKE CONCAT(CONCAT('%', #{stationPhoneLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="office!=null and  office !=''">
+   		AND office = #{office,jdbcType=VARCHAR}
+  </if>
+  <if test="officeLike!=null and  officeLike !=''">
+  		AND office LIKE CONCAT(CONCAT('%', #{officeLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="vehicle!=null and  vehicle !=''">
+   		AND vehicle = #{vehicle,jdbcType=VARCHAR}
+  </if>
+  <if test="vehicleLike!=null and  vehicleLike !=''">
+  		AND vehicle LIKE CONCAT(CONCAT('%', #{vehicleLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="equipment!=null and  equipment !=''">
+   		AND equipment = #{equipment,jdbcType=VARCHAR}
+  </if>
+  <if test="equipmentLike!=null and  equipmentLike !=''">
+  		AND equipment LIKE CONCAT(CONCAT('%', #{equipmentLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="area!=null">
+  		AND A.area=#{area,jdbcType=NUMERIC}
+  </if>
+  <if test="emergencyService!=null and  emergencyService !=''">
+   		AND emergency_service = #{emergencyService,jdbcType=VARCHAR}
+  </if>
+  <if test="emergencyServiceLike!=null and  emergencyServiceLike !=''">
+  		AND emergency_service LIKE CONCAT(CONCAT('%', #{emergencyServiceLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="officeSum!=null">
+  		AND A.office_sum=#{officeSum,jdbcType=NUMERIC}
+  </if>
+  <if test="vehicleSum!=null">
+  		AND A.vehicle_sum=#{vehicleSum,jdbcType=NUMERIC}
+  </if>
+  <if test="equipmentSum!=null">
+  		AND A.equipment_sum=#{equipmentSum,jdbcType=NUMERIC}
+  </if>
+   <if test="modTimeRange1!=null">
+    		AND mod_time &gt; #{modTimeRange1,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="modTimeRange2!=null">
+    		AND mod_time &lt; #{modTimeRange2,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="modTime!=null">
+    		AND mod_time = #{modTime,jdbcType=TIMESTAMP} 
+    </if>
+  <if test="remark!=null and  remark !=''">
+   		AND remark = #{remark,jdbcType=VARCHAR}
+  </if>
+  <if test="remarkLike!=null and  remarkLike !=''">
+  		AND remark LIKE CONCAT(CONCAT('%', #{remarkLike,jdbcType=VARCHAR}),'%')  
+  </if>
+   <if test="extraCondition!=null and extraCondition!=''">
+	   AND  ( ${extraCondition} )
+	</if>
+    </sql>
+    
+</mapper>

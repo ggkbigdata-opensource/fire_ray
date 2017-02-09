@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fire.platform.modules.data.dao.DataHandlerMapper">
+
+	<resultMap id="SumDataMap" type="org.fire.platform.modules.data.vo.SumDataVo">
+		<result property="districtId" column="district_id" jdbcType="NUMERIC" />
+		<result property="streetId" column="street_id" jdbcType="NUMERIC" />
+		<result property="blockId" column="block_id" jdbcType="NUMERIC" />
+		<result property="year" column="year" jdbcType="VARCHAR" />
+		<result property="month" column="month" jdbcType="VARCHAR" />
+		<result property="type1" column="type1" jdbcType="VARCHAR" />
+		<result property="type2" column="type2" jdbcType="NUMERIC" />
+		<result property="count" column="count" jdbcType="NUMERIC" />
+		<result property="fineTotal" column="fine_total" jdbcType="NUMERIC" />
+	</resultMap>
+
+
+
+	<delete id="deleteReportSumByParam">
+		DELETE FROM CHECK_REPORT_SUM
+		<where>
+			<if test="monthBegin!=null">
+				AND <![CDATA[ month >= #{monthBegin,jdbcType=VARCHAR}  ]]>
+			</if>
+			<if test="monthEnd!=null">
+				AND <![CDATA[ month < #{monthEnd,jdbcType=VARCHAR}  ]]>
+			</if>
+		</where>
+	</delete>
+
+	<delete id="deleteFireEventSumByParam">
+		DELETE FROM fire_event_sum
+		<where>
+			<if test="monthBegin!=null">
+				AND <![CDATA[ month >= #{monthBegin,jdbcType=VARCHAR}  ]]>
+			</if>
+			<if test="monthEnd!=null">
+				AND <![CDATA[ month < #{monthEnd,jdbcType=VARCHAR}  ]]>
+			</if>
+		</where>
+	</delete>
+
+	<delete id="deletePunishEventSumByParam">
+		DELETE FROM punish_event_sum
+		<where>
+			<if test="monthBegin!=null">
+				AND <![CDATA[ month >= #{monthBegin,jdbcType=VARCHAR}  ]]>
+			</if>
+			<if test="monthEnd!=null">
+				AND <![CDATA[ month < #{monthEnd,jdbcType=VARCHAR}  ]]>
+			</if>
+		</where>
+	</delete>
+
+
+	<select id="selectReportSum" resultMap="SumDataMap">
+		SELECT a.district_id,a.street_id,a.block_id,DATE_FORMAT(a.`pub_time`,
+		'%Y') as year,DATE_FORMAT(a.`pub_time`, '%Y-%m') as
+		month,a.report_type as type1,a.is_pass as type2,COUNT(*) as count
+		FROM check_report a
+		<where>
+			<if test="monthBegin != null">
+				AND <![CDATA[ a.pub_time >= #{monthBegin,jdbcType=VARCHAR}  ]]>
+			</if>
+			<if test="monthEnd != null">
+				AND <![CDATA[ a.pub_time < #{monthEnd,jdbcType=VARCHAR}  ]]>
+			</if>
+		</where>
+		GROUP BY district_id,street_id,block_id,year,month,type1,type2
+	</select>
+
+	<select id="selectFireEventSum" resultMap="SumDataMap">
+		SELECT a.district_id,a.street_id,a.block_id,DATE_FORMAT(a.occur_time,
+		'%Y') as year,DATE_FORMAT(a.occur_time, '%Y-%m') as month,a.fire_type
+		as type1,COUNT(*) as count
+		FROM fire_event a
+		<where>
+			<if test="monthBegin != null">
+				AND <![CDATA[ a.occur_time >= #{monthBegin,jdbcType=VARCHAR}  ]]>
+			</if>
+			<if test="monthEnd != null">
+				AND <![CDATA[ a.occur_time < #{monthEnd,jdbcType=VARCHAR}  ]]>
+			</if>
+		</where>
+		GROUP BY district_id,street_id,block_id,year,month,type1
+	</select>
+
+	<select id="selectPunishEventSum" resultMap="SumDataMap">
+		SELECT
+		a.district_id,a.street_id,a.block_id,DATE_FORMAT(a.`punish_time`,
+		'%Y') as year,DATE_FORMAT(a.`punish_time`, '%Y-%m') as
+		month,a.punish_type as type1,COUNT(*) as count,SUM(a.punish_amount) AS fine_total
+		FROM punish_event a
+		<where>
+			<if test="monthBegin != null">
+				AND <![CDATA[ a.punish_time >= #{monthBegin,jdbcType=VARCHAR}  ]]>
+			</if>
+			<if test="monthEnd != null">
+				AND <![CDATA[ a.punish_time < #{monthEnd,jdbcType=VARCHAR}  ]]>
+			</if>
+		</where>
+		GROUP BY district_id,street_id,block_id,year,month,type1
+	</select>
+
+	<resultMap id="AreaSumDataMap"
+		type="org.fire.platform.modules.data.vo.AreaSumDataVo">
+		<result property="districtId" column="district_id" jdbcType="NUMERIC" />
+		<result property="streetId" column="street_id" jdbcType="NUMERIC" />
+		<result property="blockId" column="block_id" jdbcType="NUMERIC" />
+		<result property="fireCount" column="fire_count" jdbcType="NUMERIC" />
+		<result property="punishCount" column="punish_count" jdbcType="NUMERIC" />
+		<result property="reportCount" column="report_count" jdbcType="NUMERIC" />
+	</resultMap>
+
+
+	<select id="selectStreetFireEventSum" resultMap="AreaSumDataMap">
+		SELECT a.id as street_id,sum(b.confirm_fire_num) as fire_count from
+		street a
+		left join( select * from fire_event_sum where <![CDATA[ month >= #{monthBegin,jdbcType=VARCHAR} ]]>
+		) b on a.id=b.street_id
+		<where>
+			<if test="districtId != null">
+				AND a.district_id = #{districtId,jdbcType=NUMERIC}
+			</if>
+		</where>
+		GROUP BY a.id
+	</select>
+
+	<select id="selectStreetPunishEventSum" resultMap="AreaSumDataMap">
+		SELECT a.id as
+		street_id,sum(IFNULL(b.detained_num,0)+IFNULL(b.fine_num,0)+IFNULL(b.three_stop_num,0)+IFNULL(b.close_down_num,0))
+		as punish_count from street a
+		left join punish_event_sum b on a.id=b.street_id
+		<where>
+			<if test="districtId != null">
+				AND a.district_id = #{districtId,jdbcType=NUMERIC}
+			</if>
+			<if test="monthBegin != null">
+				AND <![CDATA[ b.month >= #{monthBegin,jdbcType=VARCHAR}  ]]>
+			</if>
+			<if test="monthEnd != null">
+				AND <![CDATA[ b.month < #{monthEnd,jdbcType=VARCHAR}  ]]>
+			</if>
+		</where>
+		GROUP BY a.id
+	</select>
+
+	<select id="selectStreetReportSum" resultMap="AreaSumDataMap">
+		SELECT a.id as
+		street_id,sum(b.check_num-b.check_pass_num-b.recheck_pass_num) as
+		report_count from street a
+		left join check_report_sum b on a.id=b.street_id
+		<where>
+			<if test="districtId != null">
+				AND a.district_id = #{districtId,jdbcType=NUMERIC}
+			</if>
+			<if test="monthBegin != null">
+				AND <![CDATA[ b.month >= #{monthBegin,jdbcType=VARCHAR}  ]]>
+			</if>
+			<if test="monthEnd != null">
+				AND <![CDATA[ b.month < #{monthEnd,jdbcType=VARCHAR}  ]]>
+			</if>
+		</where>
+		GROUP BY a.id
+	</select>
+
+</mapper>

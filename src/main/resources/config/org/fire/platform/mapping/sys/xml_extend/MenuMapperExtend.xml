@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fire.platform.modules.sys.dao.MenuMapper">
+
+  <select id="selectBeanByMap" resultMap="MenuBean"  parameterType="map"> 
+   SELECT A.*,a.parent_menu_id as _parent_id   FROM MENU A
+      <include refid="queryBeanCondition"/>
+	<if test="extraOrderColumns != null and extraOrderColumns !=''">
+    		ORDER BY ${extraOrderColumns}
+    </if>
+  </select>
+
+    <select id="selectBeanByCurrentUser" resultMap="MenuBean"  parameterType="map">
+        SELECT m.*,m.parent_menu_id as _parent_id  from
+        user u
+        LEFT JOIN role r on r.role_id = u.role_id
+        LEFT JOIN role_menu rm on rm.role_id = r.role_id
+        LEFT JOIN menu m on m.menu_id = rm.menu_id
+        <if test="userId!=null">
+            AND u.uid=#{userId,jdbcType=VARCHAR}
+        </if>
+        <include refid="queryBeanCondition"/>
+        <if test="extraOrderColumns != null and extraOrderColumns !=''">
+            ORDER BY ${extraOrderColumns}
+        </if>
+    </select>
+
+    <select id="selectBeanByPrimaryKey"  resultMap="MenuBean"   parameterType="org.fire.platform.modules.sys.bean.MenuBean">
+        SELECT  A.* ,A.parent_menu_id _parent_id   as  FROM  MENU A
+        WHERE menu_id=#{menuId,jdbcType=NUMERIC}
+    </select>
+
+    <resultMap id="MenuBean" type="org.fire.platform.modules.sys.bean.MenuBean" extends="Menu">
+    <result property="iconCls" column="icon_cls"  jdbcType="VARCHAR" />  
+    <result property="_parentId" column="_parent_id"  jdbcType="VARCHAR" />  
+    <result property="state" column="state"  jdbcType="VARCHAR" />
+</resultMap> 
+
+  <sql id="queryBeanCondition">
+  <if test="menuId!=null">
+  		AND A.menu_id=#{menuId,jdbcType=NUMERIC}
+  </if>
+  <if test="menuName!=null and  menuName !=''">
+   		AND menu_name = #{menuName,jdbcType=VARCHAR}
+  </if>
+  <if test="menuNameLike!=null and  menuNameLike !=''">
+  		AND menu_name LIKE CONCAT(CONCAT('%', #{menuNameLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="menuUrl!=null and  menuUrl !=''">
+   		AND menu_url = #{menuUrl,jdbcType=VARCHAR}
+  </if>
+  <if test="menuUrlLike!=null and  menuUrlLike !=''">
+  		AND menu_url LIKE CONCAT(CONCAT('%', #{menuUrlLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="parentMenuId!=null">
+  		AND A.parent_menu_id=#{parentMenuId,jdbcType=NUMERIC}
+  </if>
+   <if test="extraCondition!=null and extraCondition!=''">
+	   AND  ( ${extraCondition} )
+	</if>
+    </sql>
+    
+</mapper>

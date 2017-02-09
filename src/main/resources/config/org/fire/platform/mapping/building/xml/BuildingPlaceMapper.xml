@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fire.platform.modules.building.dao.BuildingPlaceMapper">
+  
+  <select id="selectAll" resultMap="BuildingPlace">
+      SELECT A.*   FROM BUILDING_PLACE A
+      <if test="extraOrderColumns != null and extraOrderColumns !=''">
+    		ORDER BY ${extraOrderColumns}
+      </if>
+  </select> 
+  
+  <select id="selectByMap" resultMap="BuildingPlace"  parameterType="map"> 
+   SELECT A.*   FROM BUILDING_PLACE A
+   <where>
+      <include refid="queryCondition"/>
+   </where>
+	<if test="extraOrderColumns != null and extraOrderColumns !=''">
+    		ORDER BY ${extraOrderColumns}
+    </if>
+  </select> 
+
+  <select id="selectByPrimaryKey"  resultMap="BuildingPlace"   parameterType="org.fire.platform.modules.building.domain.BuildingPlace"> 
+   SELECT  A.*  FROM  BUILDING_PLACE A 
+   WHERE id=#{id,jdbcType=NUMERIC}
+  </select>  
+  
+  <update id="updateByPrimaryKey"> 
+   UPDATE BUILDING_PLACE
+  <set>  
+     <if test="districtId != null">  
+            district_id = #{districtId,jdbcType=NUMERIC},
+      </if> 
+     <if test="streetId != null">  
+            street_id = #{streetId,jdbcType=NUMERIC},
+      </if> 
+     <if test="blockId != null">  
+            block_id = #{blockId,jdbcType=NUMERIC},
+      </if> 
+     <if test="buildingId != null">  
+            building_id = #{buildingId,jdbcType=NUMERIC},
+      </if> 
+     <if test="name != null">  
+            name = #{name,jdbcType=VARCHAR},
+      </if> 
+     <if test="placeType != null">  
+            place_type = #{placeType,jdbcType=VARCHAR},
+      </if> 
+     <if test="address != null">  
+            address = #{address,jdbcType=VARCHAR},
+      </if> 
+     <if test="coverArea != null">  
+            cover_area = #{coverArea,jdbcType=NUMERIC},
+      </if> 
+     <if test="capacity != null">  
+            capacity = #{capacity,jdbcType=NUMERIC},
+      </if> 
+     <if test="fireManNum != null">  
+            fire_man_num = #{fireManNum,jdbcType=NUMERIC},
+      </if> 
+     <if test="isFireQualified != null">  
+            is_fire_qualified = #{isFireQualified,jdbcType=NUMERIC},
+      </if> 
+     <if test="fireContact != null">  
+            fire_contact = #{fireContact,jdbcType=VARCHAR},
+      </if> 
+     <if test="firePhone != null">  
+            fire_phone = #{firePhone,jdbcType=VARCHAR},
+      </if> 
+     <if test="remark != null">  
+            remark = #{remark,jdbcType=VARCHAR},
+      </if> 
+   <if test="extraUpdateColumns != null and extraUpdateColumns !=''">
+    		${extraUpdateColumns}
+   </if>
+  </set>  
+   WHERE id=#{id,jdbcType=NUMERIC}
+  </update>  
+  
+  <delete id="deleteByPrimaryKey"> 
+   DELETE FROM BUILDING_PLACE
+     WHERE id=#{id,jdbcType=NUMERIC}
+  </delete>  
+
+  <delete id="deleteByParam"> 
+   DELETE FROM BUILDING_PLACE  WHERE 
+   <trim prefixOverrides="AND" > 
+  <if test="id!=null">
+  		AND id=#{id,jdbcType=NUMERIC}
+  </if>
+  <if test="districtId!=null">
+  		AND district_id=#{districtId,jdbcType=NUMERIC}
+  </if>
+  <if test="streetId!=null">
+  		AND street_id=#{streetId,jdbcType=NUMERIC}
+  </if>
+  <if test="blockId!=null">
+  		AND block_id=#{blockId,jdbcType=NUMERIC}
+  </if>
+  <if test="buildingId!=null">
+  		AND building_id=#{buildingId,jdbcType=NUMERIC}
+  </if>
+  <if test="name!=null and  name !=''">
+    <if test="name!=null">
+  		AND name=#{name,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="placeType!=null and  placeType !=''">
+    <if test="placeType!=null">
+  		AND place_type=#{placeType,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="address!=null and  address !=''">
+    <if test="address!=null">
+  		AND address=#{address,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="coverArea!=null">
+  		AND cover_area=#{coverArea,jdbcType=NUMERIC}
+  </if>
+  <if test="capacity!=null">
+  		AND capacity=#{capacity,jdbcType=NUMERIC}
+  </if>
+  <if test="fireManNum!=null">
+  		AND fire_man_num=#{fireManNum,jdbcType=NUMERIC}
+  </if>
+  <if test="isFireQualified!=null">
+  		AND is_fire_qualified=#{isFireQualified,jdbcType=NUMERIC}
+  </if>
+  <if test="fireContact!=null and  fireContact !=''">
+    <if test="fireContact!=null">
+  		AND fire_contact=#{fireContact,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="firePhone!=null and  firePhone !=''">
+    <if test="firePhone!=null">
+  		AND fire_phone=#{firePhone,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="remark!=null and  remark !=''">
+    <if test="remark!=null">
+  		AND remark=#{remark,jdbcType=VARCHAR}
+  </if>
+  </if>
+   <if test="extraCondition!=null and extraCondition!=''">
+	   AND  ( ${extraCondition} )
+	</if> 
+   </trim>
+  </delete>  
+ 
+  <insert id="insert"> 
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey> 
+    INSERT INTO BUILDING_PLACE (
+	id,
+	district_id,
+	street_id,
+	block_id,
+	building_id,
+	name,
+	place_type,
+	address,
+	cover_area,
+	capacity,
+	fire_man_num,
+	is_fire_qualified,
+	fire_contact,
+	fire_phone,
+	remark
+	)  VALUES(
+	#{id,jdbcType=NUMERIC},
+	#{districtId,jdbcType=NUMERIC},
+	#{streetId,jdbcType=NUMERIC},
+	#{blockId,jdbcType=NUMERIC},
+	#{buildingId,jdbcType=NUMERIC},
+	#{name,jdbcType=VARCHAR},
+	#{placeType,jdbcType=VARCHAR},
+	#{address,jdbcType=VARCHAR},
+	#{coverArea,jdbcType=NUMERIC},
+	#{capacity,jdbcType=NUMERIC},
+	#{fireManNum,jdbcType=NUMERIC},
+	#{isFireQualified,jdbcType=NUMERIC},
+	#{fireContact,jdbcType=VARCHAR},
+	#{firePhone,jdbcType=VARCHAR},
+	#{remark,jdbcType=VARCHAR}
+    ) 
+  </insert>  
+
+
+
+  <resultMap  id="BuildingPlace"  type="org.fire.platform.modules.building.domain.BuildingPlace" >
+	<result property="id" column="id"  jdbcType="NUMERIC" />
+	<result property="districtId" column="district_id"  jdbcType="NUMERIC" />
+	<result property="streetId" column="street_id"  jdbcType="NUMERIC" />
+	<result property="blockId" column="block_id"  jdbcType="NUMERIC" />
+	<result property="buildingId" column="building_id"  jdbcType="NUMERIC" />
+	<result property="name" column="name"  jdbcType="VARCHAR" />
+	<result property="placeType" column="place_type"  jdbcType="VARCHAR" />
+	<result property="address" column="address"  jdbcType="VARCHAR" />
+	<result property="coverArea" column="cover_area"  jdbcType="NUMERIC" />
+	<result property="capacity" column="capacity"  jdbcType="NUMERIC" />
+	<result property="fireManNum" column="fire_man_num"  jdbcType="NUMERIC" />
+	<result property="isFireQualified" column="is_fire_qualified"  jdbcType="NUMERIC" />
+	<result property="fireContact" column="fire_contact"  jdbcType="VARCHAR" />
+	<result property="firePhone" column="fire_phone"  jdbcType="VARCHAR" />
+	<result property="remark" column="remark"  jdbcType="VARCHAR" />
+  </resultMap>
+ 
+  <sql id="queryCondition">
+  <if test="id!=null">
+  		AND A.id=#{id,jdbcType=NUMERIC}
+  </if>
+  <if test="districtId!=null">
+  		AND A.district_id=#{districtId,jdbcType=NUMERIC}
+  </if>
+  <if test="streetId!=null">
+  		AND A.street_id=#{streetId,jdbcType=NUMERIC}
+  </if>
+  <if test="blockId!=null">
+  		AND A.block_id=#{blockId,jdbcType=NUMERIC}
+  </if>
+  <if test="buildingId!=null">
+  		AND A.building_id=#{buildingId,jdbcType=NUMERIC}
+  </if>
+  <if test="name!=null and  name !=''">
+   		AND name = #{name,jdbcType=VARCHAR}
+  </if>
+  <if test="nameLike!=null and  nameLike !=''">
+  		AND name LIKE CONCAT(CONCAT('%', #{nameLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="placeType!=null and  placeType !=''">
+   		AND place_type = #{placeType,jdbcType=VARCHAR}
+  </if>
+  <if test="placeTypeLike!=null and  placeTypeLike !=''">
+  		AND place_type LIKE CONCAT(CONCAT('%', #{placeTypeLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="address!=null and  address !=''">
+   		AND address = #{address,jdbcType=VARCHAR}
+  </if>
+  <if test="addressLike!=null and  addressLike !=''">
+  		AND address LIKE CONCAT(CONCAT('%', #{addressLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="coverArea!=null">
+  		AND A.cover_area=#{coverArea,jdbcType=NUMERIC}
+  </if>
+  <if test="capacity!=null">
+  		AND A.capacity=#{capacity,jdbcType=NUMERIC}
+  </if>
+  <if test="fireManNum!=null">
+  		AND A.fire_man_num=#{fireManNum,jdbcType=NUMERIC}
+  </if>
+  <if test="isFireQualified!=null">
+  		AND A.is_fire_qualified=#{isFireQualified,jdbcType=NUMERIC}
+  </if>
+  <if test="fireContact!=null and  fireContact !=''">
+   		AND fire_contact = #{fireContact,jdbcType=VARCHAR}
+  </if>
+  <if test="fireContactLike!=null and  fireContactLike !=''">
+  		AND fire_contact LIKE CONCAT(CONCAT('%', #{fireContactLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="firePhone!=null and  firePhone !=''">
+   		AND fire_phone = #{firePhone,jdbcType=VARCHAR}
+  </if>
+  <if test="firePhoneLike!=null and  firePhoneLike !=''">
+  		AND fire_phone LIKE CONCAT(CONCAT('%', #{firePhoneLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="remark!=null and  remark !=''">
+   		AND remark = #{remark,jdbcType=VARCHAR}
+  </if>
+  <if test="remarkLike!=null and  remarkLike !=''">
+  		AND remark LIKE CONCAT(CONCAT('%', #{remarkLike,jdbcType=VARCHAR}),'%')  
+  </if>
+   <if test="extraCondition!=null and extraCondition!=''">
+	   AND  ( ${extraCondition} )
+	</if>
+    </sql>
+    
+</mapper>

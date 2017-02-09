@@ -1,0 +1,563 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fire.platform.modules.building.dao.BuildingSubjectMapper">
+
+    <select id="selectAll" resultMap="BuildingSubject">
+        SELECT A.* FROM BUILDING_SUBJECT A
+        <if test="extraOrderColumns != null and extraOrderColumns !=''">
+            ORDER BY ${extraOrderColumns}
+        </if>
+    </select>
+
+    <select id="selectByMap" resultMap="BuildingSubject" parameterType="map">
+        SELECT A.* FROM BUILDING_SUBJECT A
+        <where>
+            <include refid="queryCondition"/>
+        </where>
+        <if test="extraOrderColumns != null and extraOrderColumns !=''">
+            ORDER BY ${extraOrderColumns}
+        </if>
+    </select>
+
+
+    <select id="selectByParam" resultMap="BuildingSubject"
+            parameterType="org.fire.platform.modules.building.domain.BuildingSubject">
+        SELECT A.* FROM BUILDING_SUBJECT A
+        <where>
+            <include refid="queryCondition"/>
+        </where>
+        <if test="extraOrderColumns != null and extraOrderColumns !=''">
+            ORDER BY ${extraOrderColumns}
+        </if>
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="BuildingSubject"
+            parameterType="org.fire.platform.modules.building.domain.BuildingSubject">
+        SELECT A.*
+        FROM BUILDING_SUBJECT A
+        WHERE id = #{id,jdbcType=NUMERIC}
+    </select>
+
+    <update id="updateByPrimaryKey">
+        UPDATE BUILDING_SUBJECT
+        <set>
+            <if test="districtId != null">
+                district_id = #{districtId,jdbcType=NUMERIC},
+            </if>
+            <if test="streetId != null">
+                street_id = #{streetId,jdbcType=NUMERIC},
+            </if>
+            <if test="blockId != null">
+                block_id = #{blockId,jdbcType=NUMERIC},
+            </if>
+            <if test="ownerUnitName != null">
+                owner_unit_name = #{ownerUnitName,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                address = #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="fireManager != null">
+                fire_manager = #{fireManager,jdbcType=VARCHAR},
+            </if>
+            <if test="contactName != null">
+                contact_name = #{contactName,jdbcType=VARCHAR},
+            </if>
+            <if test="contactPhone != null">
+                contact_phone = #{contactPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="supChargeUnitName != null">
+                sup_charge_unit_name = #{supChargeUnitName,jdbcType=VARCHAR},
+            </if>
+            <if test="industrySupervisionDepart != null">
+                industry_supervision_depart = #{industrySupervisionDepart,jdbcType=VARCHAR},
+            </if>
+            <if test="longitude != null">
+                longitude = #{longitude,jdbcType=NUMERIC},
+            </if>
+            <if test="latitude != null">
+                latitude = #{latitude,jdbcType=NUMERIC},
+            </if>
+            <if test="useTime != null">
+                use_time = #{useTime,jdbcType=VARCHAR},
+            </if>
+            <if test="baseBuildingClass != null">
+                base_building_class = #{baseBuildingClass,jdbcType=VARCHAR},
+            </if>
+            <if test="conCoverArea != null">
+                con_cover_area = #{conCoverArea,jdbcType=NUMERIC},
+            </if>
+            <if test="conBuildArea != null">
+                con_build_area = #{conBuildArea,jdbcType=NUMERIC},
+            </if>
+            <if test="conBuildHight != null">
+                con_build_hight = #{conBuildHight,jdbcType=NUMERIC},
+            </if>
+            <if test="conFloors != null">
+                con_floors = #{conFloors,jdbcType=NUMERIC},
+            </if>
+            <if test="conUnderFloors != null">
+                con_under_floors = #{conUnderFloors,jdbcType=NUMERIC},
+            </if>
+            <if test="conClass != null">
+                con_class = #{conClass,jdbcType=VARCHAR},
+            </if>
+            <if test="surfaceFunction != null">
+                surface_function = #{surfaceFunction,jdbcType=VARCHAR},
+            </if>
+            <if test="undergroundFunction != null">
+                underground_function = #{undergroundFunction,jdbcType=VARCHAR},
+            </if>
+            <if test="useUnitNum != null">
+                use_unit_num = #{useUnitNum,jdbcType=NUMERIC},
+            </if>
+            <if test="baseCode != null">
+                base_code = #{baseCode,jdbcType=VARCHAR},
+            </if>
+            <if test="thumbImg != null">
+                thumb_img = #{thumbImg,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="modDate != null">
+                mod_date = #{modDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createDate != null">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=NUMERIC},
+            </if>
+            <if test="maintenanceUnit != null">
+                maintenance_unit = #{maintenanceUnit,jdbcType=VARCHAR},
+            </if>
+            <if test="thirdPartyFireDetection != null">
+                third_party_fire_detection = #{thirdPartyFireDetection,jdbcType=VARCHAR},
+            </if>
+            <if test="extraUpdateColumns != null and extraUpdateColumns !=''">
+                ${extraUpdateColumns}
+            </if>
+        </set>
+        WHERE id=#{id,jdbcType=NUMERIC}
+    </update>
+
+    <delete id="deleteByPrimaryKey">
+        DELETE FROM BUILDING_SUBJECT
+        WHERE id = #{id,jdbcType=NUMERIC}
+    </delete>
+
+    <delete id="deleteByParam">
+        DELETE FROM BUILDING_SUBJECT WHERE
+        <trim prefixOverrides="AND">
+            <if test="id!=null">
+                AND id=#{id,jdbcType=NUMERIC}
+            </if>
+            <if test="districtId!=null">
+                AND district_id=#{districtId,jdbcType=NUMERIC}
+            </if>
+            <if test="streetId!=null">
+                AND street_id=#{streetId,jdbcType=NUMERIC}
+            </if>
+            <if test="blockId!=null">
+                AND block_id=#{blockId,jdbcType=NUMERIC}
+            </if>
+            <if test="ownerUnitName!=null and  ownerUnitName !=''">
+                <if test="ownerUnitName!=null">
+                    AND owner_unit_name=#{ownerUnitName,jdbcType=VARCHAR}
+                </if>
+            </if>
+            <if test="address!=null and  address !=''">
+                <if test="address!=null">
+                    AND address=#{address,jdbcType=VARCHAR}
+                </if>
+            </if>
+            <if test="fireManager!=null and  fireManager !=''">
+                <if test="fireManager!=null">
+                    AND fire_manager=#{fireManager,jdbcType=VARCHAR}
+                </if>
+            </if>
+            <if test="contactName!=null and  contactName !=''">
+                <if test="contactName!=null">
+                    AND contact_name=#{contactName,jdbcType=VARCHAR}
+                </if>
+            </if>
+            <if test="contactPhone!=null and  contactPhone !=''">
+                <if test="contactPhone!=null">
+                    AND contact_phone=#{contactPhone,jdbcType=VARCHAR}
+                </if>
+            </if>
+            <if test="supChargeUnitName!=null and  supChargeUnitName !=''">
+                <if test="supChargeUnitName!=null">
+                    AND sup_charge_unit_name=#{supChargeUnitName,jdbcType=VARCHAR}
+                </if>
+            </if>
+            <if test="industrySupervisionDepart!=null and  industrySupervisionDepart !=''">
+                <if test="industrySupervisionDepart!=null">
+                    AND industry_supervision_depart=#{industrySupervisionDepart,jdbcType=VARCHAR}
+                </if>
+            </if>
+            <if test="longitude!=null">
+                AND longitude=#{longitude,jdbcType=NUMERIC}
+            </if>
+            <if test="latitude!=null">
+                AND latitude=#{latitude,jdbcType=NUMERIC}
+            </if>
+            <if test="useTime!=null and  useTime !=''">
+                <if test="useTime!=null">
+                    AND use_time=#{useTime,jdbcType=VARCHAR}
+                </if>
+            </if>
+            <if test="baseBuildingClass!=null and  baseBuildingClass !=''">
+                <if test="baseBuildingClass!=null">
+                    AND base_building_class=#{baseBuildingClass,jdbcType=VARCHAR}
+                </if>
+            </if>
+            <if test="conCoverArea!=null">
+                AND con_cover_area=#{conCoverArea,jdbcType=NUMERIC}
+            </if>
+            <if test="conBuildArea!=null">
+                AND con_build_area=#{conBuildArea,jdbcType=NUMERIC}
+            </if>
+            <if test="conBuildHight!=null">
+                AND con_build_hight=#{conBuildHight,jdbcType=NUMERIC}
+            </if>
+            <if test="conFloors!=null">
+                AND con_floors=#{conFloors,jdbcType=NUMERIC}
+            </if>
+            <if test="conUnderFloors!=null">
+                AND con_under_floors=#{conUnderFloors,jdbcType=NUMERIC}
+            </if>
+            <if test="conClass!=null and  conClass !=''">
+                <if test="conClass!=null">
+                    AND con_class=#{conClass,jdbcType=VARCHAR}
+                </if>
+            </if>
+            <if test="surfaceFunction!=null and  surfaceFunction !=''">
+                <if test="surfaceFunction!=null">
+                    AND surface_function=#{surfaceFunction,jdbcType=VARCHAR}
+                </if>
+            </if>
+            <if test="undergroundFunction!=null and  undergroundFunction !=''">
+                <if test="undergroundFunction!=null">
+                    AND underground_function=#{undergroundFunction,jdbcType=VARCHAR}
+                </if>
+            </if>
+            <if test="useUnitNum!=null">
+                AND use_unit_num=#{useUnitNum,jdbcType=NUMERIC}
+            </if>
+            <if test="baseCode!=null and  baseCode !=''">
+                <if test="baseCode!=null">
+                    AND base_code=#{baseCode,jdbcType=VARCHAR}
+                </if>
+            </if>
+            <if test="thumbImg!=null and  thumbImg !=''">
+                <if test="thumbImg!=null">
+                    AND thumb_img=#{thumbImg,jdbcType=VARCHAR}
+                </if>
+            </if>
+            <if test="remark!=null and  remark !=''">
+                <if test="remark!=null">
+                    AND remark=#{remark,jdbcType=VARCHAR}
+                </if>
+            </if>
+            <if test="modDate!=null">
+                AND mod_date = #{modDate,jdbcType=TIMESTAMP}
+            </if>
+            <if test="createDate!=null">
+                AND create_date = #{createDate,jdbcType=TIMESTAMP}
+            </if>
+            <if test="userId!=null">
+                AND user_id=#{userId,jdbcType=NUMERIC}
+            </if>
+            <if test="maintenanceUnit!=null and  maintenanceUnit !=''">
+                <if test="maintenanceUnit!=null">
+                    AND maintenance_unit=#{maintenanceUnit,jdbcType=VARCHAR}
+                </if>
+            </if>
+            <if test="thirdPartyFireDetection!=null and  thirdPartyFireDetection !=''">
+                <if test="thirdPartyFireDetection!=null">
+                    AND third_party_fire_detection=#{thirdPartyFireDetection,jdbcType=VARCHAR}
+                </if>
+            </if>
+            <if test="extraCondition!=null and extraCondition!=''">
+                AND ( ${extraCondition} )
+            </if>
+        </trim>
+    </delete>
+
+    <insert id="insert">
+        <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO BUILDING_SUBJECT (
+        id,
+        district_id,
+        street_id,
+        block_id,
+        owner_unit_name,
+        address,
+        fire_manager,
+        contact_name,
+        contact_phone,
+        sup_charge_unit_name,
+        industry_supervision_depart,
+        longitude,
+        latitude,
+        use_time,
+        base_building_class,
+        con_cover_area,
+        con_build_area,
+        con_build_hight,
+        con_floors,
+        con_under_floors,
+        con_class,
+        surface_function,
+        underground_function,
+        use_unit_num,
+        base_code,
+        thumb_img,
+        remark,
+        mod_date,
+        create_date,
+        user_id,
+        maintenance_unit,
+        third_party_fire_detection
+        ) VALUES(
+        #{id,jdbcType=NUMERIC},
+        #{districtId,jdbcType=NUMERIC},
+        #{streetId,jdbcType=NUMERIC},
+        #{blockId,jdbcType=NUMERIC},
+        #{ownerUnitName,jdbcType=VARCHAR},
+        #{address,jdbcType=VARCHAR},
+        #{fireManager,jdbcType=VARCHAR},
+        #{contactName,jdbcType=VARCHAR},
+        #{contactPhone,jdbcType=VARCHAR},
+        #{supChargeUnitName,jdbcType=VARCHAR},
+        #{industrySupervisionDepart,jdbcType=VARCHAR},
+        #{longitude,jdbcType=NUMERIC},
+        #{latitude,jdbcType=NUMERIC},
+        #{useTime,jdbcType=VARCHAR},
+        #{baseBuildingClass,jdbcType=VARCHAR},
+        #{conCoverArea,jdbcType=NUMERIC},
+        #{conBuildArea,jdbcType=NUMERIC},
+        #{conBuildHight,jdbcType=NUMERIC},
+        #{conFloors,jdbcType=NUMERIC},
+        #{conUnderFloors,jdbcType=NUMERIC},
+        #{conClass,jdbcType=VARCHAR},
+        #{surfaceFunction,jdbcType=VARCHAR},
+        #{undergroundFunction,jdbcType=VARCHAR},
+        #{useUnitNum,jdbcType=NUMERIC},
+        #{baseCode,jdbcType=VARCHAR},
+        #{thumbImg,jdbcType=VARCHAR},
+        #{remark,jdbcType=VARCHAR},
+        #{modDate,jdbcType=TIMESTAMP},
+        #{createDate,jdbcType=TIMESTAMP},
+        #{userId,jdbcType=NUMERIC},
+        #{maintenanceUnit,jdbcType=VARCHAR},
+        #{thirdPartyFireDetection,jdbcType=VARCHAR}
+        )
+    </insert>
+
+
+    <resultMap id="BuildingSubject" type="org.fire.platform.modules.building.domain.BuildingSubject">
+        <result property="id" column="id" jdbcType="NUMERIC"/>
+        <result property="districtId" column="district_id" jdbcType="NUMERIC"/>
+        <result property="streetId" column="street_id" jdbcType="NUMERIC"/>
+        <result property="blockId" column="block_id" jdbcType="NUMERIC"/>
+        <result property="ownerUnitName" column="owner_unit_name" jdbcType="VARCHAR"/>
+        <result property="address" column="address" jdbcType="VARCHAR"/>
+        <result property="fireManager" column="fire_manager" jdbcType="VARCHAR"/>
+        <result property="contactName" column="contact_name" jdbcType="VARCHAR"/>
+        <result property="contactPhone" column="contact_phone" jdbcType="VARCHAR"/>
+        <result property="supChargeUnitName" column="sup_charge_unit_name" jdbcType="VARCHAR"/>
+        <result property="industrySupervisionDepart" column="industry_supervision_depart" jdbcType="VARCHAR"/>
+        <result property="longitude" column="longitude" jdbcType="NUMERIC"/>
+        <result property="latitude" column="latitude" jdbcType="NUMERIC"/>
+        <result property="useTime" column="use_time" jdbcType="VARCHAR"/>
+        <result property="baseBuildingClass" column="base_building_class" jdbcType="VARCHAR"/>
+        <result property="conCoverArea" column="con_cover_area" jdbcType="NUMERIC"/>
+        <result property="conBuildArea" column="con_build_area" jdbcType="NUMERIC"/>
+        <result property="conBuildHight" column="con_build_hight" jdbcType="NUMERIC"/>
+        <result property="conFloors" column="con_floors" jdbcType="NUMERIC"/>
+        <result property="conUnderFloors" column="con_under_floors" jdbcType="NUMERIC"/>
+        <result property="conClass" column="con_class" jdbcType="VARCHAR"/>
+        <result property="surfaceFunction" column="surface_function" jdbcType="VARCHAR"/>
+        <result property="undergroundFunction" column="underground_function" jdbcType="VARCHAR"/>
+        <result property="useUnitNum" column="use_unit_num" jdbcType="NUMERIC"/>
+        <result property="baseCode" column="base_code" jdbcType="VARCHAR"/>
+        <result property="thumbImg" column="thumb_img" jdbcType="VARCHAR"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
+        <result property="modDate" column="mod_date" jdbcType="TIMESTAMP"/>
+        <result property="createDate" column="create_date" jdbcType="TIMESTAMP"/>
+        <result property="userId" column="user_id" jdbcType="NUMERIC"/>
+        <result property="maintenanceUnit" column="maintenance_unit" jdbcType="VARCHAR"/>
+        <result property="thirdPartyFireDetection" column="third_party_fire_detection" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="queryCondition">
+        <if test="id!=null">
+            AND A.id=#{id,jdbcType=NUMERIC}
+        </if>
+        <if test="districtId!=null">
+            AND A.district_id=#{districtId,jdbcType=NUMERIC}
+        </if>
+        <if test="streetId!=null">
+            AND A.street_id=#{streetId,jdbcType=NUMERIC}
+        </if>
+        <if test="blockId!=null">
+            AND A.block_id=#{blockId,jdbcType=NUMERIC}
+        </if>
+        <if test="ownerUnitName!=null and  ownerUnitName !=''">
+            AND owner_unit_name = #{ownerUnitName,jdbcType=VARCHAR}
+        </if>
+        <if test="ownerUnitNameLike!=null and  ownerUnitNameLike !=''">
+            AND owner_unit_name LIKE CONCAT(CONCAT('%', #{ownerUnitNameLike,jdbcType=VARCHAR}),'%')
+        </if>
+        <if test="address!=null and  address !=''">
+            AND address = #{address,jdbcType=VARCHAR}
+        </if>
+        <if test="addressLike!=null and  addressLike !=''">
+            AND address LIKE CONCAT(CONCAT('%', #{addressLike,jdbcType=VARCHAR}),'%')
+        </if>
+        <if test="fireManager!=null and  fireManager !=''">
+            AND fire_manager = #{fireManager,jdbcType=VARCHAR}
+        </if>
+        <if test="fireManagerLike!=null and  fireManagerLike !=''">
+            AND fire_manager LIKE CONCAT(CONCAT('%', #{fireManagerLike,jdbcType=VARCHAR}),'%')
+        </if>
+        <if test="contactName!=null and  contactName !=''">
+            AND contact_name = #{contactName,jdbcType=VARCHAR}
+        </if>
+        <if test="contactNameLike!=null and  contactNameLike !=''">
+            AND contact_name LIKE CONCAT(CONCAT('%', #{contactNameLike,jdbcType=VARCHAR}),'%')
+        </if>
+        <if test="contactPhone!=null and  contactPhone !=''">
+            AND contact_phone = #{contactPhone,jdbcType=VARCHAR}
+        </if>
+        <if test="contactPhoneLike!=null and  contactPhoneLike !=''">
+            AND contact_phone LIKE CONCAT(CONCAT('%', #{contactPhoneLike,jdbcType=VARCHAR}),'%')
+        </if>
+        <if test="supChargeUnitName!=null and  supChargeUnitName !=''">
+            AND sup_charge_unit_name = #{supChargeUnitName,jdbcType=VARCHAR}
+        </if>
+        <if test="supChargeUnitNameLike!=null and  supChargeUnitNameLike !=''">
+            AND sup_charge_unit_name LIKE CONCAT(CONCAT('%', #{supChargeUnitNameLike,jdbcType=VARCHAR}),'%')
+        </if>
+        <if test="industrySupervisionDepart!=null and  industrySupervisionDepart !=''">
+            AND industry_supervision_depart = #{industrySupervisionDepart,jdbcType=VARCHAR}
+        </if>
+        <if test="industrySupervisionDepartLike!=null and  industrySupervisionDepartLike !=''">
+            AND industry_supervision_depart LIKE CONCAT(CONCAT('%',
+            #{industrySupervisionDepartLike,jdbcType=VARCHAR}),'%')
+        </if>
+        <if test="longitude!=null">
+            AND A.longitude=#{longitude,jdbcType=NUMERIC}
+        </if>
+        <if test="latitude!=null">
+            AND A.latitude=#{latitude,jdbcType=NUMERIC}
+        </if>
+        <if test="useTime!=null and  useTime !=''">
+            AND use_time = #{useTime,jdbcType=VARCHAR}
+        </if>
+        <if test="useTimeLike!=null and  useTimeLike !=''">
+            AND use_time LIKE CONCAT(CONCAT('%', #{useTimeLike,jdbcType=VARCHAR}),'%')
+        </if>
+        <if test="baseBuildingClass!=null and  baseBuildingClass !=''">
+            AND base_building_class = #{baseBuildingClass,jdbcType=VARCHAR}
+        </if>
+        <if test="baseBuildingClassLike!=null and  baseBuildingClassLike !=''">
+            AND base_building_class LIKE CONCAT(CONCAT('%', #{baseBuildingClassLike,jdbcType=VARCHAR}),'%')
+        </if>
+        <if test="conCoverArea!=null">
+            AND A.con_cover_area=#{conCoverArea,jdbcType=NUMERIC}
+        </if>
+        <if test="conBuildArea!=null">
+            AND A.con_build_area=#{conBuildArea,jdbcType=NUMERIC}
+        </if>
+        <if test="conBuildHight!=null">
+            AND A.con_build_hight=#{conBuildHight,jdbcType=NUMERIC}
+        </if>
+        <if test="conFloors!=null">
+            AND A.con_floors=#{conFloors,jdbcType=NUMERIC}
+        </if>
+        <if test="conUnderFloors!=null">
+            AND A.con_under_floors=#{conUnderFloors,jdbcType=NUMERIC}
+        </if>
+        <if test="conClass!=null and  conClass !=''">
+            AND con_class = #{conClass,jdbcType=VARCHAR}
+        </if>
+        <if test="conClassLike!=null and  conClassLike !=''">
+            AND con_class LIKE CONCAT(CONCAT('%', #{conClassLike,jdbcType=VARCHAR}),'%')
+        </if>
+        <if test="surfaceFunction!=null and  surfaceFunction !=''">
+            AND surface_function = #{surfaceFunction,jdbcType=VARCHAR}
+        </if>
+        <if test="surfaceFunctionLike!=null and  surfaceFunctionLike !=''">
+            AND surface_function LIKE CONCAT(CONCAT('%', #{surfaceFunctionLike,jdbcType=VARCHAR}),'%')
+        </if>
+        <if test="undergroundFunction!=null and  undergroundFunction !=''">
+            AND underground_function = #{undergroundFunction,jdbcType=VARCHAR}
+        </if>
+        <if test="undergroundFunctionLike!=null and  undergroundFunctionLike !=''">
+            AND underground_function LIKE CONCAT(CONCAT('%', #{undergroundFunctionLike,jdbcType=VARCHAR}),'%')
+        </if>
+        <if test="useUnitNum!=null">
+            AND A.use_unit_num=#{useUnitNum,jdbcType=NUMERIC}
+        </if>
+        <if test="baseCode!=null and  baseCode !=''">
+            AND base_code = #{baseCode,jdbcType=VARCHAR}
+        </if>
+        <if test="baseCodeLike!=null and  baseCodeLike !=''">
+            AND base_code LIKE CONCAT(CONCAT('%', #{baseCodeLike,jdbcType=VARCHAR}),'%')
+        </if>
+        <if test="thumbImg!=null and  thumbImg !=''">
+            AND thumb_img = #{thumbImg,jdbcType=VARCHAR}
+        </if>
+        <if test="thumbImgLike!=null and  thumbImgLike !=''">
+            AND thumb_img LIKE CONCAT(CONCAT('%', #{thumbImgLike,jdbcType=VARCHAR}),'%')
+        </if>
+        <if test="remark!=null and  remark !=''">
+            AND remark = #{remark,jdbcType=VARCHAR}
+        </if>
+        <if test="remarkLike!=null and  remarkLike !=''">
+            AND remark LIKE CONCAT(CONCAT('%', #{remarkLike,jdbcType=VARCHAR}),'%')
+        </if>
+        <if test="modDateRange1!=null">
+            AND mod_date &gt; #{modDateRange1,jdbcType=TIMESTAMP}
+        </if>
+        <if test="modDateRange2!=null">
+            AND mod_date &lt; #{modDateRange2,jdbcType=TIMESTAMP}
+        </if>
+        <if test="modDate!=null">
+            AND mod_date = #{modDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="createDateRange1!=null">
+            AND create_date &gt; #{createDateRange1,jdbcType=TIMESTAMP}
+        </if>
+        <if test="createDateRange2!=null">
+            AND create_date &lt; #{createDateRange2,jdbcType=TIMESTAMP}
+        </if>
+        <if test="createDate!=null">
+            AND create_date = #{createDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="userId!=null">
+            AND A.user_id=#{userId,jdbcType=NUMERIC}
+        </if>
+        <if test="maintenanceUnit!=null and  maintenanceUnit !=''">
+            AND maintenance_unit = #{maintenanceUnit,jdbcType=VARCHAR}
+        </if>
+        <if test="maintenanceUnitLike!=null and  maintenanceUnitLike !=''">
+            AND maintenance_unit LIKE CONCAT(CONCAT('%', #{maintenanceUnitLike,jdbcType=VARCHAR}),'%')
+        </if>
+        <if test="thirdPartyFireDetection!=null and  thirdPartyFireDetection !=''">
+            AND third_party_fire_detection = #{thirdPartyFireDetection,jdbcType=VARCHAR}
+        </if>
+        <if test="thirdPartyFireDetectionLike!=null and  thirdPartyFireDetectionLike !=''">
+            AND third_party_fire_detection LIKE CONCAT(CONCAT('%', #{thirdPartyFireDetectionLike,jdbcType=VARCHAR}),'%')
+        </if>
+        <if test="extraCondition!=null and extraCondition!=''">
+            AND ( ${extraCondition} )
+        </if>
+    </sql>
+
+</mapper>

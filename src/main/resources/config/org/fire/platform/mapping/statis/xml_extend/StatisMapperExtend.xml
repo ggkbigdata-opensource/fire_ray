@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fire.platform.modules.statis.dao.StatisMapper">
+  
+  <resultMap id="AreaStatisMap" type="org.fire.platform.modules.statis.bean.AreaStatisBean">  
+    <result property="id" column="id"  jdbcType="NUMERIC" />  
+    <result property="name" column="name"  jdbcType="VARCHAR" />  
+    <result property="confirmFireNum" column="confirm_fire_num"  jdbcType="NUMERIC" />
+    <result property="unpassReportNum" column="unpass_report_num"  jdbcType="NUMERIC" />
+    <result property="punishNum" column="punish_num"  jdbcType="NUMERIC" />
+  </resultMap> 
+  
+  
+  <select id="selectStreetStatisData" resultMap="AreaStatisMap"  parameterType="map"> 
+    select a.id,a.name,sum(b.confirm_fire_num) as confirm_fire_num,sum(c.check_num-check_pass_num-recheck_pass_num)as unpass_report_num,sum(d.detained_num+d.fine_num+d.three_stop_num) as punish_num from street
+    left join fire_event_sum b on a.id=b.street_id
+    left join check_report_sum c on a.id = b.street_id
+    left join punish_event_sum d on a.id = d.street_id
+    <where>
+      <if test="districtId != null">  
+          AND  a.district_id = #{districtId,jdbcType=NUMERIC}
+       </if>   
+    </where>
+    group by id
+  </select>
+  
+  
+  <select id="selectBlockStatisData" resultMap="AreaStatisMap"  parameterType="map"> 
+    select a.id,a.name,sum(b.confirm_fire_num) as confirm_fire_num,sum(c.check_num-check_pass_num-recheck_pass_num)as unpass_report_num,sum(d.detained_num+d.fine_num+d.three_stop_num) as punish_num from block
+    left join fire_event_sum b on a.id=b.street_id
+    left join check_report_sum c on a.id = b.street_id
+    left join punish_event_sum d on a.id = d.street_id
+    <where>
+      <if test="steetId != null">  
+          AND  a.street_id = #{streetId,jdbcType=NUMERIC}
+       </if>   
+    </where>
+    group by id
+  </select> 
+  
+  
+  <resultMap id="ReportStatisMap" type="org.fire.platform.modules.statis.bean.ReportStatisBean">  
+    <result property="reportId" column="report_id"  jdbcType="NUMERIC" />  
+    <result property="itemSort" column="item_sort_code"  jdbcType="VARCHAR" />  
+    <result property="isPass" column="is_pass"  jdbcType="NUMERIC" />
+    <result property="count" column="count"  jdbcType="NUMERIC" />
+  </resultMap>
+  
+  <select id="selectReportItemSum"  resultMap="ReportStatisMap"> 
+    SELECT a.report_id,a.item_sort_code,a.is_pass,COUNT(*) as count
+	FROM check_item_result a where a.report_id=#{reportId}
+	GROUP BY report_id,item_sort_code,is_pass
+  </select> 
+  
+  
+  <select id="selectFireReasonTypePercent" resultMap="DataCountBeanMap"  parameterType="map">
+	  SELECT count(*) as count,b.name as type,b.code as code 
+	  FROM fire_event a
+	  left join dict b on a.fire_reason_type= b.code and b.type_code='fire_reason_type' 	
+	  <where>	
+	  <if test="districtId != null">  
+          AND  a.district_id = #{districtId,jdbcType=NUMERIC}
+      </if> 
+     <if test="streetId != null">  
+           AND  a.street_id = #{streetId,jdbcType=NUMERIC}
+      </if> 
+     <if test="blockId != null">  
+           AND a.block_id = #{blockId,jdbcType=NUMERIC}
+      </if> 
+      <if test="fireType!= null">  
+          AND  a.fire_type = #{fireType,jdbcType=VARCHAR}
+      </if>  
+      <if test="monthBegin != null">  
+           AND DATE_FORMAT(a.occur_time,'%Y-%m') >= #{monthBegin,jdbcType=VARCHAR}
+      </if>
+      <if test="monthEnd != null">  
+        	AND DATE_FORMAT(a.occur_time,'%Y-%m') &lt;= #{monthEnd,jdbcType=VARCHAR}
+      </if>
+       <if test="year!= null">  
+          	AND DATE_FORMAT(a.occur_time,'%Y') = #{year,jdbcType=VARCHAR}
+       </if>
+      </where>   
+	  GROUP BY a.fire_reason_type
+  </select>
+  
+  <select id="selectPlaceTypePercent" resultMap="DataCountBeanMap"  parameterType="map">
+	  SELECT count(*) as count,c.name as type,c.code as code 
+	  FROM fire_event a 
+	  left join building b on a.building_id= b.id
+	  left join dict c on b.base_building_class = c.code and c.type_code ='building_class' 		
+	  <where>
+	  <if test="districtId != null">  
+          AND  a.district_id = #{districtId,jdbcType=NUMERIC}
+      </if> 
+     <if test="streetId != null">  
+           AND  a.street_id = #{streetId,jdbcType=NUMERIC}
+      </if> 
+     <if test="blockId != null">  
+           AND a.block_id = #{blockId,jdbcType=NUMERIC}
+      </if> 
+      <if test="fireType!= null">  
+          AND  a.fire_type = #{fireType,jdbcType=VARCHAR}
+      </if>  
+      <if test="monthBegin != null">  
+           AND DATE_FORMAT(a.occur_time,'%Y-%m') >= #{monthBegin,jdbcType=VARCHAR}
+      </if>
+      <if test="monthEnd != null">  
+        	AND DATE_FORMAT(a.occur_time,'%Y-%m') &lt;= #{monthEnd,jdbcType=VARCHAR}
+      </if>
+       <if test="year!= null">  
+          	AND DATE_FORMAT(a.occur_time,'%Y') = #{year,jdbcType=VARCHAR}
+       </if>
+      </where>
+	   GROUP BY b.base_building_class
+  </select>
+  
+  
+    <select id="selectPlaceUseTypePercent" resultMap="DataCountBeanMap"  parameterType="map">
+	  SELECT count(*) as count,b.name as type,b.code as code 
+	  FROM fire_event a
+	  left join dict b on a.place_use_type= b.code and b.type_code='place_use_type' 	
+	  <where>	
+	  <if test="districtId != null">  
+          AND  a.district_id = #{districtId,jdbcType=NUMERIC}
+      </if> 
+     <if test="streetId != null">  
+           AND  a.street_id = #{streetId,jdbcType=NUMERIC}
+      </if> 
+     <if test="blockId != null">  
+           AND a.block_id = #{blockId,jdbcType=NUMERIC}
+      </if> 
+      <if test="fireType!= null">  
+          AND  a.fire_type = #{fireType,jdbcType=VARCHAR}
+      </if>  
+      <if test="monthBegin != null">  
+           AND DATE_FORMAT(a.occur_time,'%Y-%m') >= #{monthBegin,jdbcType=VARCHAR}
+      </if>
+      <if test="monthEnd != null">  
+        	AND DATE_FORMAT(a.occur_time,'%Y-%m') &lt;= #{monthEnd,jdbcType=VARCHAR}
+      </if>
+       <if test="year!= null">  
+          	AND DATE_FORMAT(a.occur_time,'%Y') = #{year,jdbcType=VARCHAR}
+       </if>
+      </where>   
+	  GROUP BY a.place_use_type
+  </select>
+  
+   <select id="selectReportLevelPercent" resultMap="DataCountBeanMap"  parameterType="map">
+	  SELECT count(*) as count,c.name as type,c.code as code
+	  FROM report_analysis a 
+	  left join check_report b on a.report_id= b.id
+	  left join dict c on a.risk_level = c.code and c.type_code ='risk_level' 		
+	  <where>
+       <if test="districtId != null">  
+          AND  b.district_id = #{districtId,jdbcType=NUMERIC}
+       </if>  
+       <if test="streetId != null">  
+          AND  b.street_id = #{streetId,jdbcType=NUMERIC}
+       </if>
+        <if test="blockId != null">  
+          AND  b.block_id = #{blockId,jdbcType=NUMERIC}
+       </if>
+       <if test="monthBegin != null">  
+        	AND DATE_FORMAT(b.pub_time,'%Y-%m') >= #{monthBegin,jdbcType=VARCHAR}
+       </if>
+        <if test="monthEnd != null">  
+        	AND DATE_FORMAT(b.pub_time,'%Y-%m') &lt;= #{monthEnd,jdbcType=VARCHAR}
+       </if>
+       </where>
+	   GROUP BY a.risk_level
+  </select>
+  
+  
+  
+  <resultMap id="DataCountBeanMap" type="org.fire.platform.modules.statis.bean.DataCountBean">  
+    <result property="type" column="type"  jdbcType="VARCHAR" />  
+    <result property="count" column="count"  jdbcType="NUMERIC" />  
+     <result property="code" column="code"  jdbcType="VARCHAR" />  
+  </resultMap>
+  
+</mapper>

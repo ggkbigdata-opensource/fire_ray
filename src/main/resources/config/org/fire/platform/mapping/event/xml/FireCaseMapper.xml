@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fire.platform.modules.event.dao.FireCaseMapper">
+  
+  <select id="selectAll" resultMap="FireCase">
+      SELECT A.*   FROM FIRE_CASE A
+      <if test="extraOrderColumns != null and extraOrderColumns !=''">
+    		ORDER BY ${extraOrderColumns}
+      </if>
+  </select> 
+  
+  <select id="selectByMap" resultMap="FireCase"  parameterType="map"> 
+   SELECT A.*   FROM FIRE_CASE A
+   <where>
+      <include refid="queryCondition"/>
+   </where>
+	<if test="extraOrderColumns != null and extraOrderColumns !=''">
+    		ORDER BY ${extraOrderColumns}
+    </if>
+  </select> 
+
+  <select id="selectByPrimaryKey"  resultMap="FireCase"   parameterType="org.fire.platform.modules.event.domain.FireCase"> 
+   SELECT  A.*  FROM  FIRE_CASE A 
+   WHERE id=#{id,jdbcType=NUMERIC}
+  </select>  
+  
+  <update id="updateByPrimaryKey"> 
+   UPDATE FIRE_CASE
+  <set>  
+     <if test="province != null">  
+            province = #{province,jdbcType=VARCHAR},
+      </if> 
+     <if test="city != null">  
+            city = #{city,jdbcType=VARCHAR},
+      </if> 
+     <if test="district != null">  
+            district = #{district,jdbcType=VARCHAR},
+      </if> 
+     <if test="title != null">  
+            title = #{title,jdbcType=VARCHAR},
+      </if> 
+     <if test="content != null">  
+            content = #{content,jdbcType=VARCHAR},
+      </if> 
+     <if test="address != null">  
+            address = #{address,jdbcType=VARCHAR},
+      </if> 
+     <if test="occurTime != null">  
+            occur_time = #{occurTime,jdbcType=TIMESTAMP},
+      </if> 
+     <if test="placeName != null">  
+            place_name = #{placeName,jdbcType=VARCHAR},
+      </if> 
+     <if test="fireType != null">  
+            fire_type = #{fireType,jdbcType=VARCHAR},
+      </if> 
+     <if test="description != null">  
+            description = #{description,jdbcType=VARCHAR},
+      </if> 
+     <if test="fireReasonType != null">  
+            fire_reason_type = #{fireReasonType,jdbcType=VARCHAR},
+      </if> 
+     <if test="fireReason != null">  
+            fire_reason = #{fireReason,jdbcType=VARCHAR},
+      </if> 
+     <if test="loss != null">  
+            loss = #{loss,jdbcType=NUMERIC},
+      </if> 
+     <if test="deadNum != null">  
+            dead_num = #{deadNum,jdbcType=NUMERIC},
+      </if> 
+     <if test="hurtNum != null">  
+            hurt_num = #{hurtNum,jdbcType=NUMERIC},
+      </if> 
+     <if test="disasterNum != null">  
+            disaster_num = #{disasterNum,jdbcType=NUMERIC},
+      </if> 
+   <if test="extraUpdateColumns != null and extraUpdateColumns !=''">
+    		${extraUpdateColumns}
+   </if>
+  </set>  
+   WHERE id=#{id,jdbcType=NUMERIC}
+  </update>  
+  
+  <delete id="deleteByPrimaryKey"> 
+   DELETE FROM FIRE_CASE
+     WHERE id=#{id,jdbcType=NUMERIC}
+  </delete>  
+
+  <delete id="deleteByParam"> 
+   DELETE FROM FIRE_CASE  WHERE 
+   <trim prefixOverrides="AND" > 
+  <if test="id!=null">
+  		AND id=#{id,jdbcType=NUMERIC}
+  </if>
+  <if test="province!=null and  province !=''">
+    <if test="province!=null">
+  		AND province=#{province,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="city!=null and  city !=''">
+    <if test="city!=null">
+  		AND city=#{city,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="district!=null and  district !=''">
+    <if test="district!=null">
+  		AND district=#{district,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="title!=null and  title !=''">
+    <if test="title!=null">
+  		AND title=#{title,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="content!=null and  content !=''">
+    <if test="content!=null">
+  		AND content=#{content,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="address!=null and  address !=''">
+    <if test="address!=null">
+  		AND address=#{address,jdbcType=VARCHAR}
+  </if>
+  </if>
+    <if test="occurTime!=null">
+    		AND occur_time = #{occurTime,jdbcType=TIMESTAMP} 
+    </if>
+  <if test="placeName!=null and  placeName !=''">
+    <if test="placeName!=null">
+  		AND place_name=#{placeName,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="fireType!=null and  fireType !=''">
+    <if test="fireType!=null">
+  		AND fire_type=#{fireType,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="description!=null and  description !=''">
+    <if test="description!=null">
+  		AND description=#{description,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="fireReasonType!=null and  fireReasonType !=''">
+    <if test="fireReasonType!=null">
+  		AND fire_reason_type=#{fireReasonType,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="fireReason!=null and  fireReason !=''">
+    <if test="fireReason!=null">
+  		AND fire_reason=#{fireReason,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="loss!=null">
+  		AND loss=#{loss,jdbcType=NUMERIC}
+  </if>
+  <if test="deadNum!=null">
+  		AND dead_num=#{deadNum,jdbcType=NUMERIC}
+  </if>
+  <if test="hurtNum!=null">
+  		AND hurt_num=#{hurtNum,jdbcType=NUMERIC}
+  </if>
+  <if test="disasterNum!=null">
+  		AND disaster_num=#{disasterNum,jdbcType=NUMERIC}
+  </if>
+   <if test="extraCondition!=null and extraCondition!=''">
+	   AND  ( ${extraCondition} )
+	</if> 
+   </trim>
+  </delete>  
+ 
+  <insert id="insert"> 
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey> 
+    INSERT INTO FIRE_CASE (
+	id,
+	province,
+	city,
+	district,
+	title,
+	content,
+	address,
+	occur_time,
+	place_name,
+	fire_type,
+	description,
+	fire_reason_type,
+	fire_reason,
+	loss,
+	dead_num,
+	hurt_num,
+	disaster_num
+	)  VALUES(
+	#{id,jdbcType=NUMERIC},
+	#{province,jdbcType=VARCHAR},
+	#{city,jdbcType=VARCHAR},
+	#{district,jdbcType=VARCHAR},
+	#{title,jdbcType=VARCHAR},
+	#{content,jdbcType=VARCHAR},
+	#{address,jdbcType=VARCHAR},
+	#{occurTime,jdbcType=TIMESTAMP},
+	#{placeName,jdbcType=VARCHAR},
+	#{fireType,jdbcType=VARCHAR},
+	#{description,jdbcType=VARCHAR},
+	#{fireReasonType,jdbcType=VARCHAR},
+	#{fireReason,jdbcType=VARCHAR},
+	#{loss,jdbcType=NUMERIC},
+	#{deadNum,jdbcType=NUMERIC},
+	#{hurtNum,jdbcType=NUMERIC},
+	#{disasterNum,jdbcType=NUMERIC}
+    ) 
+  </insert>  
+
+
+
+  <resultMap  id="FireCase"  type="org.fire.platform.modules.event.domain.FireCase" >
+	<result property="id" column="id"  jdbcType="NUMERIC" />
+	<result property="province" column="province"  jdbcType="VARCHAR" />
+	<result property="city" column="city"  jdbcType="VARCHAR" />
+	<result property="district" column="district"  jdbcType="VARCHAR" />
+	<result property="title" column="title"  jdbcType="VARCHAR" />
+	<result property="content" column="content"  jdbcType="VARCHAR" />
+	<result property="address" column="address"  jdbcType="VARCHAR" />
+	<result property="occurTime" column="occur_time"  jdbcType="TIMESTAMP" />
+	<result property="placeName" column="place_name"  jdbcType="VARCHAR" />
+	<result property="fireType" column="fire_type"  jdbcType="VARCHAR" />
+	<result property="description" column="description"  jdbcType="VARCHAR" />
+	<result property="fireReasonType" column="fire_reason_type"  jdbcType="VARCHAR" />
+	<result property="fireReason" column="fire_reason"  jdbcType="VARCHAR" />
+	<result property="loss" column="loss"  jdbcType="NUMERIC" />
+	<result property="deadNum" column="dead_num"  jdbcType="NUMERIC" />
+	<result property="hurtNum" column="hurt_num"  jdbcType="NUMERIC" />
+	<result property="disasterNum" column="disaster_num"  jdbcType="NUMERIC" />
+  </resultMap>
+ 
+  <sql id="queryCondition">
+  <if test="id!=null">
+  		AND A.id=#{id,jdbcType=NUMERIC}
+  </if>
+  <if test="province!=null and  province !=''">
+   		AND province = #{province,jdbcType=VARCHAR}
+  </if>
+  <if test="provinceLike!=null and  provinceLike !=''">
+  		AND province LIKE CONCAT(CONCAT('%', #{provinceLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="city!=null and  city !=''">
+   		AND city = #{city,jdbcType=VARCHAR}
+  </if>
+  <if test="cityLike!=null and  cityLike !=''">
+  		AND city LIKE CONCAT(CONCAT('%', #{cityLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="district!=null and  district !=''">
+   		AND district = #{district,jdbcType=VARCHAR}
+  </if>
+  <if test="districtLike!=null and  districtLike !=''">
+  		AND district LIKE CONCAT(CONCAT('%', #{districtLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="title!=null and  title !=''">
+   		AND title = #{title,jdbcType=VARCHAR}
+  </if>
+  <if test="titleLike!=null and  titleLike !=''">
+  		AND title LIKE CONCAT(CONCAT('%', #{titleLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="content!=null and  content !=''">
+   		AND content = #{content,jdbcType=VARCHAR}
+  </if>
+  <if test="contentLike!=null and  contentLike !=''">
+  		AND content LIKE CONCAT(CONCAT('%', #{contentLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="address!=null and  address !=''">
+   		AND address = #{address,jdbcType=VARCHAR}
+  </if>
+  <if test="addressLike!=null and  addressLike !=''">
+  		AND address LIKE CONCAT(CONCAT('%', #{addressLike,jdbcType=VARCHAR}),'%')  
+  </if>
+   <if test="occurTimeRange1!=null">
+    		AND occur_time &gt; #{occurTimeRange1,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="occurTimeRange2!=null">
+    		AND occur_time &lt; #{occurTimeRange2,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="occurTime!=null">
+    		AND occur_time = #{occurTime,jdbcType=TIMESTAMP} 
+    </if>
+  <if test="placeName!=null and  placeName !=''">
+   		AND place_name = #{placeName,jdbcType=VARCHAR}
+  </if>
+  <if test="placeNameLike!=null and  placeNameLike !=''">
+  		AND place_name LIKE CONCAT(CONCAT('%', #{placeNameLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="fireType!=null and  fireType !=''">
+   		AND fire_type = #{fireType,jdbcType=VARCHAR}
+  </if>
+  <if test="fireTypeLike!=null and  fireTypeLike !=''">
+  		AND fire_type LIKE CONCAT(CONCAT('%', #{fireTypeLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="description!=null and  description !=''">
+   		AND description = #{description,jdbcType=VARCHAR}
+  </if>
+  <if test="descriptionLike!=null and  descriptionLike !=''">
+  		AND description LIKE CONCAT(CONCAT('%', #{descriptionLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="fireReasonType!=null and  fireReasonType !=''">
+   		AND fire_reason_type = #{fireReasonType,jdbcType=VARCHAR}
+  </if>
+  <if test="fireReasonTypeLike!=null and  fireReasonTypeLike !=''">
+  		AND fire_reason_type LIKE CONCAT(CONCAT('%', #{fireReasonTypeLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="fireReason!=null and  fireReason !=''">
+   		AND fire_reason = #{fireReason,jdbcType=VARCHAR}
+  </if>
+  <if test="fireReasonLike!=null and  fireReasonLike !=''">
+  		AND fire_reason LIKE CONCAT(CONCAT('%', #{fireReasonLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="loss!=null">
+  		AND A.loss=#{loss,jdbcType=NUMERIC}
+  </if>
+  <if test="deadNum!=null">
+  		AND A.dead_num=#{deadNum,jdbcType=NUMERIC}
+  </if>
+  <if test="hurtNum!=null">
+  		AND A.hurt_num=#{hurtNum,jdbcType=NUMERIC}
+  </if>
+  <if test="disasterNum!=null">
+  		AND A.disaster_num=#{disasterNum,jdbcType=NUMERIC}
+  </if>
+   <if test="extraCondition!=null and extraCondition!=''">
+	   AND  ( ${extraCondition} )
+	</if>
+    </sql>
+    
+</mapper>

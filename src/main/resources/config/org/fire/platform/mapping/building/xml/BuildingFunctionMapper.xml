@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fire.platform.modules.building.dao.BuildingFunctionMapper">
+  
+  <select id="selectAll" resultMap="BuildingFunction">
+      SELECT A.*   FROM BUILDING_FUNCTION A
+      <if test="extraOrderColumns != null and extraOrderColumns !=''">
+    		ORDER BY ${extraOrderColumns}
+      </if>
+  </select> 
+  
+  <select id="selectByMap" resultMap="BuildingFunction"  parameterType="map"> 
+   SELECT A.*   FROM BUILDING_FUNCTION A
+   <where>
+      <include refid="queryCondition"/>
+   </where>
+	<if test="extraOrderColumns != null and extraOrderColumns !=''">
+    		ORDER BY ${extraOrderColumns}
+    </if>
+  </select> 
+  
+  
+  <select id="selectByParam" resultMap="BuildingFunction"  parameterType="org.fire.platform.modules.building.domain.BuildingFunction"> 
+   SELECT A.*   FROM BUILDING_FUNCTION A
+   <where>
+      <include refid="queryCondition"/>
+   </where>
+	<if test="extraOrderColumns != null and extraOrderColumns !=''">
+    		ORDER BY ${extraOrderColumns}
+    </if>
+  </select> 
+
+  <select id="selectByPrimaryKey"  resultMap="BuildingFunction"   parameterType="org.fire.platform.modules.building.domain.BuildingFunction"> 
+   SELECT  A.*  FROM  BUILDING_FUNCTION A 
+   WHERE id=#{id,jdbcType=NUMERIC}
+  </select>  
+  
+  <update id="updateByPrimaryKey"> 
+   UPDATE BUILDING_FUNCTION
+  <set>  
+     <if test="buildingId != null">  
+            building_id = #{buildingId,jdbcType=NUMERIC},
+      </if> 
+     <if test="buildingFloor != null">  
+            building_floor = #{buildingFloor,jdbcType=VARCHAR},
+      </if> 
+     <if test="function != null">  
+            function = #{function,jdbcType=VARCHAR},
+      </if> 
+     <if test="isSpecificLocation != null">  
+            is_specific_location = #{isSpecificLocation,jdbcType=NUMERIC},
+      </if> 
+     <if test="funBusinessName != null">  
+            fun_business_name = #{funBusinessName,jdbcType=VARCHAR},
+      </if> 
+     <if test="funBuildArea != null">  
+            fun_build_area = #{funBuildArea,jdbcType=NUMERIC},
+      </if> 
+     <if test="remark != null">  
+            remark = #{remark,jdbcType=VARCHAR},
+      </if> 
+     <if test="modDate != null">  
+            mod_date = #{modDate,jdbcType=TIMESTAMP},
+      </if> 
+     <if test="createDate != null">  
+            create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if> 
+     <if test="userId != null">  
+            user_id = #{userId,jdbcType=NUMERIC},
+      </if> 
+   <if test="extraUpdateColumns != null and extraUpdateColumns !=''">
+    		${extraUpdateColumns}
+   </if>
+  </set>  
+   WHERE id=#{id,jdbcType=NUMERIC}
+  </update>  
+  
+  <delete id="deleteByPrimaryKey"> 
+   DELETE FROM BUILDING_FUNCTION
+     WHERE id=#{id,jdbcType=NUMERIC}
+  </delete>  
+
+  <delete id="deleteByParam"> 
+   DELETE FROM BUILDING_FUNCTION  WHERE 
+   <trim prefixOverrides="AND" > 
+  <if test="id!=null">
+  		AND id=#{id,jdbcType=NUMERIC}
+  </if>
+  <if test="buildingId!=null">
+  		AND building_id=#{buildingId,jdbcType=NUMERIC}
+  </if>
+  <if test="buildingFloor!=null and  buildingFloor !=''">
+    <if test="buildingFloor!=null">
+  		AND building_floor=#{buildingFloor,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="function!=null and  function !=''">
+    <if test="function!=null">
+  		AND function=#{function,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="isSpecificLocation!=null">
+  		AND is_specific_location=#{isSpecificLocation,jdbcType=NUMERIC}
+  </if>
+  <if test="funBusinessName!=null and  funBusinessName !=''">
+    <if test="funBusinessName!=null">
+  		AND fun_business_name=#{funBusinessName,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="funBuildArea!=null">
+  		AND fun_build_area=#{funBuildArea,jdbcType=NUMERIC}
+  </if>
+  <if test="remark!=null and  remark !=''">
+    <if test="remark!=null">
+  		AND remark=#{remark,jdbcType=VARCHAR}
+  </if>
+  </if>
+    <if test="modDate!=null">
+    		AND mod_date = #{modDate,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="createDate!=null">
+    		AND create_date = #{createDate,jdbcType=TIMESTAMP} 
+    </if>
+  <if test="userId!=null">
+  		AND user_id=#{userId,jdbcType=NUMERIC}
+  </if>
+   <if test="extraCondition!=null and extraCondition!=''">
+	   AND  ( ${extraCondition} )
+	</if> 
+   </trim>
+  </delete>  
+ 
+  <insert id="insert"> 
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey> 
+    INSERT INTO BUILDING_FUNCTION (
+	id,
+	building_id,
+	building_floor,
+	function,
+	is_specific_location,
+	fun_business_name,
+	fun_build_area,
+	remark,
+	mod_date,
+	create_date,
+	user_id
+	)  VALUES(
+	#{id,jdbcType=NUMERIC},
+	#{buildingId,jdbcType=NUMERIC},
+	#{buildingFloor,jdbcType=VARCHAR},
+	#{function,jdbcType=VARCHAR},
+	#{isSpecificLocation,jdbcType=NUMERIC},
+	#{funBusinessName,jdbcType=VARCHAR},
+	#{funBuildArea,jdbcType=NUMERIC},
+	#{remark,jdbcType=VARCHAR},
+	#{modDate,jdbcType=TIMESTAMP},
+	#{createDate,jdbcType=TIMESTAMP},
+	#{userId,jdbcType=NUMERIC}
+    ) 
+  </insert>  
+
+
+
+  <resultMap  id="BuildingFunction"  type="org.fire.platform.modules.building.domain.BuildingFunction" >
+	<result property="id" column="id"  jdbcType="NUMERIC" />
+	<result property="buildingId" column="building_id"  jdbcType="NUMERIC" />
+	<result property="buildingFloor" column="building_floor"  jdbcType="VARCHAR" />
+	<result property="function" column="function"  jdbcType="VARCHAR" />
+	<result property="isSpecificLocation" column="is_specific_location"  jdbcType="NUMERIC" />
+	<result property="funBusinessName" column="fun_business_name"  jdbcType="VARCHAR" />
+	<result property="funBuildArea" column="fun_build_area"  jdbcType="NUMERIC" />
+	<result property="remark" column="remark"  jdbcType="VARCHAR" />
+	<result property="modDate" column="mod_date"  jdbcType="TIMESTAMP" />
+	<result property="createDate" column="create_date"  jdbcType="TIMESTAMP" />
+	<result property="userId" column="user_id"  jdbcType="NUMERIC" />
+  </resultMap>
+ 
+  <sql id="queryCondition">
+  <if test="id!=null">
+  		AND A.id=#{id,jdbcType=NUMERIC}
+  </if>
+  <if test="buildingId!=null">
+  		AND A.building_id=#{buildingId,jdbcType=NUMERIC}
+  </if>
+  <if test="buildingFloor!=null and  buildingFloor !=''">
+   		AND building_floor = #{buildingFloor,jdbcType=VARCHAR}
+  </if>
+  <if test="buildingFloorLike!=null and  buildingFloorLike !=''">
+  		AND building_floor LIKE CONCAT(CONCAT('%', #{buildingFloorLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="function!=null and  function !=''">
+   		AND function = #{function,jdbcType=VARCHAR}
+  </if>
+  <if test="functionLike!=null and  functionLike !=''">
+  		AND function LIKE CONCAT(CONCAT('%', #{functionLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="isSpecificLocation!=null">
+  		AND A.is_specific_location=#{isSpecificLocation,jdbcType=NUMERIC}
+  </if>
+  <if test="funBusinessName!=null and  funBusinessName !=''">
+   		AND fun_business_name = #{funBusinessName,jdbcType=VARCHAR}
+  </if>
+  <if test="funBusinessNameLike!=null and  funBusinessNameLike !=''">
+  		AND fun_business_name LIKE CONCAT(CONCAT('%', #{funBusinessNameLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="funBuildArea!=null">
+  		AND A.fun_build_area=#{funBuildArea,jdbcType=NUMERIC}
+  </if>
+  <if test="remark!=null and  remark !=''">
+   		AND remark = #{remark,jdbcType=VARCHAR}
+  </if>
+  <if test="remarkLike!=null and  remarkLike !=''">
+  		AND remark LIKE CONCAT(CONCAT('%', #{remarkLike,jdbcType=VARCHAR}),'%')  
+  </if>
+   <if test="modDateRange1!=null">
+    		AND mod_date &gt; #{modDateRange1,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="modDateRange2!=null">
+    		AND mod_date &lt; #{modDateRange2,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="modDate!=null">
+    		AND mod_date = #{modDate,jdbcType=TIMESTAMP} 
+    </if>
+   <if test="createDateRange1!=null">
+    		AND create_date &gt; #{createDateRange1,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="createDateRange2!=null">
+    		AND create_date &lt; #{createDateRange2,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="createDate!=null">
+    		AND create_date = #{createDate,jdbcType=TIMESTAMP} 
+    </if>
+  <if test="userId!=null">
+  		AND A.user_id=#{userId,jdbcType=NUMERIC}
+  </if>
+   <if test="extraCondition!=null and extraCondition!=''">
+	   AND  ( ${extraCondition} )
+	</if>
+    </sql>
+    
+</mapper>

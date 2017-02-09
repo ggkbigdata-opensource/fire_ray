@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fire.platform.modules.event.dao.PunishEventMapper">
+  
+   <resultMap  id="PunishEventVo"  type="org.fire.platform.modules.event.vo.PunishEventVo" >
+	<result property="eventId" column="id"  jdbcType="NUMERIC" />
+	<result property="placeName" column="place_name"  jdbcType="VARCHAR" />
+	<result property="placeOwner" column="place_owner"  jdbcType="VARCHAR" />
+	<result property="name" column="name"  jdbcType="VARCHAR" />
+	<result property="punishTime" column="punish_time"  jdbcType="TIMESTAMP" />
+	<result property="punishType" column="punish_type"  jdbcType="VARCHAR" />
+	<result property="streetName" column="street_name"  jdbcType="VARCHAR" />
+	<result property="punishPerson" column="punish_person"  jdbcType="NUMERIC" />
+  </resultMap>
+  
+  <select id="selectPunishEvent" resultMap="PunishEventVo">
+      SELECT A.id,A.place_name,A.place_owner,A.name,A.punish_time,A.punish_type,a.punish_person,b.name as street_name FROM PUNISH_EVENT A,street B
+      where a.street_id = b.id
+      <if test="districtId!=null">
+  		AND A.district_id=#{districtId,jdbcType=NUMERIC}
+	  </if>
+	  <if test="streetId!=null">
+	  	AND A.street_id=#{streetId,jdbcType=NUMERIC}
+	  </if>
+	   <if test="buildingId!=null">
+	  	AND A.building_id=#{buildingId,jdbcType=NUMERIC}
+	  </if>
+	  <if test="nameLike!=null and  nameLike !=''">
+  		AND a.name LIKE CONCAT(CONCAT('%', #{nameLike,jdbcType=VARCHAR}),'%')  
+  	  </if>
+  	  <if test="punishType!=null and  punishType !=''">
+  		AND a.punish_type = #{punishType,jdbcType=VARCHAR}
+  	  </if>
+  	  <if test="punishTime!=null and  punishTime !=''">
+  		AND DATE_FORMAT(a.punish_time,'%Y') = #{punishTime,jdbcType=VARCHAR}
+  	  </if>
+  </select>
+  
+  
+    
+</mapper>

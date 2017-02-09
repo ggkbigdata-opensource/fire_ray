@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fire.platform.modules.building.dao.FireSystemMapper">
+
+    <!-- 批量插入 -->
+    <insert id ="batchInsert" parameterType="java.util.List">
+        insert into FIRE_SYSTEM
+        (building_id, management_id, system_name, system_constituent_name,user_id,create_date)
+        values
+        <foreach collection="list" item="fireSystem" index="index" separator=",">
+            (
+            #{fireSystem.buildingId,jdbcType=NUMERIC},
+            #{fireSystem.managementId,jdbcType=NUMERIC},
+            #{fireSystem.systemName,jdbcType=VARCHAR},
+            #{fireSystem.systemConstituentName,jdbcType=VARCHAR},
+            #{fireSystem.userId,jdbcType=NUMERIC},
+            #{fireSystem.createDate,jdbcType=TIMESTAMP}
+            )
+        </foreach >
+    </insert >
+    
+</mapper>

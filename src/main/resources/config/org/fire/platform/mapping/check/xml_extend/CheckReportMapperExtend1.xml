@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fire.platform.modules.check.dao.CheckReportMapper">
+  
+  	<select id="selectBeanByCode"  resultMap="CheckReport"   parameterType="org.fire.platform.modules.check.domain.CheckReport"> 
+   SELECT  A.*  FROM  CHECK_REPORT A 
+   WHERE code=#{code,jdbcType=VARCHAR}
+  </select>  
+  
+  <select id="selectBeanByMap" resultMap="CheckReportBean"  parameterType="map"> 
+   SELECT A.*,b.name AS street_name,
+			c.name AS block_name,
+			d.name AS district_name,
+			a.pub_time as pub_time_string
+			FROM CHECK_REPORT A,street b,block c,district d
+			WHERE a.street_id=b.id AND a.block_id=c.id AND a.district_id = d.id
+          <if test="checkStartMonth!=null">
+              AND DATE_FORMAT(pub_time,'%Y-%m') >= #{checkStartMonth,jdbcType=VARCHAR}
+          </if>
+          <if test="checkEndMonth!=null">
+              AND DATE_FORMAT(pub_time,'%Y-%m') &lt;= #{checkEndMonth,jdbcType=VARCHAR}
+          </if>
+      <include refid="queryBeanCondition"/>
+	<if test="extraOrderColumns != null and extraOrderColumns !=''">
+    		ORDER BY ${extraOrderColumns}
+    </if>
+  </select> 
+
+ <resultMap id="CheckReportBean" type="org.fire.platform.modules.check.bean.CheckReportBean" extends="CheckReport">  
+    <result property="streetName" column="street_name"  jdbcType="VARCHAR" />  
+    <result property="blockName" column="block_name"  jdbcType="VARCHAR" />  
+    <result property="districtName" column="district_name"  jdbcType="VARCHAR" />
+    <result property="pubTimeString" column="pub_time_string"  jdbcType="VARCHAR" />
+</resultMap> 
+
+
+  <sql id="queryBeanCondition">
+  <if test="id!=null">
+  		AND A.id=#{id,jdbcType=NUMERIC}
+  </if>
+  <if test="districtId!=null">
+  		AND A.district_id=#{districtId,jdbcType=NUMERIC}
+  </if>
+  <if test="streetId!=null">
+  		AND A.street_id=#{streetId,jdbcType=NUMERIC}
+  </if>
+  <if test="blockId!=null">
+  		AND A.block_id=#{blockId,jdbcType=NUMERIC}
+  </if>
+  <if test="buildingId!=null">
+  		AND A.building_id=#{buildingId,jdbcType=NUMERIC}
+  </if>
+  <if test="placeName!=null and  placeName !=''">
+   		AND place_name = #{placeName,jdbcType=VARCHAR}
+  </if>
+  <if test="placeNameLike!=null and  placeNameLike !=''">
+  		AND place_name LIKE CONCAT(CONCAT('%', #{placeNameLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="name!=null and  name !=''">
+   		AND A.name = #{name,jdbcType=VARCHAR}
+  </if>
+  <if test="nameLike!=null and  nameLike !=''">
+  		AND A.name LIKE CONCAT(CONCAT('%', #{nameLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="code!=null and  code !=''">
+   		AND A.code = #{code,jdbcType=VARCHAR}
+  </if>
+  <if test="codeLike!=null and  codeLike !=''">
+  		AND A.code LIKE CONCAT(CONCAT('%', #{codeLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="reportImage!=null and  reportImage !=''">
+   		AND report_image = #{reportImage,jdbcType=VARCHAR}
+  </if>
+  <if test="reportImageLike!=null and  reportImageLike !=''">
+  		AND report_image LIKE CONCAT(CONCAT('%', #{reportImageLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="reportType!=null and  reportType !=''">
+   		AND report_type = #{reportType,jdbcType=VARCHAR}
+  </if>
+  <if test="reportTypeLike!=null and  reportTypeLike !=''">
+  		AND report_type LIKE CONCAT(CONCAT('%', #{reportTypeLike,jdbcType=VARCHAR}),'%')  
+  </if>
+   <if test="pubTimeRange1!=null">
+    		AND pub_time &gt; #{pubTimeRange1,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="pubTimeRange2!=null">
+    		AND pub_time &lt; #{pubTimeRange2,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="pubTime!=null">
+    		AND pub_time = #{pubTime,jdbcType=TIMESTAMP} 
+    </if>
+  <if test="reporter!=null">
+  		AND A.reporter=#{reporter,jdbcType=NUMERIC}
+  </if>
+  <if test="reporterPhone!=null and  reporterPhone !=''">
+   		AND reporter_phone = #{reporterPhone,jdbcType=VARCHAR}
+  </if>
+  <if test="reporterPhoneLike!=null and  reporterPhoneLike !=''">
+  		AND reporter_phone LIKE CONCAT(CONCAT('%', #{reporterPhoneLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="isPass!=null">
+  		AND A.is_pass=#{isPass,jdbcType=NUMERIC}
+  </if>
+  <if test="unpassNum!=null">
+  		AND A.unpass_num=#{unpassNum,jdbcType=NUMERIC}
+  </if>
+  <if test="riskIndex!=null and  riskIndex !=''">
+   		AND risk_index = #{riskIndex,jdbcType=VARCHAR}
+  </if>
+  <if test="riskIndexLike!=null and  riskIndexLike !=''">
+  		AND risk_index LIKE CONCAT(CONCAT('%', #{riskIndexLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="remark!=null and  remark !=''">
+   		AND remark = #{remark,jdbcType=VARCHAR}
+  </if>
+  <if test="remarkLike!=null and  remarkLike !=''">
+  		AND remark LIKE CONCAT(CONCAT('%', #{remarkLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="reportFileUrl!=null and  reportFileUrl !=''">
+   		AND report_file_url = #{reportFileUrl,jdbcType=VARCHAR}
+  </if>
+  <if test="reportFileUrlLike!=null and  reportFileUrlLike !=''">
+  		AND report_file_url LIKE CONCAT(CONCAT('%', #{reportFileUrlLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="modUser!=null">
+  		AND A.mod_user=#{modUser,jdbcType=NUMERIC}
+  </if>
+   <if test="modDateRange1!=null">
+    		AND mod_date &gt; #{modDateRange1,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="modDateRange2!=null">
+    		AND mod_date &lt; #{modDateRange2,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="modDate!=null">
+    		AND mod_date = #{modDate,jdbcType=TIMESTAMP} 
+    </if>
+  <if test="score!=null">
+  		AND A.score=#{score,jdbcType=NUMERIC}
+  </if>
+   <if test="extraCondition!=null and extraCondition!=''">
+	   AND  ( ${extraCondition} )
+	</if>
+    </sql>
+    
+</mapper>

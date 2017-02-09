@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fire.platform.modules.statis.dao.ReportAnalysisMapper">
+  
+  <select id="selectBeanByMap" resultMap="ReportAnalysisBean"  parameterType="map"> 
+		SELECT
+			A.*,
+			b. NAME AS street_name,
+			c. NAME AS block_name,
+			d. NAME AS district_name,
+			e. NAME AS check_report_name,
+			e.pub_time,
+			f. NAME as risk_level_name
+		FROM
+			REPORT_ANALYSIS A,
+			Street b,
+			Block c,
+			District d,
+			check_report e,
+			DICT f
+		WHERE
+			a.report_id = e.id
+		AND e.street_id = b.id
+		AND e.block_id = c.id
+		AND e.district_id = d.id
+		AND a.risk_level = f.code AND f.type_code = "risk_level"
+      <include refid="queryBeanCondition"/>
+		<if test="streetId!=null">
+			AND e.street_id=#{streetId,jdbcType=NUMERIC}
+		</if>
+		<if test="blockId !=null">
+			AND e.block_id=#{blockId,jdbcType=NUMERIC}
+		</if>
+		<if test="districtId!=null">
+			AND e.district_id=#{districtId,jdbcType=NUMERIC}
+		</if>
+		<if test="reportAnalysisStartMonth != null">
+			AND DATE_FORMAT(e.pub_time,'%Y-%m') >= #{reportAnalysisStartMonth}
+		</if>
+		<if test="reportAnalysisEndMonth != null">
+			AND DATE_FORMAT(e.pub_time,'%Y-%m') &lt;= #{reportAnalysisEndMonth}
+		</if>
+	  <if test="extraOrderColumns != null and extraOrderColumns !=''">
+		  ORDER BY ${extraOrderColumns}
+	  </if>
+  </select> 
+
+
+
+  <resultMap  id="ReportAnalysisBean"  type="org.fire.platform.modules.statis.bean.ReportAnalysisBean"  extends="ReportAnalysis" >
+	    <result property="streetName" column="street_name"  jdbcType="VARCHAR" />  
+	    <result property="blockName" column="block_name"  jdbcType="VARCHAR" />  
+	    <result property="districtName" column="district_name"  jdbcType="VARCHAR" />
+	    <result property="riskLevelName" column="risk_level_name"  jdbcType="VARCHAR" />
+	    <result property="checkReportName" column="check_report_name"  jdbcType="VARCHAR" />
+		<result property="pubTime" column="create_time"  jdbcType="TIMESTAMP" />
+  </resultMap>
+ 
+  <sql id="queryBeanCondition">
+  <if test="id!=null">
+  		AND A.id=#{id,jdbcType=NUMERIC}
+  </if>
+  <if test="reportId!=null">
+  		AND A.report_id=#{reportId,jdbcType=NUMERIC}
+  </if>
+  <if test="totalUnqualified!=null">
+  		AND A.total_unqualified=#{totalUnqualified,jdbcType=NUMERIC}
+  </if>
+  <if test="riskLevel!=null and  riskLevel !=''">
+   		AND risk_level = #{riskLevel,jdbcType=VARCHAR}
+  </if>
+  <if test="riskLevelLike!=null and  riskLevelLike !=''">
+  		AND risk_level LIKE CONCAT(CONCAT('%', #{riskLevelLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="facilitiesUnqualified!=null">
+  		AND A.facilities_unqualified=#{facilitiesUnqualified,jdbcType=NUMERIC}
+  </if>
+  <if test="facilitiesUnqualifiedRatio!=null">
+  		AND A.facilities_unqualified_ratio=#{facilitiesUnqualifiedRatio,jdbcType=NUMERIC}
+  </if>
+  <if test="evacuateUnqualified!=null">
+  		AND A.evacuate_unqualified=#{evacuateUnqualified,jdbcType=NUMERIC}
+  </if>
+  <if test="evacuateUnqualifiedRatio!=null">
+  		AND A.evacuate_unqualified_ratio=#{evacuateUnqualifiedRatio,jdbcType=NUMERIC}
+  </if>
+  <if test="manageUnqualified!=null">
+  		AND A.manage_unqualified=#{manageUnqualified,jdbcType=NUMERIC}
+  </if>
+  <if test="manageUnqualifiedRatio!=null">
+  		AND A.manage_unqualified_ratio=#{manageUnqualifiedRatio,jdbcType=NUMERIC}
+  </if>
+  <if test="dangerUnqualified!=null">
+  		AND A.danger_unqualified=#{dangerUnqualified,jdbcType=NUMERIC}
+  </if>
+  <if test="dangerUnqualifiedRatio!=null">
+  		AND A.danger_unqualified_ratio=#{dangerUnqualifiedRatio,jdbcType=NUMERIC}
+  </if>
+  <if test="importantUnqualified!=null">
+  		AND A.important_unqualified=#{importantUnqualified,jdbcType=NUMERIC}
+  </if>
+  <if test="importantUnqualifiedRatio!=null">
+  		AND A.important_unqualified_ratio=#{importantUnqualifiedRatio,jdbcType=NUMERIC}
+  </if>
+  <if test="checkUnqualified!=null">
+  		AND A.check_unqualified=#{checkUnqualified,jdbcType=NUMERIC}
+  </if>
+  <if test="checkUnqualifiedRatio!=null">
+  		AND A.check_unqualified_ratio=#{checkUnqualifiedRatio,jdbcType=NUMERIC}
+  </if>
+  <if test="creator!=null">
+  		AND A.creator=#{creator,jdbcType=NUMERIC}
+  </if>
+   <if test="createTimeRange1!=null">
+    		AND create_time &gt; #{createTimeRange1,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="createTimeRange2!=null">
+    		AND create_time &lt; #{createTimeRange2,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="createTime!=null">
+    		AND create_time = #{createTime,jdbcType=TIMESTAMP} 
+    </if>
+   <if test="extraCondition!=null and extraCondition!=''">
+	   AND  ( ${extraCondition} )
+	</if>
+    </sql>
+    
+</mapper>

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fire.platform.modules.sys.dao.MenuMapper">
+  
+  <select id="selectAll" resultMap="Menu">
+      SELECT A.*   FROM MENU A
+      <if test="extraOrderColumns != null and extraOrderColumns !=''">
+    		ORDER BY ${extraOrderColumns}
+      </if>
+  </select> 
+  
+  <select id="selectByMap" resultMap="Menu"  parameterType="map"> 
+   SELECT A.*   FROM MENU A
+   <where>
+      <include refid="queryCondition"/>
+   </where>
+	<if test="extraOrderColumns != null and extraOrderColumns !=''">
+    		ORDER BY ${extraOrderColumns}
+    </if>
+  </select> 
+
+  <select id="selectByPrimaryKey"  resultMap="Menu"   parameterType="org.fire.platform.modules.sys.domain.Menu"> 
+   SELECT  A.*  FROM  MENU A 
+   WHERE menu_id=#{menuId,jdbcType=NUMERIC}
+  </select>  
+  
+  <update id="updateByPrimaryKey"> 
+   UPDATE MENU
+  <set>  
+     <if test="menuName != null">  
+            menu_name = #{menuName,jdbcType=VARCHAR},
+      </if> 
+     <if test="menuUrl != null">  
+            menu_url = #{menuUrl,jdbcType=VARCHAR},
+      </if> 
+     <if test="parentMenuId != null">  
+            parent_menu_id = #{parentMenuId,jdbcType=NUMERIC},
+      </if> 
+   <if test="extraUpdateColumns != null and extraUpdateColumns !=''">
+    		${extraUpdateColumns}
+   </if>
+  </set>  
+   WHERE menu_id=#{menuId,jdbcType=NUMERIC}
+  </update>  
+  
+  <delete id="deleteByPrimaryKey"> 
+   DELETE FROM MENU
+     WHERE menu_id=#{menuId,jdbcType=NUMERIC}
+  </delete>  
+
+  <delete id="deleteByParam"> 
+   DELETE FROM MENU  WHERE 
+   <trim prefixOverrides="AND" > 
+  <if test="menuId!=null">
+  		AND menu_id=#{menuId,jdbcType=NUMERIC}
+  </if>
+  <if test="menuName!=null and  menuName !=''">
+    <if test="menuName!=null">
+  		AND menu_name=#{menuName,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="menuUrl!=null and  menuUrl !=''">
+    <if test="menuUrl!=null">
+  		AND menu_url=#{menuUrl,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="parentMenuId!=null">
+  		AND parent_menu_id=#{parentMenuId,jdbcType=NUMERIC}
+  </if>
+   <if test="extraCondition!=null and extraCondition!=''">
+	   AND  ( ${extraCondition} )
+	</if> 
+   </trim>
+  </delete>  
+ 
+  <insert id="insert"> 
+    <selectKey resultType="java.lang.Long" keyProperty="menuId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey> 
+    INSERT INTO MENU (
+	menu_id,
+	menu_name,
+	menu_url,
+	parent_menu_id
+	)  VALUES(
+	#{menuId,jdbcType=NUMERIC},
+	#{menuName,jdbcType=VARCHAR},
+	#{menuUrl,jdbcType=VARCHAR},
+	#{parentMenuId,jdbcType=NUMERIC}
+    ) 
+  </insert>  
+
+
+
+  <resultMap  id="Menu"  type="org.fire.platform.modules.sys.domain.Menu" >
+	<result property="menuId" column="menu_id"  jdbcType="NUMERIC" />
+	<result property="menuName" column="menu_name"  jdbcType="VARCHAR" />
+	<result property="menuUrl" column="menu_url"  jdbcType="VARCHAR" />
+	<result property="parentMenuId" column="parent_menu_id"  jdbcType="NUMERIC" />
+  </resultMap>
+ 
+  <sql id="queryCondition">
+  <if test="menuId!=null">
+  		AND A.menu_id=#{menuId,jdbcType=NUMERIC}
+  </if>
+  <if test="menuName!=null and  menuName !=''">
+   		AND menu_name = #{menuName,jdbcType=VARCHAR}
+  </if>
+  <if test="menuNameLike!=null and  menuNameLike !=''">
+  		AND menu_name LIKE CONCAT(CONCAT('%', #{menuNameLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="menuUrl!=null and  menuUrl !=''">
+   		AND menu_url = #{menuUrl,jdbcType=VARCHAR}
+  </if>
+  <if test="menuUrlLike!=null and  menuUrlLike !=''">
+  		AND menu_url LIKE CONCAT(CONCAT('%', #{menuUrlLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="parentMenuId!=null">
+  		AND A.parent_menu_id=#{parentMenuId,jdbcType=NUMERIC}
+  </if>
+   <if test="extraCondition!=null and extraCondition!=''">
+	   AND  ( ${extraCondition} )
+	</if>
+    </sql>
+    
+</mapper>

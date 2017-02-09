@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fire.platform.modules.event.dao.FireEventMapper">
+  <resultMap  id="FireEventVo"  type="org.fire.platform.modules.event.vo.FireEventVo" >
+	<result property="id" column="id"  jdbcType="NUMERIC" />
+	<result property="name" column="name"  jdbcType="VARCHAR" />
+	<result property="placeName" column="place_name"  jdbcType="VARCHAR" />
+	<result property="streetName" column="street_name"  jdbcType="VARCHAR" />
+	<result property="fireType" column="fire_type"  jdbcType="VARCHAR" />
+	<result property="occurTime" column="occur_time"  jdbcType="TIMESTAMP" />
+  </resultMap>
+	<resultMap id="FireEventFullVo" type="org.fire.platform.modules.event.vo.FireEventFullVo" extends="FireEvent">
+		<result property="streetName" column="street_name" jdbcType="VARCHAR" />
+	</resultMap>
+  
+  
+  <select id="selectFireEvent" resultMap="FireEventVo">
+      SELECT A.id,A.name,A.place_name,b.name as street_name,A.fire_type,A.occur_time 
+      FROM FIRE_EVENT A
+      left join street B on a.street_id = b.id 
+      <where>
+      <if test="districtId!=null">
+  		AND A.district_id=#{districtId,jdbcType=NUMERIC}
+	  </if>
+	  <if test="streetId!=null">
+	  	AND A.street_id=#{streetId,jdbcType=NUMERIC}
+	  </if>
+	  <if test="buildingId!=null">
+  		AND A.building_id=#{buildingId,jdbcType=NUMERIC}
+	  </if>
+	  <if test="nameLike!=null and  nameLike !=''">
+  		AND a.name LIKE CONCAT(CONCAT('%', #{nameLike,jdbcType=VARCHAR}),'%')  
+  	  </if>
+  	  <if test="fireType!=null and  fireType !=''">
+   		AND a.fire_type = #{fireType,jdbcType=VARCHAR}
+  	  </if>
+  	  <if test="occurTime!=null and  occurTime !=''">
+  		AND DATE_FORMAT(a.occur_time,'%Y') = #{occurTime,jdbcType=VARCHAR}
+  	  </if>
+	  <if test="occurStartMonth!=null">
+		  AND DATE_FORMAT(a.occur_time,'%Y-%m') >= #{occurStartMonth,jdbcType=VARCHAR}
+	  </if>
+	  <if test="occurEndMonth!=null">
+		  AND DATE_FORMAT(a.aoccur_time,'%Y-%m') &lt;= #{occurEndMonth,jdbcType=VARCHAR}
+	  </if>
+	  </where>
+  </select>
+	<select id="getVoByFireEventId" resultMap="FireEventFullVo">
+		SELECT a.* , b.name as street_name from fire_event a
+		LEFT JOIN street b ON a.street_id = b.id
+		WHERE a.id = #{param1}
+	</select>
+
+
+</mapper>

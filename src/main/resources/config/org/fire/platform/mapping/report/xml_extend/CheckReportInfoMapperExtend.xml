@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fire.platform.modules.report.dao.CheckReportInfoMapper">
+
+    <resultMap id="CheckReportInfoBean" type="org.fire.platform.modules.report.bean.CheckReportInfoBean" extends="CheckReportInfo">
+        <result property="streetName" column="street_name" jdbcType="VARCHAR" />
+        <result property="blockName" column="block_name" jdbcType="VARCHAR" />
+        <result property="districtName" column="district_name" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <select id="selectBeanByMap" resultMap="CheckReportInfoBean" >
+        SELECT a.* ,d.name as district_name , s.name as street_name , b.name as block_name FROM check_report_info a
+        LEFT JOIN district  d on d.id = a.district_id
+        LEFT JOIN street s on s.id = a.street_id
+        LEFT JOIN block b on b.id = a.block_id
+        <where>
+            <include refid="queryCondition"/>
+            <if test="checkStartMonth != null">
+                AND DATE_FORMAT(a.detection_time,'%Y-%m') >= #{checkStartMonth}
+            </if>
+            <if test="checkEndMonth != null">
+                AND DATE_FORMAT(a.detection_time,'%Y-%m') &lt;= #{checkEndMonth}
+            </if>
+        </where>
+        <if test="extraOrderColumns != null and extraOrderColumns !=''">
+            ORDER BY ${extraOrderColumns}
+        </if>
+    </select>
+
+    <select id="selectReportBeanById" resultType="org.fire.platform.modules.report.bean.ReportInfoBean">
+        SELECT a.* , s.name as street_name , b.name as block_name FROM check_report_info a
+        LEFT JOIN street s on s.id = a.street_id
+        LEFT JOIN block b on b.id = a.block_id
+        WHERE a.id = #{param1}
+    </select>
+
+    <select id="getBeanById" resultMap="CheckReportInfoBean">
+        SELECT a.* ,d.name as district_name , s.name as street_name , b.name as block_name FROM check_report_info a
+        LEFT JOIN district  d on d.id = a.district_id
+        LEFT JOIN street s on s.id = a.street_id
+        LEFT JOIN block b on b.id = a.block_id
+        WHERE a.id = #{param1}
+    </select>
+
+</mapper>

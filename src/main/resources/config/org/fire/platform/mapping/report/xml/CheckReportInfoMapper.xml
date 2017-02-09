@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fire.platform.modules.report.dao.CheckReportInfoMapper">
+  
+  <select id="selectAll" resultMap="CheckReportInfo">
+      SELECT A.*   FROM CHECK_REPORT_INFO A
+      <if test="extraOrderColumns != null and extraOrderColumns !=''">
+    		ORDER BY ${extraOrderColumns}
+      </if>
+  </select> 
+  
+  <select id="selectByMap" resultMap="CheckReportInfo"  parameterType="map"> 
+   SELECT A.*   FROM CHECK_REPORT_INFO A
+   <where>
+      <include refid="queryCondition"/>
+   </where>
+	<if test="extraOrderColumns != null and extraOrderColumns !=''">
+    		ORDER BY ${extraOrderColumns}
+    </if>
+  </select> 
+  
+  
+  <select id="selectByParam" resultMap="CheckReportInfo"  parameterType="org.fire.platform.modules.report.domain.CheckReportInfo">
+   SELECT A.*   FROM CHECK_REPORT_INFO A
+   <where>
+      <include refid="queryCondition"/>
+   </where>
+	<if test="extraOrderColumns != null and extraOrderColumns !=''">
+    		ORDER BY ${extraOrderColumns}
+    </if>
+  </select> 
+
+  <select id="selectByPrimaryKey"  resultMap="CheckReportInfo"   parameterType="org.fire.platform.modules.report.domain.CheckReportInfo">
+   SELECT  A.*  FROM  CHECK_REPORT_INFO A 
+   WHERE id=#{id,jdbcType=NUMERIC}
+  </select>
+
+  <update id="updateByPrimaryKey">
+   UPDATE CHECK_REPORT_INFO
+  <set>  
+     <if test="districtId != null">  
+            district_id = #{districtId,jdbcType=NUMERIC},
+      </if> 
+     <if test="streetId != null">  
+            street_id = #{streetId,jdbcType=NUMERIC},
+      </if> 
+     <if test="blockId != null">
+            block_id = #{blockId,jdbcType=NUMERIC},
+      </if> 
+     <if test="code != null">  
+            code = #{code,jdbcType=VARCHAR},
+      </if> 
+     <if test="type != null">  
+            type = #{type,jdbcType=VARCHAR},
+      </if> 
+     <if test="projectCode != null">  
+            project_code = #{projectCode,jdbcType=VARCHAR},
+      </if> 
+     <if test="name != null">  
+            name = #{name,jdbcType=VARCHAR},
+      </if> 
+     <if test="address != null">  
+            address = #{address,jdbcType=VARCHAR},
+      </if> 
+     <if test="delegate != null">  
+            delegate = #{delegate,jdbcType=VARCHAR},
+      </if> 
+     <if test="detectionUnit != null">  
+            detection_unit = #{detectionUnit,jdbcType=VARCHAR},
+      </if> 
+     <if test="duAddress != null">  
+            du_address = #{duAddress,jdbcType=VARCHAR},
+      </if> 
+     <if test="duTel != null">  
+            du_tel = #{duTel,jdbcType=VARCHAR},
+      </if> 
+     <if test="duFax != null">  
+            du_fax = #{duFax,jdbcType=VARCHAR},
+      </if> 
+     <if test="duZipCode != null">  
+            du_zip_code = #{duZipCode,jdbcType=VARCHAR},
+      </if> 
+     <if test="resultDesc != null">  
+            result_desc = #{resultDesc,jdbcType=VARCHAR},
+      </if> 
+     <if test="detectionTime != null">  
+            detection_time = #{detectionTime,jdbcType=TIMESTAMP},
+      </if> 
+     <if test="createTime != null">  
+            create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if> 
+     <if test="createUser != null">  
+            create_user = #{createUser,jdbcType=NUMERIC},
+      </if> 
+     <if test="modUser != null">  
+            mod_user = #{modUser,jdbcType=NUMERIC},
+      </if> 
+     <if test="modTime != null">  
+            mod_time = #{modTime,jdbcType=TIMESTAMP},
+      </if> 
+   <if test="extraUpdateColumns != null and extraUpdateColumns !=''">
+    		${extraUpdateColumns}
+   </if>
+  </set>  
+   WHERE id=#{id,jdbcType=NUMERIC}
+  </update>  
+  
+  <delete id="deleteByPrimaryKey"> 
+   DELETE FROM CHECK_REPORT_INFO
+     WHERE id=#{id,jdbcType=NUMERIC}
+  </delete>  
+
+  <delete id="deleteByParam"> 
+   DELETE FROM CHECK_REPORT_INFO  WHERE 
+   <trim prefixOverrides="AND" > 
+  <if test="id!=null">
+  		AND id=#{id,jdbcType=NUMERIC}
+  </if>
+  <if test="districtId!=null">
+  		AND district_id=#{districtId,jdbcType=NUMERIC}
+  </if>
+  <if test="streetId!=null">
+  		AND street_id=#{streetId,jdbcType=NUMERIC}
+  </if>
+  <if test="blockId!=null">
+  		AND block_id=#{blockId,jdbcType=NUMERIC}
+  </if>
+  <if test="code!=null and  code !=''">
+    <if test="code!=null">
+  		AND code=#{code,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="type!=null">
+  		AND type=#{type,jdbcType=VARCHAR}
+  </if>
+  <if test="projectCode!=null and  projectCode !=''">
+    <if test="projectCode!=null">
+  		AND project_code=#{projectCode,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="name!=null and  name !=''">
+    <if test="name!=null">
+  		AND name=#{name,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="address!=null and  address !=''">
+    <if test="address!=null">
+  		AND address=#{address,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="delegate!=null and  delegate !=''">
+    <if test="delegate!=null">
+  		AND delegate=#{delegate,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="detectionUnit!=null and  detectionUnit !=''">
+    <if test="detectionUnit!=null">
+  		AND detection_unit=#{detectionUnit,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="duAddress!=null and  duAddress !=''">
+    <if test="duAddress!=null">
+  		AND du_address=#{duAddress,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="duTel!=null and  duTel !=''">
+    <if test="duTel!=null">
+  		AND du_tel=#{duTel,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="duFax!=null and  duFax !=''">
+    <if test="duFax!=null">
+  		AND du_fax=#{duFax,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="duZipCode!=null and  duZipCode !=''">
+    <if test="duZipCode!=null">
+  		AND du_zip_code=#{duZipCode,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="resultDesc!=null and  resultDesc !=''">
+    <if test="resultDesc!=null">
+  		AND result_desc=#{resultDesc,jdbcType=VARCHAR}
+  </if>
+  </if>
+    <if test="detectionTime!=null">
+    		AND detection_time = #{detectionTime,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="createTime!=null">
+    		AND create_time = #{createTime,jdbcType=TIMESTAMP} 
+    </if>
+  <if test="createUser!=null">
+  		AND create_user=#{createUser,jdbcType=NUMERIC}
+  </if>
+  <if test="modUser!=null">
+  		AND mod_user=#{modUser,jdbcType=NUMERIC}
+  </if>
+    <if test="modTime!=null">
+    		AND mod_time = #{modTime,jdbcType=TIMESTAMP} 
+    </if>
+   <if test="extraCondition!=null and extraCondition!=''">
+	   AND  ( ${extraCondition} )
+	</if> 
+   </trim>
+  </delete>  
+ 
+  <insert id="insert"> 
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey> 
+    INSERT INTO CHECK_REPORT_INFO (
+	id,
+	district_id,
+	street_id,
+	block_id,
+	code,
+	type,
+	project_code,
+	name,
+	address,
+	delegate,
+	detection_unit,
+	du_address,
+	du_tel,
+	du_fax,
+	du_zip_code,
+	result_desc,
+	detection_time,
+	create_time,
+	create_user,
+	mod_user,
+	mod_time
+	)  VALUES(
+	#{id,jdbcType=NUMERIC},
+	#{districtId,jdbcType=NUMERIC},
+	#{streetId,jdbcType=NUMERIC},
+	#{blockId,jdbcType=NUMERIC},
+	#{code,jdbcType=VARCHAR},
+	#{type,jdbcType=VARCHAR},
+	#{projectCode,jdbcType=VARCHAR},
+	#{name,jdbcType=VARCHAR},
+	#{address,jdbcType=VARCHAR},
+	#{delegate,jdbcType=VARCHAR},
+	#{detectionUnit,jdbcType=VARCHAR},
+	#{duAddress,jdbcType=VARCHAR},
+	#{duTel,jdbcType=VARCHAR},
+	#{duFax,jdbcType=VARCHAR},
+	#{duZipCode,jdbcType=VARCHAR},
+	#{resultDesc,jdbcType=VARCHAR},
+	#{detectionTime,jdbcType=TIMESTAMP},
+	#{createTime,jdbcType=TIMESTAMP},
+	#{createUser,jdbcType=NUMERIC},
+	#{modUser,jdbcType=NUMERIC},
+	#{modTime,jdbcType=TIMESTAMP}
+    ) 
+  </insert>  
+
+
+
+  <resultMap  id="CheckReportInfo"  type="org.fire.platform.modules.report.domain.CheckReportInfo" >
+	<result property="id" column="id"  jdbcType="NUMERIC" />
+	<result property="districtId" column="district_id"  jdbcType="NUMERIC" />
+	<result property="streetId" column="street_id"  jdbcType="NUMERIC" />
+	<result property="blockId" column="block_id"  jdbcType="NUMERIC" />
+	<result property="code" column="code"  jdbcType="VARCHAR" />
+	<result property="type" column="type"  jdbcType="VARCHAR" />
+	<result property="projectCode" column="project_code"  jdbcType="VARCHAR" />
+	<result property="name" column="name"  jdbcType="VARCHAR" />
+	<result property="address" column="address"  jdbcType="VARCHAR" />
+	<result property="delegate" column="delegate"  jdbcType="VARCHAR" />
+	<result property="detectionUnit" column="detection_unit"  jdbcType="VARCHAR" />
+	<result property="duAddress" column="du_address"  jdbcType="VARCHAR" />
+	<result property="duTel" column="du_tel"  jdbcType="VARCHAR" />
+	<result property="duFax" column="du_fax"  jdbcType="VARCHAR" />
+	<result property="duZipCode" column="du_zip_code"  jdbcType="VARCHAR" />
+	<result property="resultDesc" column="result_desc"  jdbcType="VARCHAR" />
+	<result property="detectionTime" column="detection_time"  jdbcType="TIMESTAMP" />
+	<result property="createTime" column="create_time"  jdbcType="TIMESTAMP" />
+	<result property="createUser" column="create_user"  jdbcType="NUMERIC" />
+	<result property="modUser" column="mod_user"  jdbcType="NUMERIC" />
+	<result property="modTime" column="mod_time"  jdbcType="TIMESTAMP" />
+  </resultMap>
+ 
+  <sql id="queryCondition">
+  <if test="id!=null">
+  		AND A.id=#{id,jdbcType=NUMERIC}
+  </if>
+  <if test="districtId!=null">
+  		AND A.district_id=#{districtId,jdbcType=NUMERIC}
+  </if>
+  <if test="streetId!=null">
+  		AND A.street_id=#{streetId,jdbcType=NUMERIC}
+  </if>
+  <if test="blockId!=null">
+  		AND A.block_id=#{blockId,jdbcType=NUMERIC}
+  </if>
+  <if test="code!=null and  code !=''">
+   		AND code = #{code,jdbcType=VARCHAR}
+  </if>
+  <if test="codeLike!=null and  codeLike !=''">
+  		AND code LIKE CONCAT(CONCAT('%', #{codeLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="type!=null">
+  		AND A.type=#{type,jdbcType=VARCHAR}
+  </if>
+  <if test="typeLike!=null and typeLike !=''">
+      AND type LIKE CONCAT(CONCAT('%', #{typeLike,jdbcType=VARCHAR}),'%')
+  </if>
+  <if test="projectCode!=null and  projectCode !=''">
+   		AND project_code = #{projectCode,jdbcType=VARCHAR}
+  </if>
+  <if test="projectCodeLike!=null and  projectCodeLike !=''">
+  		AND project_code LIKE CONCAT(CONCAT('%', #{projectCodeLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="name!=null and  name !=''">
+   		AND A.name = #{name,jdbcType=VARCHAR}
+  </if>
+  <if test="nameLike!=null and  nameLike !=''">
+  		AND A.name LIKE CONCAT(CONCAT('%', #{nameLike,jdbcType=VARCHAR}),'%')
+  </if>
+  <if test="address!=null and  address !=''">
+   		AND address = #{address,jdbcType=VARCHAR}
+  </if>
+  <if test="addressLike!=null and  addressLike !=''">
+  		AND address LIKE CONCAT(CONCAT('%', #{addressLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="delegate!=null and  delegate !=''">
+   		AND delegate = #{delegate,jdbcType=VARCHAR}
+  </if>
+  <if test="delegateLike!=null and  delegateLike !=''">
+  		AND delegate LIKE CONCAT(CONCAT('%', #{delegateLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="detectionUnit!=null and  detectionUnit !=''">
+   		AND detection_unit = #{detectionUnit,jdbcType=VARCHAR}
+  </if>
+  <if test="detectionUnitLike!=null and  detectionUnitLike !=''">
+  		AND detection_unit LIKE CONCAT(CONCAT('%', #{detectionUnitLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="duAddress!=null and  duAddress !=''">
+   		AND du_address = #{duAddress,jdbcType=VARCHAR}
+  </if>
+  <if test="duAddressLike!=null and  duAddressLike !=''">
+  		AND du_address LIKE CONCAT(CONCAT('%', #{duAddressLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="duTel!=null and  duTel !=''">
+   		AND du_tel = #{duTel,jdbcType=VARCHAR}
+  </if>
+  <if test="duTelLike!=null and  duTelLike !=''">
+  		AND du_tel LIKE CONCAT(CONCAT('%', #{duTelLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="duFax!=null and  duFax !=''">
+   		AND du_fax = #{duFax,jdbcType=VARCHAR}
+  </if>
+  <if test="duFaxLike!=null and  duFaxLike !=''">
+  		AND du_fax LIKE CONCAT(CONCAT('%', #{duFaxLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="duZipCode!=null and  duZipCode !=''">
+   		AND du_zip_code = #{duZipCode,jdbcType=VARCHAR}
+  </if>
+  <if test="duZipCodeLike!=null and  duZipCodeLike !=''">
+  		AND du_zip_code LIKE CONCAT(CONCAT('%', #{duZipCodeLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="resultDesc!=null and  resultDesc !=''">
+   		AND result_desc = #{resultDesc,jdbcType=VARCHAR}
+  </if>
+  <if test="resultDescLike!=null and  resultDescLike !=''">
+  		AND result_desc LIKE CONCAT(CONCAT('%', #{resultDescLike,jdbcType=VARCHAR}),'%')  
+  </if>
+   <if test="detectionTimeRange1!=null">
+    		AND detection_time &gt; #{detectionTimeRange1,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="detectionTimeRange2!=null">
+    		AND detection_time &lt; #{detectionTimeRange2,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="detectionTime!=null">
+    		AND detection_time = #{detectionTime,jdbcType=TIMESTAMP} 
+    </if>
+   <if test="createTimeRange1!=null">
+    		AND create_time &gt; #{createTimeRange1,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="createTimeRange2!=null">
+    		AND create_time &lt; #{createTimeRange2,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="createTime!=null">
+    		AND create_time = #{createTime,jdbcType=TIMESTAMP} 
+    </if>
+  <if test="createUser!=null">
+  		AND A.create_user=#{createUser,jdbcType=NUMERIC}
+  </if>
+  <if test="modUser!=null">
+  		AND A.mod_user=#{modUser,jdbcType=NUMERIC}
+  </if>
+   <if test="modTimeRange1!=null">
+    		AND mod_time &gt; #{modTimeRange1,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="modTimeRange2!=null">
+    		AND mod_time &lt; #{modTimeRange2,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="modTime!=null">
+    		AND mod_time = #{modTime,jdbcType=TIMESTAMP} 
+    </if>
+   <if test="extraCondition!=null and extraCondition!=''">
+	   AND  ( ${extraCondition} )
+	</if>
+    </sql>
+    
+</mapper>

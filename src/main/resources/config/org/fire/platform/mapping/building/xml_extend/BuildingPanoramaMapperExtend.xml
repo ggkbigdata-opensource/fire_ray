@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fire.platform.modules.building.dao.BuildingPanoramaMapper">
+  
+  <select id="selectBeanByMap" resultMap="BuildingPanoramaBean"  parameterType="map"> 
+   SELECT A.*,B.base_name as building_name   FROM BUILDING_PANORAMA A,BUILDING B
+     where a.building_id=b.id
+      <include refid="queryBeanCondition"/>
+	<if test="extraOrderColumns != null and extraOrderColumns !=''">
+    		ORDER BY ${extraOrderColumns}
+    </if>
+  </select> 
+  
+  
+   <resultMap id="BuildingPanoramaBean" type="org.fire.platform.modules.building.bean.BuildingPanoramaBean" extends="BuildingPanorama">  
+    <result property="buildingName" column="building_name"  jdbcType="VARCHAR" />  
+</resultMap> 
+
+  <sql id="queryBeanCondition">
+  <if test="id!=null">
+  		AND A.id=#{id,jdbcType=NUMERIC}
+  </if>
+  <if test="buildingId!=null">
+  		AND A.building_id=#{buildingId,jdbcType=NUMERIC}
+  </if>
+  <if test="name!=null and  name !=''">
+   		AND A.name = #{name,jdbcType=VARCHAR}
+  </if>
+  <if test="nameLike!=null and  nameLike !=''">
+  		AND A.name LIKE CONCAT(CONCAT('%', #{nameLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="thumbImg!=null and  thumbImg !=''">
+   		AND thumb_img = #{thumbImg,jdbcType=VARCHAR}
+  </if>
+  <if test="thumbImgLike!=null and  thumbImgLike !=''">
+  		AND thumb_img LIKE CONCAT(CONCAT('%', #{thumbImgLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="url!=null and  url !=''">
+   		AND url = #{url,jdbcType=VARCHAR}
+  </if>
+  <if test="urlLike!=null and  urlLike !=''">
+  		AND url LIKE CONCAT(CONCAT('%', #{urlLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="modUser!=null">
+  		AND A.mod_user=#{modUser,jdbcType=NUMERIC}
+  </if>
+   <if test="modDateRange1!=null">
+    		AND mod_date &gt; #{modDateRange1,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="modDateRange2!=null">
+    		AND mod_date &lt; #{modDateRange2,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="modDate!=null">
+    		AND mod_date = #{modDate,jdbcType=TIMESTAMP} 
+    </if>
+  <if test="state!=null">
+  		AND A.state=#{state,jdbcType=NUMERIC}
+  </if>
+   <if test="extraCondition!=null and extraCondition!=''">
+	   AND  ( ${extraCondition} )
+	</if>
+    </sql>
+    
+</mapper>

@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fire.platform.modules.event.dao.PunishEventMapper">
+  
+  
+  <select id="selectBeanByMap" resultMap="PunishEventBean"  parameterType="map"> 
+   SELECT A.*,b.name AS street_name,
+			c.name AS block_name,
+			d.name AS district_name,
+           (SELECT owner_unit_name  FROM building_subject where a.building_id=id) as owner_unit_name,
+			a.punish_time as punish_time_string
+			   FROM PUNISH_EVENT A,street b,block c,district d
+			WHERE a.street_id=b.id AND a.block_id=c.id AND a.district_id = d.id
+          <if test="punishStartMonth!=null">
+              AND DATE_FORMAT(punish_time,'%Y-%m') >= #{punishStartMonth,jdbcType=VARCHAR}
+          </if>
+          <if test="punishEndMonth!=null">
+              AND DATE_FORMAT(punish_time,'%Y-%m') &lt;= #{punishEndMonth,jdbcType=VARCHAR}
+          </if>
+          <if test="doubleValue==0">
+              double_value = null
+          </if>
+          <if test="year!= null">  
+         	 AND DATE_FORMAT(a.punish_time,'%Y') = #{year,jdbcType=VARCHAR}
+       	  </if>
+      <include refid="queryBeanCondition"/>
+	<if test="extraOrderColumns != null and extraOrderColumns !=''">
+    		ORDER BY ${extraOrderColumns}
+    </if>
+  </select> 
+  
+  
+  <select id="selectBeanByPunishNumber"  resultType="Long" > 
+   SELECT  A.id  FROM  PUNISH_EVENT A 
+   WHERE punish_number=#{punish_number,jdbcType=VARCHAR}
+  </select>
+
+    <select id="selectBeanByDecisionNumber"  resultType="Long" >
+        SELECT  A.id  FROM  PUNISH_EVENT A
+        WHERE decision_number=#{decision_number,jdbcType=VARCHAR}
+    </select>
+
+
+  
+<resultMap id="PunishEventBean" type="org.fire.platform.modules.event.bean.PunishEventBean" extends="PunishEvent">  
+    <result property="streetName" column="street_name"  jdbcType="VARCHAR" />  
+    <result property="blockName" column="block_name"  jdbcType="VARCHAR" />
+    <result property="ownerUnitName" column="owner_unit_name"  jdbcType="VARCHAR" />
+   	<result property="districtName" column="district_name"  jdbcType="VARCHAR" />
+   	<result property="punishTimeString" column="punish_time_string"  jdbcType="VARCHAR" />
+</resultMap>  
+
+  <sql id="queryBeanCondition">
+      <if test="id!=null">
+          AND A.id=#{id,jdbcType=NUMERIC}
+      </if>
+      <if test="punishNumber!=null and  punishNumber !=''">
+          AND punish_number = #{punishNumber,jdbcType=VARCHAR}
+      </if>
+      <if test="punishNumberLike!=null and  punishNumberLike !=''">
+          AND punish_number LIKE CONCAT(CONCAT('%', #{punishNumberLike,jdbcType=VARCHAR}),'%')
+      </if>
+      <if test="districtId!=null">
+          AND A.district_id=#{districtId,jdbcType=NUMERIC}
+      </if>
+      <if test="streetId!=null">
+          AND A.street_id=#{streetId,jdbcType=NUMERIC}
+      </if>
+      <if test="blockId!=null">
+          AND A.block_id=#{blockId,jdbcType=NUMERIC}
+      </if>
+      <if test="buildingId!=null">
+          AND A.building_id=#{buildingId,jdbcType=NUMERIC}
+      </if>
+      <if test="name!=null and  name !=''">
+          AND A.name = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="nameLike!=null and  nameLike !=''">
+          AND A.name LIKE CONCAT(CONCAT('%', #{nameLike,jdbcType=VARCHAR}),'%')
+      </if>
+      <if test="decisionNumber!=null and  decisionNumber !=''">
+          AND A.decision_number = #{decisionNumber,jdbcType=VARCHAR}
+      </if>
+      <if test="decisionNumberLike!=null and  decisionNumberLike !=''">
+          AND A.decision_number LIKE CONCAT(CONCAT('%', #{decisionNumberLike,jdbcType=VARCHAR}),'%')
+      </if>
+      <if test="punishPersonName!=null and  punishPersonName !=''">
+          AND punish_person_name = #{punishPersonName,jdbcType=VARCHAR}
+      </if>
+      <if test="punishPersonNameLike!=null and  punishPersonNameLike !=''">
+          AND punish_person_name LIKE CONCAT(CONCAT('%', #{punishPersonNameLike,jdbcType=VARCHAR}),'%')
+      </if>
+      <if test="placeName!=null and  placeName !=''">
+          AND A.place_name = #{placeName,jdbcType=VARCHAR}
+      </if>
+      <if test="placeNameLike!=null and  placeNameLike !=''">
+          AND A.place_name LIKE CONCAT(CONCAT('%', #{placeNameLike,jdbcType=VARCHAR}),'%')
+      </if>
+      <if test="punishAddress!=null and  punishAddress !=''">
+          AND punish_address = #{punishAddress,jdbcType=VARCHAR}
+      </if>
+      <if test="punishAddressLike!=null and  punishAddressLike !=''">
+          AND punish_address LIKE CONCAT(CONCAT('%', #{punishAddressLike,jdbcType=VARCHAR}),'%')
+      </if>
+      <if test="placeOwner!=null and  placeOwner !=''">
+          AND place_owner = #{placeOwner,jdbcType=VARCHAR}
+      </if>
+      <if test="placeOwnerLike!=null and  placeOwnerLike !=''">
+          AND place_owner LIKE CONCAT(CONCAT('%', #{placeOwnerLike,jdbcType=VARCHAR}),'%')
+      </if>
+      <if test="placeOwnerIdcard!=null and  placeOwnerIdcard !=''">
+          AND place_owner_idcard = #{placeOwnerIdcard,jdbcType=VARCHAR}
+      </if>
+      <if test="placeOwnerIdcardLike!=null and  placeOwnerIdcardLike !=''">
+          AND place_owner_idcard LIKE CONCAT(CONCAT('%', #{placeOwnerIdcardLike,jdbcType=VARCHAR}),'%')
+      </if>
+      <if test="basis!=null and  basis !=''">
+          AND basis = #{basis,jdbcType=VARCHAR}
+      </if>
+      <if test="basisLike!=null and  basisLike !=''">
+          AND basis LIKE CONCAT(CONCAT('%', #{basisLike,jdbcType=VARCHAR}),'%')
+      </if>
+      <if test="punishType!=null and  punishType !=''">
+          AND A.punish_type = #{punishType,jdbcType=VARCHAR}
+      </if>
+      <if test="punishTypeLike!=null and  punishTypeLike !=''">
+          AND A.punish_type LIKE CONCAT(CONCAT('%', #{punishTypeLike,jdbcType=VARCHAR}),'%')
+      </if>
+      <if test="punishTimeRange1!=null">
+          AND A.punish_time &gt; #{punishTimeRange1,jdbcType=TIMESTAMP}
+      </if>
+      <if test="punishTimeRange2!=null">
+          AND A.punish_time &lt; #{punishTimeRange2,jdbcType=TIMESTAMP}
+      </if>
+      <if test="punishTime!=null">
+          AND A.punish_time = #{punishTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="punishAmount!=null">
+          AND A.punish_amount=#{punishAmount,jdbcType=NUMERIC}
+      </if>
+      <if test="sealedParts!=null and  sealedParts !=''">
+          AND sealed_parts = #{sealedParts,jdbcType=VARCHAR}
+      </if>
+      <if test="sealedPartsLike!=null and  sealedPartsLike !=''">
+          AND sealed_parts LIKE CONCAT(CONCAT('%', #{sealedPartsLike,jdbcType=VARCHAR}),'%')
+      </if>
+      <if test="sealedStartTimeRange1!=null">
+          AND sealed_start_time &gt; #{sealedStartTimeRange1,jdbcType=TIMESTAMP}
+      </if>
+      <if test="sealedStartTimeRange2!=null">
+          AND sealed_start_time &lt; #{sealedStartTimeRange2,jdbcType=TIMESTAMP}
+      </if>
+      <if test="sealedStartTime!=null">
+          AND sealed_start_time = #{sealedStartTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="sealedEndTimeRange1!=null">
+          AND sealed_end_time &gt; #{sealedEndTimeRange1,jdbcType=TIMESTAMP}
+      </if>
+      <if test="sealedEndTimeRange2!=null">
+          AND sealed_end_time &lt; #{sealedEndTimeRange2,jdbcType=TIMESTAMP}
+      </if>
+      <if test="sealedEndTime!=null">
+          AND sealed_end_time = #{sealedEndTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="remark!=null and  remark !=''">
+          AND remark = #{remark,jdbcType=VARCHAR}
+      </if>
+      <if test="remarkLike!=null and  remarkLike !=''">
+          AND remark LIKE CONCAT(CONCAT('%', #{remarkLike,jdbcType=VARCHAR}),'%')
+      </if>
+      <if test="createTimeRange1!=null">
+          AND create_time &gt; #{createTimeRange1,jdbcType=TIMESTAMP}
+      </if>
+      <if test="createTimeRange2!=null">
+          AND create_time &lt; #{createTimeRange2,jdbcType=TIMESTAMP}
+      </if>
+      <if test="createTime!=null">
+          AND create_time = #{createTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="extraCondition!=null and extraCondition!=''">
+          AND ( ${extraCondition} )
+      </if>
+  </sql>
+    
+</mapper>

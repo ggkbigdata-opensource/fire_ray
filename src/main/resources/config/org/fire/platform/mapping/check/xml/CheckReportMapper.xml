@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fire.platform.modules.check.dao.CheckReportMapper">
+  
+  <select id="selectAll" resultMap="CheckReport">
+      SELECT A.*   FROM CHECK_REPORT A
+      <if test="extraOrderColumns != null and extraOrderColumns !=''">
+    		ORDER BY ${extraOrderColumns}
+      </if>
+  </select> 
+  
+  <select id="selectByMap" resultMap="CheckReport"  parameterType="map"> 
+   SELECT A.*   FROM CHECK_REPORT A
+   <where>
+      <include refid="queryCondition"/>
+   </where>
+	<if test="extraOrderColumns != null and extraOrderColumns !=''">
+    		ORDER BY ${extraOrderColumns}
+    </if>
+  </select> 
+
+  <select id="selectByPrimaryKey"  resultMap="CheckReport"   parameterType="org.fire.platform.modules.check.domain.CheckReport"> 
+   SELECT  A.*  FROM  CHECK_REPORT A 
+   WHERE id=#{id,jdbcType=NUMERIC}
+  </select>  
+  
+  <update id="updateByPrimaryKey"> 
+   UPDATE CHECK_REPORT
+  <set>  
+     <if test="districtId != null">  
+            district_id = #{districtId,jdbcType=NUMERIC},
+      </if> 
+     <if test="streetId != null">  
+            street_id = #{streetId,jdbcType=NUMERIC},
+      </if> 
+     <if test="blockId != null">  
+            block_id = #{blockId,jdbcType=NUMERIC},
+      </if> 
+     <if test="buildingId != null">  
+            building_id = #{buildingId,jdbcType=NUMERIC},
+      </if> 
+     <if test="placeName != null">  
+            place_name = #{placeName,jdbcType=VARCHAR},
+      </if> 
+     <if test="name != null">  
+            name = #{name,jdbcType=VARCHAR},
+      </if> 
+     <if test="code != null">  
+            code = #{code,jdbcType=VARCHAR},
+      </if> 
+     <if test="reportImage != null">  
+            report_image = #{reportImage,jdbcType=VARCHAR},
+      </if> 
+     <if test="reportType != null">  
+            report_type = #{reportType,jdbcType=VARCHAR},
+      </if> 
+     <if test="pubTime != null">  
+            pub_time = #{pubTime,jdbcType=TIMESTAMP},
+      </if> 
+     <if test="reporter != null">  
+            reporter = #{reporter,jdbcType=NUMERIC},
+      </if> 
+     <if test="reporterPhone != null">  
+            reporter_phone = #{reporterPhone,jdbcType=VARCHAR},
+      </if> 
+     <if test="isPass != null">  
+            is_pass = #{isPass,jdbcType=NUMERIC},
+      </if> 
+     <if test="unpassNum != null">  
+            unpass_num = #{unpassNum,jdbcType=NUMERIC},
+      </if> 
+     <if test="riskIndex != null">  
+            risk_index = #{riskIndex,jdbcType=VARCHAR},
+      </if> 
+     <if test="remark != null">  
+            remark = #{remark,jdbcType=VARCHAR},
+      </if> 
+     <if test="reportFileUrl != null">  
+            report_file_url = #{reportFileUrl,jdbcType=VARCHAR},
+      </if> 
+     <if test="modUser != null">  
+            mod_user = #{modUser,jdbcType=NUMERIC},
+      </if> 
+     <if test="modDate != null">  
+            mod_date = #{modDate,jdbcType=TIMESTAMP},
+      </if> 
+     <if test="score != null">  
+            score = #{score,jdbcType=NUMERIC},
+      </if> 
+   <if test="extraUpdateColumns != null and extraUpdateColumns !=''">
+    		${extraUpdateColumns}
+   </if>
+  </set>  
+   WHERE id=#{id,jdbcType=NUMERIC}
+  </update>  
+  
+  <delete id="deleteByPrimaryKey"> 
+   DELETE FROM CHECK_REPORT
+     WHERE id=#{id,jdbcType=NUMERIC}
+  </delete>  
+
+  <delete id="deleteByParam"> 
+   DELETE FROM CHECK_REPORT  WHERE 
+   <trim prefixOverrides="AND" > 
+  <if test="id!=null">
+  		AND id=#{id,jdbcType=NUMERIC}
+  </if>
+  <if test="districtId!=null">
+  		AND district_id=#{districtId,jdbcType=NUMERIC}
+  </if>
+  <if test="streetId!=null">
+  		AND street_id=#{streetId,jdbcType=NUMERIC}
+  </if>
+  <if test="blockId!=null">
+  		AND block_id=#{blockId,jdbcType=NUMERIC}
+  </if>
+  <if test="buildingId!=null">
+  		AND building_id=#{buildingId,jdbcType=NUMERIC}
+  </if>
+  <if test="placeName!=null and  placeName !=''">
+    <if test="placeName!=null">
+  		AND place_name=#{placeName,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="name!=null and  name !=''">
+    <if test="name!=null">
+  		AND name=#{name,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="code!=null and  code !=''">
+    <if test="code!=null">
+  		AND code=#{code,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="reportImage!=null and  reportImage !=''">
+    <if test="reportImage!=null">
+  		AND report_image=#{reportImage,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="reportType!=null and  reportType !=''">
+    <if test="reportType!=null">
+  		AND report_type=#{reportType,jdbcType=VARCHAR}
+  </if>
+  </if>
+    <if test="pubTime!=null">
+    		AND pub_time = #{pubTime,jdbcType=TIMESTAMP} 
+    </if>
+  <if test="reporter!=null">
+  		AND reporter=#{reporter,jdbcType=NUMERIC}
+  </if>
+  <if test="reporterPhone!=null and  reporterPhone !=''">
+    <if test="reporterPhone!=null">
+  		AND reporter_phone=#{reporterPhone,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="isPass!=null">
+  		AND is_pass=#{isPass,jdbcType=NUMERIC}
+  </if>
+  <if test="unpassNum!=null">
+  		AND unpass_num=#{unpassNum,jdbcType=NUMERIC}
+  </if>
+  <if test="riskIndex!=null and  riskIndex !=''">
+    <if test="riskIndex!=null">
+  		AND risk_index=#{riskIndex,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="remark!=null and  remark !=''">
+    <if test="remark!=null">
+  		AND remark=#{remark,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="reportFileUrl!=null and  reportFileUrl !=''">
+    <if test="reportFileUrl!=null">
+  		AND report_file_url=#{reportFileUrl,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="modUser!=null">
+  		AND mod_user=#{modUser,jdbcType=NUMERIC}
+  </if>
+    <if test="modDate!=null">
+    		AND mod_date = #{modDate,jdbcType=TIMESTAMP} 
+    </if>
+  <if test="score!=null">
+  		AND score=#{score,jdbcType=NUMERIC}
+  </if>
+   <if test="extraCondition!=null and extraCondition!=''">
+	   AND  ( ${extraCondition} )
+	</if> 
+   </trim>
+  </delete>  
+ 
+  <insert id="insert"> 
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey> 
+    INSERT INTO CHECK_REPORT (
+	id,
+	district_id,
+	street_id,
+	block_id,
+	building_id,
+	place_name,
+	name,
+	code,
+	report_image,
+	report_type,
+	pub_time,
+	reporter,
+	reporter_phone,
+	is_pass,
+	unpass_num,
+	risk_index,
+	remark,
+	report_file_url,
+	mod_user,
+	mod_date,
+	score
+	)  VALUES(
+	#{id,jdbcType=NUMERIC},
+	#{districtId,jdbcType=NUMERIC},
+	#{streetId,jdbcType=NUMERIC},
+	#{blockId,jdbcType=NUMERIC},
+	#{buildingId,jdbcType=NUMERIC},
+	#{placeName,jdbcType=VARCHAR},
+	#{name,jdbcType=VARCHAR},
+	#{code,jdbcType=VARCHAR},
+	#{reportImage,jdbcType=VARCHAR},
+	#{reportType,jdbcType=VARCHAR},
+	#{pubTime,jdbcType=TIMESTAMP},
+	#{reporter,jdbcType=NUMERIC},
+	#{reporterPhone,jdbcType=VARCHAR},
+	#{isPass,jdbcType=NUMERIC},
+	#{unpassNum,jdbcType=NUMERIC},
+	#{riskIndex,jdbcType=VARCHAR},
+	#{remark,jdbcType=VARCHAR},
+	#{reportFileUrl,jdbcType=VARCHAR},
+	#{modUser,jdbcType=NUMERIC},
+	#{modDate,jdbcType=TIMESTAMP},
+	#{score,jdbcType=NUMERIC}
+    ) 
+  </insert>  
+
+
+
+  <resultMap  id="CheckReport"  type="org.fire.platform.modules.check.domain.CheckReport" >
+	<result property="id" column="id"  jdbcType="NUMERIC" />
+	<result property="districtId" column="district_id"  jdbcType="NUMERIC" />
+	<result property="streetId" column="street_id"  jdbcType="NUMERIC" />
+	<result property="blockId" column="block_id"  jdbcType="NUMERIC" />
+	<result property="buildingId" column="building_id"  jdbcType="NUMERIC" />
+	<result property="placeName" column="place_name"  jdbcType="VARCHAR" />
+	<result property="name" column="name"  jdbcType="VARCHAR" />
+	<result property="code" column="code"  jdbcType="VARCHAR" />
+	<result property="reportImage" column="report_image"  jdbcType="VARCHAR" />
+	<result property="reportType" column="report_type"  jdbcType="VARCHAR" />
+	<result property="pubTime" column="pub_time"  jdbcType="TIMESTAMP" />
+	<result property="reporter" column="reporter"  jdbcType="NUMERIC" />
+	<result property="reporterPhone" column="reporter_phone"  jdbcType="VARCHAR" />
+	<result property="isPass" column="is_pass"  jdbcType="NUMERIC" />
+	<result property="unpassNum" column="unpass_num"  jdbcType="NUMERIC" />
+	<result property="riskIndex" column="risk_index"  jdbcType="VARCHAR" />
+	<result property="remark" column="remark"  jdbcType="VARCHAR" />
+	<result property="reportFileUrl" column="report_file_url"  jdbcType="VARCHAR" />
+	<result property="modUser" column="mod_user"  jdbcType="NUMERIC" />
+	<result property="modDate" column="mod_date"  jdbcType="TIMESTAMP" />
+	<result property="score" column="score"  jdbcType="NUMERIC" />
+  </resultMap>
+ 
+  <sql id="queryCondition">
+  <if test="id!=null">
+  		AND A.id=#{id,jdbcType=NUMERIC}
+  </if>
+  <if test="districtId!=null">
+  		AND A.district_id=#{districtId,jdbcType=NUMERIC}
+  </if>
+  <if test="streetId!=null">
+  		AND A.street_id=#{streetId,jdbcType=NUMERIC}
+  </if>
+  <if test="blockId!=null">
+  		AND A.block_id=#{blockId,jdbcType=NUMERIC}
+  </if>
+  <if test="buildingId!=null">
+  		AND A.building_id=#{buildingId,jdbcType=NUMERIC}
+  </if>
+  <if test="placeName!=null and  placeName !=''">
+   		AND place_name = #{placeName,jdbcType=VARCHAR}
+  </if>
+  <if test="placeNameLike!=null and  placeNameLike !=''">
+  		AND place_name LIKE CONCAT(CONCAT('%', #{placeNameLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="name!=null and  name !=''">
+   		AND name = #{name,jdbcType=VARCHAR}
+  </if>
+  <if test="nameLike!=null and  nameLike !=''">
+  		AND name LIKE CONCAT(CONCAT('%', #{nameLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="code!=null and  code !=''">
+   		AND code = #{code,jdbcType=VARCHAR}
+  </if>
+  <if test="codeLike!=null and  codeLike !=''">
+  		AND code LIKE CONCAT(CONCAT('%', #{codeLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="reportImage!=null and  reportImage !=''">
+   		AND report_image = #{reportImage,jdbcType=VARCHAR}
+  </if>
+  <if test="reportImageLike!=null and  reportImageLike !=''">
+  		AND report_image LIKE CONCAT(CONCAT('%', #{reportImageLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="reportType!=null and  reportType !=''">
+   		AND report_type = #{reportType,jdbcType=VARCHAR}
+  </if>
+  <if test="reportTypeLike!=null and  reportTypeLike !=''">
+  		AND report_type LIKE CONCAT(CONCAT('%', #{reportTypeLike,jdbcType=VARCHAR}),'%')  
+  </if>
+   <if test="pubTimeRange1!=null">
+    		AND pub_time &gt; #{pubTimeRange1,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="pubTimeRange2!=null">
+    		AND pub_time &lt; #{pubTimeRange2,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="pubTime!=null">
+    		AND pub_time = #{pubTime,jdbcType=TIMESTAMP} 
+    </if>
+  <if test="reporter!=null">
+  		AND A.reporter=#{reporter,jdbcType=NUMERIC}
+  </if>
+  <if test="reporterPhone!=null and  reporterPhone !=''">
+   		AND reporter_phone = #{reporterPhone,jdbcType=VARCHAR}
+  </if>
+  <if test="reporterPhoneLike!=null and  reporterPhoneLike !=''">
+  		AND reporter_phone LIKE CONCAT(CONCAT('%', #{reporterPhoneLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="isPass!=null">
+  		AND A.is_pass=#{isPass,jdbcType=NUMERIC}
+  </if>
+  <if test="unpassNum!=null">
+  		AND A.unpass_num=#{unpassNum,jdbcType=NUMERIC}
+  </if>
+  <if test="riskIndex!=null and  riskIndex !=''">
+   		AND risk_index = #{riskIndex,jdbcType=VARCHAR}
+  </if>
+  <if test="riskIndexLike!=null and  riskIndexLike !=''">
+  		AND risk_index LIKE CONCAT(CONCAT('%', #{riskIndexLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="remark!=null and  remark !=''">
+   		AND remark = #{remark,jdbcType=VARCHAR}
+  </if>
+  <if test="remarkLike!=null and  remarkLike !=''">
+  		AND remark LIKE CONCAT(CONCAT('%', #{remarkLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="reportFileUrl!=null and  reportFileUrl !=''">
+   		AND report_file_url = #{reportFileUrl,jdbcType=VARCHAR}
+  </if>
+  <if test="reportFileUrlLike!=null and  reportFileUrlLike !=''">
+  		AND report_file_url LIKE CONCAT(CONCAT('%', #{reportFileUrlLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="modUser!=null">
+  		AND A.mod_user=#{modUser,jdbcType=NUMERIC}
+  </if>
+   <if test="modDateRange1!=null">
+    		AND mod_date &gt; #{modDateRange1,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="modDateRange2!=null">
+    		AND mod_date &lt; #{modDateRange2,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="modDate!=null">
+    		AND mod_date = #{modDate,jdbcType=TIMESTAMP} 
+    </if>
+  <if test="score!=null">
+  		AND A.score=#{score,jdbcType=NUMERIC}
+  </if>
+   <if test="extraCondition!=null and extraCondition!=''">
+	   AND  ( ${extraCondition} )
+	</if>
+    </sql>
+    
+</mapper>

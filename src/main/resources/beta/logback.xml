@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <!-- appender -->
+    <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+        <!--<withJansi>true</withJansi>-->
+        <encoder>
+            <pattern>[%level] [%date] [%thread] %logger [%file:%line] - %msg%n</pattern>
+        </encoder>
+    </appender>
+    
+    <!-- fileAppender -->
+    <appender name="commonAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${catalina.base}/logs/mybatis.log</File>
+        <encoder>
+            <pattern>[%level] [%date] [%thread] %logger [%file:%line] - %msg%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${catalina.base}/logs/mybatis.%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+    </appender>
+    
+    <!-- application appender -->
+    <appender name="fireAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${catalina.base}/logs/fire.log</File>
+        <encoder>
+            <pattern>[%level] [%date] [%thread] %logger [%file:%line] - %msg%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${catalina.base}/logs/fire.%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+    </appender>
+    
+    <!-- logger -->
+        
+    <logger name="org.fire" level="debug">  
+        <appender-ref ref="fireAppender" />
+    </logger> 
+    
+ 	<!-- mybatis日志 -->
+ 	<logger name="org.apache.ibatis" level="error">
+        <appender-ref ref="commonAppender" />
+ 	</logger>
+    
+    <!-- root -->
+    <root level="debug">
+        <appender-ref ref="consoleAppender" />
+    </root>
+</configuration>

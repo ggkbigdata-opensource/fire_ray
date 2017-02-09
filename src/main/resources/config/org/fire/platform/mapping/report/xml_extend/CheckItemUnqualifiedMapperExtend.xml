@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fire.platform.modules.report.dao.CheckItemUnqualifiedMapper">
+
+    <resultMap id="CheckItemUnqualifiedBean" type="org.fire.platform.modules.report.bean.CheckItemUnqualifiedBean">
+        <result property="code" column="item_code" jdbcType="VARCHAR"/>
+        <result property="level" column="level" jdbcType="VARCHAR"/>
+        <result property="standard" column="standard" jdbcType="VARCHAR"/>
+        <association property="unqualifiedList" column="{reportId=r_id,itemId=item_id}" select="selectByItemId"/>
+    </resultMap>
+
+    <insert id="batchInsert">
+        insert into check_item_unqualified (report_id, item_id, code, position) values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.reportId,jdbcType=NUMERIC} , #{item.itemId,jdbcType=NUMERIC},#{item.code,jdbcType=VARCHAR},#{item.position,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+
+    <select id="selectBeanByMap" resultMap="CheckItemUnqualifiedBean">
+        SELECT ciu.report_id as r_id , cid.id as item_id, cid.code as item_code , cid.name , cid.`level` , cid.standard
+        FROM check_item_unqualified ciu
+        LEFT JOIN check_item_def cid  on ciu.item_id = cid.id
+        WHERE ciu.report_id = #{reportId}
+        GROUP BY cid.id
+        ORDER BY cid.id
+    </select>
+
+    <select id="selectByItemId" resultMap="CheckItemUnqualified">
+        SELECT * FROM check_item_unqualified
+        WHERE item_id = #{itemId} AND report_id = #{reportId}
+    </select>
+</mapper>

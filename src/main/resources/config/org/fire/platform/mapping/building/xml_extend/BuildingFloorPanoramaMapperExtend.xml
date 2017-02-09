@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fire.platform.modules.building.dao.BuildingFloorPanoramaMapper">
+  <select id="selectBeanByMap" resultMap="BuildingFloorPanoramaBean"  parameterType="map"> 
+   SELECT A.* ,B.name as building_floor_name  FROM BUILDING_FLOOR_PANORAMA A,BUILDING_FLOOR B
+   WHERE a.floor_id = b.id
+      <include refid="queryBeanCondition"/>
+	<if test="extraOrderColumns != null and extraOrderColumns !=''">
+    		ORDER BY ${extraOrderColumns}
+    </if>
+  </select> 
+
+ <resultMap id="BuildingFloorPanoramaBean" type="org.fire.platform.modules.building.bean.BuildingFloorPanoramaBean" extends="BuildingFloorPanorama">  
+    <result property="buildingFloorName" column="building_floor_name"  jdbcType="VARCHAR" />  
+</resultMap>  
+
+  <sql id="queryBeanCondition">
+  <if test="id!=null">
+  		AND A.id=#{id,jdbcType=NUMERIC}
+  </if>
+  <if test="floorId!=null">
+  		AND A.floor_id=#{floorId,jdbcType=NUMERIC}
+  </if>
+  <if test="name!=null and  name !=''">
+   		AND A.name = #{name,jdbcType=VARCHAR}
+  </if>
+  <if test="nameLike!=null and  nameLike !=''">
+  		AND A.name LIKE CONCAT(CONCAT('%', #{nameLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="image!=null and  image !=''">
+   		AND image = #{image,jdbcType=VARCHAR}
+  </if>
+  <if test="imageLike!=null and  imageLike !=''">
+  		AND image LIKE CONCAT(CONCAT('%', #{imageLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="urls!=null and  urls !=''">
+   		AND urls = #{urls,jdbcType=VARCHAR}
+  </if>
+  <if test="urlsLike!=null and  urlsLike !=''">
+  		AND urls LIKE CONCAT(CONCAT('%', #{urlsLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="state!=null">
+  		AND A.state=#{state,jdbcType=NUMERIC}
+  </if>
+  <if test="modUser!=null">
+  		AND A.mod_user=#{modUser,jdbcType=NUMERIC}
+  </if>
+   <if test="modDateRange1!=null">
+    		AND mod_date &gt; #{modDateRange1,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="modDateRange2!=null">
+    		AND mod_date &lt; #{modDateRange2,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="modDate!=null">
+    		AND mod_date = #{modDate,jdbcType=TIMESTAMP} 
+    </if>
+   <if test="extraCondition!=null and extraCondition!=''">
+	   AND  ( ${extraCondition} )
+	</if>
+    </sql>
+    
+</mapper>

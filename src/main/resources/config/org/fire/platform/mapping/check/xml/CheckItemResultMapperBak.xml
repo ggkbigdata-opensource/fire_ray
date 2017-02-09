@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fire.platform.modules.check.dao.CheckItemResultMapperBak">
+  
+  <select id="selectAll" resultMap="CheckItemResult">
+      SELECT A.*   FROM CHECK_ITEM_RESULT A
+      <if test="extraOrderColumns != null and extraOrderColumns !=''">
+    		ORDER BY ${extraOrderColumns}
+      </if>
+  </select> 
+  
+  <select id="selectByMap" resultMap="CheckItemResult"  parameterType="map"> 
+   SELECT A.*   FROM CHECK_ITEM_RESULT A
+   <where>
+      <include refid="queryCondition"/>
+   </where>
+	<if test="extraOrderColumns != null and extraOrderColumns !=''">
+    		ORDER BY ${extraOrderColumns}
+    </if>
+  </select> 
+
+  <select id="selectByPrimaryKey"  resultMap="CheckItemResult"   parameterType="org.fire.platform.modules.check.domain.CheckItemResultBak">
+   SELECT  A.*  FROM  CHECK_ITEM_RESULT A 
+   WHERE id=#{id,jdbcType=NUMERIC}
+  </select>  
+  
+  <update id="updateByPrimaryKey"> 
+   UPDATE CHECK_ITEM_RESULT
+  <set>  
+     <if test="reportId != null">  
+            report_id = #{reportId,jdbcType=NUMERIC},
+      </if> 
+     <if test="itemId != null">  
+            item_id = #{itemId,jdbcType=NUMERIC},
+      </if> 
+     <if test="itemSort != null">  
+            item_sort = #{itemSort,jdbcType=VARCHAR},
+      </if> 
+     <if test="itemSortCode != null">  
+            item_sort_code = #{itemSortCode,jdbcType=VARCHAR},
+      </if> 
+     <if test="itemType != null">  
+            item_type = #{itemType,jdbcType=VARCHAR},
+      </if> 
+     <if test="itemTypeCode != null">  
+            item_type_code = #{itemTypeCode,jdbcType=VARCHAR},
+      </if> 
+     <if test="name != null">  
+            name = #{name,jdbcType=VARCHAR},
+      </if> 
+     <if test="level != null">  
+            level = #{level,jdbcType=VARCHAR},
+      </if> 
+     <if test="checkType != null">  
+            check_type = #{checkType,jdbcType=NUMERIC},
+      </if> 
+     <if test="isPass != null">  
+            is_pass = #{isPass,jdbcType=NUMERIC},
+      </if> 
+     <if test="result != null">  
+            result = #{result,jdbcType=VARCHAR},
+      </if> 
+     <if test="checkTime != null">  
+            check_time = #{checkTime,jdbcType=TIMESTAMP},
+      </if> 
+     <if test="checker != null">  
+            checker = #{checker,jdbcType=VARCHAR},
+      </if> 
+     <if test="imgs != null">  
+            imgs = #{imgs,jdbcType=VARCHAR},
+      </if> 
+     <if test="modUser != null">  
+            mod_user = #{modUser,jdbcType=NUMERIC},
+      </if> 
+     <if test="modDate != null">  
+            mod_date = #{modDate,jdbcType=TIMESTAMP},
+      </if> 
+   <if test="extraUpdateColumns != null and extraUpdateColumns !=''">
+    		${extraUpdateColumns}
+   </if>
+  </set>  
+   WHERE id=#{id,jdbcType=NUMERIC}
+  </update>  
+  
+  <delete id="deleteByPrimaryKey"> 
+   DELETE FROM CHECK_ITEM_RESULT
+     WHERE id=#{id,jdbcType=NUMERIC}
+  </delete>  
+
+  <delete id="deleteByParam"> 
+   DELETE FROM CHECK_ITEM_RESULT  WHERE 
+   <trim prefixOverrides="AND" > 
+  <if test="id!=null">
+  		AND id=#{id,jdbcType=NUMERIC}
+  </if>
+  <if test="reportId!=null">
+  		AND report_id=#{reportId,jdbcType=NUMERIC}
+  </if>
+  <if test="itemId!=null">
+  		AND item_id=#{itemId,jdbcType=NUMERIC}
+  </if>
+  <if test="itemSort!=null and  itemSort !=''">
+    <if test="itemSort!=null">
+  		AND item_sort=#{itemSort,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="itemSortCode!=null">
+  		AND item_sort_code=#{itemSortCode,jdbcType=VARCHAR}
+  </if>
+  <if test="itemType!=null and  itemType !=''">
+    <if test="itemType!=null">
+  		AND item_type=#{itemType,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="itemTypeCode!=null and  itemTypeCode !=''">
+    <if test="itemTypeCode!=null">
+  		AND item_type_code=#{itemTypeCode,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="name!=null and  name !=''">
+    <if test="name!=null">
+  		AND name=#{name,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="level!=null and  level !=''">
+    <if test="level!=null">
+  		AND level=#{level,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="checkType!=null">
+  		AND check_type=#{checkType,jdbcType=NUMERIC}
+  </if>
+  <if test="isPass!=null">
+  		AND is_pass=#{isPass,jdbcType=NUMERIC}
+  </if>
+  <if test="result!=null and  result !=''">
+    <if test="result!=null">
+  		AND result=#{result,jdbcType=VARCHAR}
+  </if>
+  </if>
+    <if test="checkTime!=null">
+    		AND check_time = #{checkTime,jdbcType=TIMESTAMP} 
+    </if>
+  <if test="checker!=null and  checker !=''">
+    <if test="checker!=null">
+  		AND checker=#{checker,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="imgs!=null and  imgs !=''">
+    <if test="imgs!=null">
+  		AND imgs=#{imgs,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="modUser!=null">
+  		AND mod_user=#{modUser,jdbcType=NUMERIC}
+  </if>
+    <if test="modDate!=null">
+    		AND mod_date = #{modDate,jdbcType=TIMESTAMP} 
+    </if>
+   <if test="extraCondition!=null and extraCondition!=''">
+	   AND  ( ${extraCondition} )
+	</if> 
+   </trim>
+  </delete>  
+ 
+  <insert id="insert"> 
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey> 
+    INSERT INTO CHECK_ITEM_RESULT (
+	id,
+	report_id,
+	item_id,
+	item_sort,
+	item_sort_code,
+	item_type,
+	item_type_code,
+	name,
+	level,
+	check_type,
+	is_pass,
+	result,
+	check_time,
+	checker,
+	imgs,
+	mod_user,
+	mod_date
+	)  VALUES(
+	#{id,jdbcType=NUMERIC},
+	#{reportId,jdbcType=NUMERIC},
+	#{itemId,jdbcType=NUMERIC},
+	#{itemSort,jdbcType=VARCHAR},
+	#{itemSortCode,jdbcType=VARCHAR},
+	#{itemType,jdbcType=VARCHAR},
+	#{itemTypeCode,jdbcType=VARCHAR},
+	#{name,jdbcType=VARCHAR},
+	#{level,jdbcType=VARCHAR},
+	#{checkType,jdbcType=NUMERIC},
+	#{isPass,jdbcType=NUMERIC},
+	#{result,jdbcType=VARCHAR},
+	#{checkTime,jdbcType=TIMESTAMP},
+	#{checker,jdbcType=VARCHAR},
+	#{imgs,jdbcType=VARCHAR},
+	#{modUser,jdbcType=NUMERIC},
+	#{modDate,jdbcType=TIMESTAMP}
+    ) 
+  </insert>  
+
+
+
+  <resultMap  id="CheckItemResult"  type="org.fire.platform.modules.check.domain.CheckItemResultBak" >
+	<result property="id" column="id"  jdbcType="NUMERIC" />
+	<result property="reportId" column="report_id"  jdbcType="NUMERIC" />
+	<result property="itemId" column="item_id"  jdbcType="NUMERIC" />
+	<result property="itemSort" column="item_sort"  jdbcType="VARCHAR" />
+	<result property="itemSortCode" column="item_sort_code"  jdbcType="NUMERIC" />
+	<result property="itemType" column="item_type"  jdbcType="VARCHAR" />
+	<result property="itemTypeCode" column="item_type_code"  jdbcType="VARCHAR" />
+	<result property="name" column="name"  jdbcType="VARCHAR" />
+	<result property="level" column="level"  jdbcType="VARCHAR" />
+	<result property="checkType" column="check_type"  jdbcType="NUMERIC" />
+	<result property="isPass" column="is_pass"  jdbcType="NUMERIC" />
+	<result property="result" column="result"  jdbcType="VARCHAR" />
+	<result property="checkTime" column="check_time"  jdbcType="TIMESTAMP" />
+	<result property="checker" column="checker"  jdbcType="VARCHAR" />
+	<result property="imgs" column="imgs"  jdbcType="VARCHAR" />
+	<result property="modUser" column="mod_user"  jdbcType="NUMERIC" />
+	<result property="modDate" column="mod_date"  jdbcType="TIMESTAMP" />
+  </resultMap>
+ 
+  <sql id="queryCondition">
+  <if test="id!=null">
+  		AND A.id=#{id,jdbcType=NUMERIC}
+  </if>
+  <if test="reportId!=null">
+  		AND A.report_id=#{reportId,jdbcType=NUMERIC}
+  </if>
+  <if test="itemId!=null">
+  		AND A.item_id=#{itemId,jdbcType=NUMERIC}
+  </if>
+  <if test="itemSort!=null and  itemSort !=''">
+   		AND item_sort = #{itemSort,jdbcType=VARCHAR}
+  </if>
+  <if test="itemSortLike!=null and  itemSortLike !=''">
+  		AND item_sort LIKE CONCAT(CONCAT('%', #{itemSortLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="itemSortCode!=null">
+  		AND A.item_sort_code=#{itemSortCode,jdbcType=NUMERIC}
+  </if>
+  <if test="itemType!=null and  itemType !=''">
+   		AND item_type = #{itemType,jdbcType=VARCHAR}
+  </if>
+  <if test="itemTypeLike!=null and  itemTypeLike !=''">
+  		AND item_type LIKE CONCAT(CONCAT('%', #{itemTypeLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="itemTypeCode!=null and  itemTypeCode !=''">
+   		AND item_type_code = #{itemTypeCode,jdbcType=VARCHAR}
+  </if>
+  <if test="itemTypeCodeLike!=null and  itemTypeCodeLike !=''">
+  		AND item_type_code LIKE CONCAT(CONCAT('%', #{itemTypeCodeLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="name!=null and  name !=''">
+   		AND name = #{name,jdbcType=VARCHAR}
+  </if>
+  <if test="nameLike!=null and  nameLike !=''">
+  		AND name LIKE CONCAT(CONCAT('%', #{nameLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="level!=null and  level !=''">
+   		AND level = #{level,jdbcType=VARCHAR}
+  </if>
+  <if test="levelLike!=null and  levelLike !=''">
+  		AND level LIKE CONCAT(CONCAT('%', #{levelLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="checkType!=null">
+  		AND A.check_type=#{checkType,jdbcType=NUMERIC}
+  </if>
+  <if test="isPass!=null">
+  		AND A.is_pass=#{isPass,jdbcType=NUMERIC}
+  </if>
+  <if test="result!=null and  result !=''">
+   		AND result = #{result,jdbcType=VARCHAR}
+  </if>
+  <if test="resultLike!=null and  resultLike !=''">
+  		AND result LIKE CONCAT(CONCAT('%', #{resultLike,jdbcType=VARCHAR}),'%')  
+  </if>
+   <if test="checkTimeRange1!=null">
+    		AND check_time &gt; #{checkTimeRange1,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="checkTimeRange2!=null">
+    		AND check_time &lt; #{checkTimeRange2,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="checkTime!=null">
+    		AND check_time = #{checkTime,jdbcType=TIMESTAMP} 
+    </if>
+  <if test="checker!=null and  checker !=''">
+   		AND checker = #{checker,jdbcType=VARCHAR}
+  </if>
+  <if test="checkerLike!=null and  checkerLike !=''">
+  		AND checker LIKE CONCAT(CONCAT('%', #{checkerLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="imgs!=null and  imgs !=''">
+   		AND imgs = #{imgs,jdbcType=VARCHAR}
+  </if>
+  <if test="imgsLike!=null and  imgsLike !=''">
+  		AND imgs LIKE CONCAT(CONCAT('%', #{imgsLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="modUser!=null">
+  		AND A.mod_user=#{modUser,jdbcType=NUMERIC}
+  </if>
+   <if test="modDateRange1!=null">
+    		AND mod_date &gt; #{modDateRange1,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="modDateRange2!=null">
+    		AND mod_date &lt; #{modDateRange2,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="modDate!=null">
+    		AND mod_date = #{modDate,jdbcType=TIMESTAMP} 
+    </if>
+   <if test="extraCondition!=null and extraCondition!=''">
+	   AND  ( ${extraCondition} )
+	</if>
+    </sql>
+    
+</mapper>

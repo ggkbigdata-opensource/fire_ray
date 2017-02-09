@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fire.platform.modules.sys.dao.LoginLogMapper">
+  
+  <select id="selectAll" resultMap="LoginLog">
+      SELECT A.*   FROM LOGIN_LOG A
+      <if test="extraOrderColumns != null and extraOrderColumns !=''">
+    		ORDER BY ${extraOrderColumns}
+      </if>
+  </select> 
+  
+  <select id="selectByMap" resultMap="LoginLog"  parameterType="map"> 
+   SELECT A.*   FROM LOGIN_LOG A
+   <where>
+      <include refid="queryCondition"/>
+   </where>
+	<if test="extraOrderColumns != null and extraOrderColumns !=''">
+    		ORDER BY ${extraOrderColumns}
+    </if>
+  </select> 
+
+  <select id="selectByPrimaryKey"  resultMap="LoginLog"   parameterType="org.fire.platform.modules.sys.domain.LoginLog"> 
+   SELECT  A.*  FROM  LOGIN_LOG A 
+   WHERE id=#{id,jdbcType=NUMERIC}
+  </select>  
+  
+  <update id="updateByPrimaryKey"> 
+   UPDATE LOGIN_LOG
+  <set>  
+     <if test="userId != null">  
+            user_id = #{userId,jdbcType=NUMERIC},
+      </if> 
+     <if test="username != null">  
+            username = #{username,jdbcType=VARCHAR},
+      </if> 
+     <if test="loginTime != null">  
+            login_time = #{loginTime,jdbcType=TIMESTAMP},
+      </if> 
+     <if test="logoutTime != null">  
+            logout_time = #{logoutTime,jdbcType=TIMESTAMP},
+      </if> 
+     <if test="loginType != null">  
+            login_type = #{loginType,jdbcType=NUMERIC},
+      </if> 
+     <if test="loginSource != null">  
+            login_source = #{loginSource,jdbcType=VARCHAR},
+      </if> 
+     <if test="ipAddress != null">  
+            ip_address = #{ipAddress,jdbcType=VARCHAR},
+      </if> 
+     <if test="imeiNum != null">  
+            imei_num = #{imeiNum,jdbcType=VARCHAR},
+      </if> 
+     <if test="mobile != null">  
+            mobile = #{mobile,jdbcType=VARCHAR},
+      </if> 
+     <if test="token != null">  
+            token = #{token,jdbcType=VARCHAR},
+      </if> 
+   <if test="extraUpdateColumns != null and extraUpdateColumns !=''">
+    		${extraUpdateColumns}
+   </if>
+  </set>  
+   WHERE id=#{id,jdbcType=NUMERIC}
+  </update>  
+  
+  <delete id="deleteByPrimaryKey"> 
+   DELETE FROM LOGIN_LOG
+     WHERE id=#{id,jdbcType=NUMERIC}
+  </delete>  
+
+  <delete id="deleteByParam"> 
+   DELETE FROM LOGIN_LOG  WHERE 
+   <trim prefixOverrides="AND" > 
+  <if test="id!=null">
+  		AND id=#{id,jdbcType=NUMERIC}
+  </if>
+  <if test="userId!=null">
+  		AND user_id=#{userId,jdbcType=NUMERIC}
+  </if>
+  <if test="username!=null and  username !=''">
+    <if test="username!=null">
+  		AND username=#{username,jdbcType=VARCHAR}
+  </if>
+  </if>
+    <if test="loginTime!=null">
+    		AND login_time = #{loginTime,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="logoutTime!=null">
+    		AND logout_time = #{logoutTime,jdbcType=TIMESTAMP} 
+    </if>
+  <if test="loginType!=null">
+  		AND login_type=#{loginType,jdbcType=NUMERIC}
+  </if>
+  <if test="loginSource!=null and  loginSource !=''">
+    <if test="loginSource!=null">
+  		AND login_source=#{loginSource,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="ipAddress!=null and  ipAddress !=''">
+    <if test="ipAddress!=null">
+  		AND ip_address=#{ipAddress,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="imeiNum!=null and  imeiNum !=''">
+    <if test="imeiNum!=null">
+  		AND imei_num=#{imeiNum,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="mobile!=null and  mobile !=''">
+    <if test="mobile!=null">
+  		AND mobile=#{mobile,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="token!=null and  token !=''">
+    <if test="token!=null">
+  		AND token=#{token,jdbcType=VARCHAR}
+  </if>
+  </if>
+   <if test="extraCondition!=null and extraCondition!=''">
+	   AND  ( ${extraCondition} )
+	</if> 
+   </trim>
+  </delete>  
+ 
+  <insert id="insert"> 
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey> 
+    INSERT INTO LOGIN_LOG (
+	id,
+	user_id,
+	username,
+	login_time,
+	logout_time,
+	login_type,
+	login_source,
+	ip_address,
+	imei_num,
+	mobile,
+	token
+	)  VALUES(
+	#{id,jdbcType=NUMERIC},
+	#{userId,jdbcType=NUMERIC},
+	#{username,jdbcType=VARCHAR},
+	#{loginTime,jdbcType=TIMESTAMP},
+	#{logoutTime,jdbcType=TIMESTAMP},
+	#{loginType,jdbcType=NUMERIC},
+	#{loginSource,jdbcType=VARCHAR},
+	#{ipAddress,jdbcType=VARCHAR},
+	#{imeiNum,jdbcType=VARCHAR},
+	#{mobile,jdbcType=VARCHAR},
+	#{token,jdbcType=VARCHAR}
+    ) 
+  </insert>  
+
+
+
+  <resultMap  id="LoginLog"  type="org.fire.platform.modules.sys.domain.LoginLog" >
+	<result property="id" column="id"  jdbcType="NUMERIC" />
+	<result property="userId" column="user_id"  jdbcType="NUMERIC" />
+	<result property="username" column="username"  jdbcType="VARCHAR" />
+	<result property="loginTime" column="login_time"  jdbcType="TIMESTAMP" />
+	<result property="logoutTime" column="logout_time"  jdbcType="TIMESTAMP" />
+	<result property="loginType" column="login_type"  jdbcType="NUMERIC" />
+	<result property="loginSource" column="login_source"  jdbcType="VARCHAR" />
+	<result property="ipAddress" column="ip_address"  jdbcType="VARCHAR" />
+	<result property="imeiNum" column="imei_num"  jdbcType="VARCHAR" />
+	<result property="mobile" column="mobile"  jdbcType="VARCHAR" />
+	<result property="token" column="token"  jdbcType="VARCHAR" />
+  </resultMap>
+ 
+  <sql id="queryCondition">
+  <if test="id!=null">
+  		AND A.id=#{id,jdbcType=NUMERIC}
+  </if>
+  <if test="userId!=null">
+  		AND A.user_id=#{userId,jdbcType=NUMERIC}
+  </if>
+  <if test="username!=null and  username !=''">
+   		AND username = #{username,jdbcType=VARCHAR}
+  </if>
+  <if test="usernameLike!=null and  usernameLike !=''">
+  		AND username LIKE CONCAT(CONCAT('%', #{usernameLike,jdbcType=VARCHAR}),'%')  
+  </if>
+   <if test="loginTimeRange1!=null">
+    		AND login_time &gt; #{loginTimeRange1,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="loginTimeRange2!=null">
+    		AND login_time &lt; #{loginTimeRange2,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="loginTime!=null">
+    		AND login_time = #{loginTime,jdbcType=TIMESTAMP} 
+    </if>
+   <if test="logoutTimeRange1!=null">
+    		AND logout_time &gt; #{logoutTimeRange1,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="logoutTimeRange2!=null">
+    		AND logout_time &lt; #{logoutTimeRange2,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="logoutTime!=null">
+    		AND logout_time = #{logoutTime,jdbcType=TIMESTAMP} 
+    </if>
+  <if test="loginType!=null">
+  		AND A.login_type=#{loginType,jdbcType=NUMERIC}
+  </if>
+  <if test="loginSource!=null and  loginSource !=''">
+   		AND login_source = #{loginSource,jdbcType=VARCHAR}
+  </if>
+  <if test="loginSourceLike!=null and  loginSourceLike !=''">
+  		AND login_source LIKE CONCAT(CONCAT('%', #{loginSourceLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="ipAddress!=null and  ipAddress !=''">
+   		AND ip_address = #{ipAddress,jdbcType=VARCHAR}
+  </if>
+  <if test="ipAddressLike!=null and  ipAddressLike !=''">
+  		AND ip_address LIKE CONCAT(CONCAT('%', #{ipAddressLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="imeiNum!=null and  imeiNum !=''">
+   		AND imei_num = #{imeiNum,jdbcType=VARCHAR}
+  </if>
+  <if test="imeiNumLike!=null and  imeiNumLike !=''">
+  		AND imei_num LIKE CONCAT(CONCAT('%', #{imeiNumLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="mobile!=null and  mobile !=''">
+   		AND mobile = #{mobile,jdbcType=VARCHAR}
+  </if>
+  <if test="mobileLike!=null and  mobileLike !=''">
+  		AND mobile LIKE CONCAT(CONCAT('%', #{mobileLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="token!=null and  token !=''">
+   		AND token = #{token,jdbcType=VARCHAR}
+  </if>
+  <if test="tokenLike!=null and  tokenLike !=''">
+  		AND token LIKE CONCAT(CONCAT('%', #{tokenLike,jdbcType=VARCHAR}),'%')  
+  </if>
+   <if test="extraCondition!=null and extraCondition!=''">
+	   AND  ( ${extraCondition} )
+	</if>
+    </sql>
+    
+</mapper>

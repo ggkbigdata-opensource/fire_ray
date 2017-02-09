@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fire.platform.modules.building.dao.ManagementMapper">
+
+  <select id="selectByBuildingId"  resultMap="ManagementBean"   parameterType="org.fire.platform.modules.building.bean.ManagementBean">
+   SELECT  A.*,A.publish_time as publish_time_string  FROM  MANAGEMENT A
+   WHERE building_id=#{buildingId,jdbcType=NUMERIC}
+  </select>
+
+    <resultMap id="ManagementBean" type="org.fire.platform.modules.building.bean.ManagementBean" extends="Management">
+        <result property="publishTimeString" column="publish_time_string"  jdbcType="VARCHAR" />
+    </resultMap>
+
+</mapper>

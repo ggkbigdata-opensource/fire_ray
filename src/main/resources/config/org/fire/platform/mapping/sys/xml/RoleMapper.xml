@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fire.platform.modules.sys.dao.RoleMapper">
+  
+  <select id="selectAll" resultMap="Role">
+      SELECT A.*   FROM ROLE A
+      <if test="extraOrderColumns != null and extraOrderColumns !=''">
+    		ORDER BY ${extraOrderColumns}
+      </if>
+  </select> 
+  
+  <select id="selectByMap" resultMap="Role"  parameterType="map"> 
+   SELECT A.*   FROM ROLE A
+   <where>
+      <include refid="queryCondition"/>
+   </where>
+	<if test="extraOrderColumns != null and extraOrderColumns !=''">
+    		ORDER BY ${extraOrderColumns}
+    </if>
+  </select> 
+
+  <select id="selectByPrimaryKey"  resultMap="Role"   parameterType="org.fire.platform.modules.sys.domain.Role"> 
+   SELECT  A.*  FROM  ROLE A 
+   WHERE role_id=#{roleId,jdbcType=NUMERIC}
+  </select>  
+  
+  <update id="updateByPrimaryKey"> 
+   UPDATE ROLE
+  <set>  
+     <if test="roleName != null">  
+            role_name = #{roleName,jdbcType=VARCHAR},
+      </if> 
+     <if test="remark != null">  
+            remark = #{remark,jdbcType=VARCHAR},
+      </if> 
+   <if test="extraUpdateColumns != null and extraUpdateColumns !=''">
+    		${extraUpdateColumns}
+   </if>
+  </set>  
+   WHERE role_id=#{roleId,jdbcType=NUMERIC}
+  </update>  
+  
+  <delete id="deleteByPrimaryKey"> 
+   DELETE FROM ROLE
+     WHERE role_id=#{roleId,jdbcType=NUMERIC}
+  </delete>  
+
+  <delete id="deleteByParam"> 
+   DELETE FROM ROLE  WHERE 
+   <trim prefixOverrides="AND" > 
+  <if test="roleId!=null">
+  		AND role_id=#{roleId,jdbcType=NUMERIC}
+  </if>
+  <if test="roleName!=null and  roleName !=''">
+    <if test="roleName!=null">
+  		AND role_name=#{roleName,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="remark!=null and  remark !=''">
+    <if test="remark!=null">
+  		AND remark=#{remark,jdbcType=VARCHAR}
+  </if>
+  </if>
+   <if test="extraCondition!=null and extraCondition!=''">
+	   AND  ( ${extraCondition} )
+	</if> 
+   </trim>
+  </delete>  
+ 
+  <insert id="insert"> 
+    <selectKey resultType="java.lang.Long" keyProperty="roleId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey> 
+    INSERT INTO ROLE (
+	role_id,
+	role_name,
+	remark
+	)  VALUES(
+	#{roleId,jdbcType=NUMERIC},
+	#{roleName,jdbcType=VARCHAR},
+	#{remark,jdbcType=VARCHAR}
+    ) 
+  </insert>  
+
+
+
+  <resultMap  id="Role"  type="org.fire.platform.modules.sys.domain.Role" >
+	<result property="roleId" column="role_id"  jdbcType="NUMERIC" />
+	<result property="roleName" column="role_name"  jdbcType="VARCHAR" />
+	<result property="remark" column="remark"  jdbcType="VARCHAR" />
+  </resultMap>
+ 
+  <sql id="queryCondition">
+  <if test="roleId!=null">
+  		AND A.role_id=#{roleId,jdbcType=NUMERIC}
+  </if>
+  <if test="roleName!=null and  roleName !=''">
+   		AND role_name = #{roleName,jdbcType=VARCHAR}
+  </if>
+  <if test="roleNameLike!=null and  roleNameLike !=''">
+  		AND role_name LIKE CONCAT(CONCAT('%', #{roleNameLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="remark!=null and  remark !=''">
+   		AND remark = #{remark,jdbcType=VARCHAR}
+  </if>
+  <if test="remarkLike!=null and  remarkLike !=''">
+  		AND remark LIKE CONCAT(CONCAT('%', #{remarkLike,jdbcType=VARCHAR}),'%')  
+  </if>
+   <if test="extraCondition!=null and extraCondition!=''">
+	   AND  ( ${extraCondition} )
+	</if>
+    </sql>
+    
+</mapper>

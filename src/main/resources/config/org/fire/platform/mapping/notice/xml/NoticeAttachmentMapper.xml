@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fire.platform.modules.notice.dao.NoticeAttachmentMapper">
+
+    <select id="selectAll" resultMap="NoticeAttachment">
+        SELECT A.* FROM NOTICE_ATTACHMENT A
+        <if test="extraOrderColumns != null and extraOrderColumns !=''">
+            ORDER BY ${extraOrderColumns}
+        </if>
+    </select>
+
+    <select id="selectByMap" resultMap="NoticeAttachment" parameterType="map">
+        SELECT A.* FROM NOTICE_ATTACHMENT A
+        <where>
+            <include refid="queryCondition"/>
+        </where>
+        <if test="extraOrderColumns != null and extraOrderColumns !=''">
+            ORDER BY ${extraOrderColumns}
+        </if>
+    </select>
+
+
+    <select id="selectByParam" resultMap="NoticeAttachment"
+            parameterType="org.fire.platform.modules.notice.domain.NoticeAttachment">
+        SELECT A.* FROM NOTICE_ATTACHMENT A
+        <where>
+            <include refid="queryCondition"/>
+        </where>
+        <if test="extraOrderColumns != null and extraOrderColumns !=''">
+            ORDER BY ${extraOrderColumns}
+        </if>
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="NoticeAttachment"
+            parameterType="org.fire.platform.modules.notice.domain.NoticeAttachment">
+   SELECT  A.*  FROM  NOTICE_ATTACHMENT A 
+   WHERE id=#{id,jdbcType=NUMERIC}
+  </select>
+
+    <update id="updateByPrimaryKey">
+        UPDATE NOTICE_ATTACHMENT
+        <set>
+            <if test="noticeId != null">
+                notice_id = #{noticeId,jdbcType=NUMERIC},
+            </if>
+            <if test="originalName != null">
+                original_name = #{originalName,jdbcType=VARCHAR},
+            </if>
+            <if test="fileSize != null">
+                file_size = #{fileSize,jdbcType=VARCHAR},
+            </if>
+            <if test="uuid != null">
+                uuid = #{uuid,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null">
+                state = #{state,jdbcType=NUMERIC},
+            </if>
+            <if test="extraUpdateColumns != null and extraUpdateColumns !=''">
+                ${extraUpdateColumns}
+            </if>
+        </set>
+        WHERE id=#{id,jdbcType=NUMERIC}
+    </update>
+
+    <delete id="deleteByPrimaryKey">
+   DELETE FROM NOTICE_ATTACHMENT
+     WHERE id=#{id,jdbcType=NUMERIC}
+  </delete>
+
+    <delete id="deleteByParam">
+        DELETE FROM NOTICE_ATTACHMENT WHERE
+        <trim prefixOverrides="AND">
+            <if test="id!=null">
+                AND id=#{id,jdbcType=NUMERIC}
+            </if>
+            <if test="noticeId!=null">
+                AND notice_id=#{noticeId,jdbcType=NUMERIC}
+            </if>
+            <if test="originalName!=null and  originalName !=''">
+                AND original_name=#{originalName,jdbcType=VARCHAR}
+            </if>
+            <if test="fileSize!=null and  fileSize !=''">
+                AND file_size=#{fileSize,jdbcType=VARCHAR}
+            </if>
+            <if test="uuid!=null and  uuid !=''">
+                AND uuid=#{uuid,jdbcType=VARCHAR}
+            </if>
+            <if test="state!=null">
+                AND state=#{state,jdbcType=NUMERIC}
+            </if>
+            <if test="extraCondition!=null and extraCondition!=''">
+                AND ( ${extraCondition} )
+            </if>
+        </trim>
+    </delete>
+
+    <insert id="insert">
+        <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO NOTICE_ATTACHMENT (
+        id,
+        notice_id,
+        original_name,
+        file_size,
+        uuid,
+        state
+        ) VALUES(
+        #{id,jdbcType=NUMERIC},
+        #{noticeId,jdbcType=NUMERIC},
+        #{originalName,jdbcType=VARCHAR},
+        #{fileSize,jdbcType=VARCHAR},
+        #{uuid,jdbcType=VARCHAR},
+        #{state,jdbcType=NUMERIC}
+        )
+    </insert>
+
+
+    <resultMap id="NoticeAttachment" type="org.fire.platform.modules.notice.domain.NoticeAttachment">
+        <result property="id" column="id" jdbcType="NUMERIC"/>
+        <result property="noticeId" column="notice_id" jdbcType="NUMERIC"/>
+        <result property="originalName" column="original_name" jdbcType="VARCHAR"/>
+        <result property="fileSize" column="file_size" jdbcType="VARCHAR"/>
+        <result property="uuid" column="uuid" jdbcType="VARCHAR"/>
+        <result property="state" column="state" jdbcType="NUMERIC"/>
+    </resultMap>
+
+    <sql id="queryCondition">
+        <if test="id!=null">
+            AND A.id=#{id,jdbcType=NUMERIC}
+        </if>
+        <if test="noticeId!=null">
+            AND A.notice_id=#{noticeId,jdbcType=NUMERIC}
+        </if>
+        <if test="originalName!=null and  originalName !=''">
+            AND original_name = #{originalName,jdbcType=VARCHAR}
+        </if>
+        <if test="originalNameLike!=null and  originalNameLike !=''">
+            AND original_name LIKE CONCAT(CONCAT('%', #{originalNameLike,jdbcType=VARCHAR}),'%')
+        </if>
+        <if test="fileSize!=null and  fileSize !=''">
+            AND file_size = #{fileSize,jdbcType=VARCHAR}
+        </if>
+        <if test="fileSizeLike!=null and  fileSizeLike !=''">
+            AND file_size LIKE CONCAT(CONCAT('%', #{fileSizeLike,jdbcType=VARCHAR}),'%')
+        </if>
+        <if test="uuid!=null and  uuid !=''">
+            AND uuid = #{uuid,jdbcType=VARCHAR}
+        </if>
+        <if test="uuidLike!=null and  uuidLike !=''">
+            AND uuid LIKE CONCAT(CONCAT('%', #{uuidLike,jdbcType=VARCHAR}),'%')
+        </if>
+        <if test="state!=null">
+            AND A.state=#{state,jdbcType=NUMERIC}
+        </if>
+        <if test="extraCondition!=null and extraCondition!=''">
+            AND ( ${extraCondition} )
+        </if>
+    </sql>
+
+</mapper>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fire.platform.modules.sys.dao.RoleMenuMapper">
+  
+  <delete id="deleteByRoleId">
+   DELETE FROM ROLE_MENU
+     WHERE role_id=#{roleId,jdbcType=NUMERIC}
+  </delete>
+
+    <select id="selectByRoleMenu" resultMap="RoleMenu">
+        SELECT A.*   FROM ROLE_MENU A  where A.role_id = #{0} and A.menu_id = #{1}
+       <!-- <where>
+            <if test="roleId != null">
+                AND a.role_id = #{districtId,jdbcType=NUMERIC}
+            </if>
+            <if test="menuId != null">
+                AND a.menu_id = #{districtId,jdbcType=NUMERIC}
+            </if>
+        </where>-->
+    </select>
+
+    <!-- 批量插入 -->
+    <insert id ="batchInsert" parameterType="java.util.List">
+        insert into ROLE_MENU
+        (role_id, menu_id)
+        values
+        <foreach collection="list" item="roleMenu" index="index" separator=",">
+            (
+            #{roleMenu.roleId,jdbcType=NUMERIC},
+            #{roleMenu.menuId,jdbcType=NUMERIC}
+            )
+        </foreach >
+    </insert >
+
+</mapper>

@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fire.platform.modules.area.dao.BlockMapper">
+  
+  <select id="selectAll" resultMap="Block">
+      SELECT A.*   FROM BLOCK A
+      <if test="extraOrderColumns != null and extraOrderColumns !=''">
+    		ORDER BY ${extraOrderColumns}
+      </if>
+  </select> 
+  
+  <select id="selectByMap" resultMap="Block"  parameterType="map"> 
+   SELECT A.*   FROM BLOCK A
+   <where>
+      <include refid="queryCondition"/>
+   </where>
+	<if test="extraOrderColumns != null and extraOrderColumns !=''">
+    		ORDER BY ${extraOrderColumns}
+    </if>
+  </select> 
+
+  <select id="selectByPrimaryKey"  resultMap="Block"   parameterType="org.fire.platform.modules.area.domain.Block"> 
+   SELECT  A.*  FROM  BLOCK A 
+   WHERE id=#{id,jdbcType=NUMERIC}
+  </select>  
+  
+  <update id="updateByPrimaryKey"> 
+   UPDATE BLOCK
+  <set>  
+     <if test="name != null">  
+            name = #{name,jdbcType=VARCHAR},
+      </if> 
+     <if test="blockType != null">  
+            block_type = #{blockType,jdbcType=VARCHAR},
+      </if> 
+     <if test="code != null">  
+            code = #{code,jdbcType=VARCHAR},
+      </if> 
+     <if test="districtId != null">  
+            district_id = #{districtId,jdbcType=NUMERIC},
+      </if> 
+     <if test="streetId != null">  
+            street_id = #{streetId,jdbcType=NUMERIC},
+      </if> 
+     <if test="longitude != null">  
+            longitude = #{longitude,jdbcType=NUMERIC},
+      </if> 
+     <if test="latitude != null">  
+            latitude = #{latitude,jdbcType=NUMERIC},
+      </if> 
+     <if test="images != null">  
+            images = #{images,jdbcType=VARCHAR},
+      </if> 
+     <if test="coverArea != null">  
+            cover_area = #{coverArea,jdbcType=VARCHAR},
+      </if> 
+     <if test="population != null">  
+            population = #{population,jdbcType=VARCHAR},
+      </if> 
+     <if test="state != null">  
+            state = #{state,jdbcType=NUMERIC},
+      </if> 
+     <if test="remark != null">  
+            remark = #{remark,jdbcType=VARCHAR},
+      </if> 
+     <if test="modUser != null">  
+            mod_user = #{modUser,jdbcType=NUMERIC},
+      </if> 
+     <if test="modTime != null">  
+            mod_time = #{modTime,jdbcType=TIMESTAMP},
+      </if> 
+   <if test="extraUpdateColumns != null and extraUpdateColumns !=''">
+    		${extraUpdateColumns}
+   </if>
+  </set>  
+   WHERE id=#{id,jdbcType=NUMERIC}
+  </update>  
+  
+  <delete id="deleteByPrimaryKey"> 
+   DELETE FROM BLOCK
+     WHERE id=#{id,jdbcType=NUMERIC}
+  </delete>  
+
+  <delete id="deleteByParam"> 
+   DELETE FROM BLOCK  WHERE 
+   <trim prefixOverrides="AND" > 
+  <if test="id!=null">
+  		AND id=#{id,jdbcType=NUMERIC}
+  </if>
+  <if test="name!=null and  name !=''">
+    <if test="name!=null">
+  		AND name=#{name,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="blockType!=null and  blockType !=''">
+    <if test="blockType!=null">
+  		AND block_type=#{blockType,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="code!=null and  code !=''">
+    <if test="code!=null">
+  		AND code=#{code,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="districtId!=null">
+  		AND district_id=#{districtId,jdbcType=NUMERIC}
+  </if>
+  <if test="streetId!=null">
+  		AND street_id=#{streetId,jdbcType=NUMERIC}
+  </if>
+  <if test="longitude!=null">
+  		AND longitude=#{longitude,jdbcType=NUMERIC}
+  </if>
+  <if test="latitude!=null">
+  		AND latitude=#{latitude,jdbcType=NUMERIC}
+  </if>
+  <if test="images!=null and  images !=''">
+    <if test="images!=null">
+  		AND images=#{images,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="coverArea!=null and  coverArea !=''">
+    <if test="coverArea!=null">
+  		AND cover_area=#{coverArea,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="population!=null and  population !=''">
+    <if test="population!=null">
+  		AND population=#{population,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="state!=null">
+  		AND state=#{state,jdbcType=NUMERIC}
+  </if>
+  <if test="remark!=null and  remark !=''">
+    <if test="remark!=null">
+  		AND remark=#{remark,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="modUser!=null">
+  		AND mod_user=#{modUser,jdbcType=NUMERIC}
+  </if>
+    <if test="modTime!=null">
+    		AND mod_time = #{modTime,jdbcType=TIMESTAMP} 
+    </if>
+   <if test="extraCondition!=null and extraCondition!=''">
+	   AND  ( ${extraCondition} )
+	</if> 
+   </trim>
+  </delete>  
+ 
+  <insert id="insert"> 
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey> 
+    INSERT INTO BLOCK (
+	id,
+	name,
+	block_type,
+	code,
+	district_id,
+	street_id,
+	longitude,
+	latitude,
+	images,
+	cover_area,
+	population,
+	state,
+	remark,
+	mod_user,
+	mod_time
+	)  VALUES(
+	#{id,jdbcType=NUMERIC},
+	#{name,jdbcType=VARCHAR},
+	#{blockType,jdbcType=VARCHAR},
+	#{code,jdbcType=VARCHAR},
+	#{districtId,jdbcType=NUMERIC},
+	#{streetId,jdbcType=NUMERIC},
+	#{longitude,jdbcType=NUMERIC},
+	#{latitude,jdbcType=NUMERIC},
+	#{images,jdbcType=VARCHAR},
+	#{coverArea,jdbcType=VARCHAR},
+	#{population,jdbcType=VARCHAR},
+	#{state,jdbcType=NUMERIC},
+	#{remark,jdbcType=VARCHAR},
+	#{modUser,jdbcType=NUMERIC},
+	#{modTime,jdbcType=TIMESTAMP}
+    ) 
+  </insert>  
+
+
+
+  <resultMap  id="Block"  type="org.fire.platform.modules.area.domain.Block" >
+	<result property="id" column="id"  jdbcType="NUMERIC" />
+	<result property="name" column="name"  jdbcType="VARCHAR" />
+	<result property="blockType" column="block_type"  jdbcType="VARCHAR" />
+	<result property="code" column="code"  jdbcType="VARCHAR" />
+	<result property="districtId" column="district_id"  jdbcType="NUMERIC" />
+	<result property="streetId" column="street_id"  jdbcType="NUMERIC" />
+	<result property="longitude" column="longitude"  jdbcType="NUMERIC" />
+	<result property="latitude" column="latitude"  jdbcType="NUMERIC" />
+	<result property="images" column="images"  jdbcType="VARCHAR" />
+	<result property="coverArea" column="cover_area"  jdbcType="VARCHAR" />
+	<result property="population" column="population"  jdbcType="VARCHAR" />
+	<result property="state" column="state"  jdbcType="NUMERIC" />
+	<result property="remark" column="remark"  jdbcType="VARCHAR" />
+	<result property="modUser" column="mod_user"  jdbcType="NUMERIC" />
+	<result property="modTime" column="mod_time"  jdbcType="TIMESTAMP" />
+  </resultMap>
+ 
+  <sql id="queryCondition">
+  <if test="id!=null">
+  		AND A.id=#{id,jdbcType=NUMERIC}
+  </if>
+  <if test="name!=null and  name !=''">
+   		AND name = #{name,jdbcType=VARCHAR}
+  </if>
+  <if test="nameLike!=null and  nameLike !=''">
+  		AND name LIKE CONCAT(CONCAT('%', #{nameLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="blockType!=null and  blockType !=''">
+   		AND block_type = #{blockType,jdbcType=VARCHAR}
+  </if>
+  <if test="blockTypeLike!=null and  blockTypeLike !=''">
+  		AND block_type LIKE CONCAT(CONCAT('%', #{blockTypeLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="code!=null and  code !=''">
+   		AND code = #{code,jdbcType=VARCHAR}
+  </if>
+  <if test="codeLike!=null and  codeLike !=''">
+  		AND code LIKE CONCAT(CONCAT('%', #{codeLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="districtId!=null">
+  		AND A.district_id=#{districtId,jdbcType=NUMERIC}
+  </if>
+  <if test="streetId!=null">
+  		AND A.street_id=#{streetId,jdbcType=NUMERIC}
+  </if>
+  <if test="longitude!=null">
+  		AND A.longitude=#{longitude,jdbcType=NUMERIC}
+  </if>
+  <if test="latitude!=null">
+  		AND A.latitude=#{latitude,jdbcType=NUMERIC}
+  </if>
+  <if test="images!=null and  images !=''">
+   		AND images = #{images,jdbcType=VARCHAR}
+  </if>
+  <if test="imagesLike!=null and  imagesLike !=''">
+  		AND images LIKE CONCAT(CONCAT('%', #{imagesLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="coverArea!=null and  coverArea !=''">
+   		AND cover_area = #{coverArea,jdbcType=VARCHAR}
+  </if>
+  <if test="coverAreaLike!=null and  coverAreaLike !=''">
+  		AND cover_area LIKE CONCAT(CONCAT('%', #{coverAreaLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="population!=null and  population !=''">
+   		AND population = #{population,jdbcType=VARCHAR}
+  </if>
+  <if test="populationLike!=null and  populationLike !=''">
+  		AND population LIKE CONCAT(CONCAT('%', #{populationLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="state!=null">
+  		AND A.state=#{state,jdbcType=NUMERIC}
+  </if>
+  <if test="remark!=null and  remark !=''">
+   		AND remark = #{remark,jdbcType=VARCHAR}
+  </if>
+  <if test="remarkLike!=null and  remarkLike !=''">
+  		AND remark LIKE CONCAT(CONCAT('%', #{remarkLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="modUser!=null">
+  		AND A.mod_user=#{modUser,jdbcType=NUMERIC}
+  </if>
+   <if test="modTimeRange1!=null">
+    		AND mod_time &gt; #{modTimeRange1,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="modTimeRange2!=null">
+    		AND mod_time &lt; #{modTimeRange2,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="modTime!=null">
+    		AND mod_time = #{modTime,jdbcType=TIMESTAMP} 
+    </if>
+   <if test="extraCondition!=null and extraCondition!=''">
+	   AND  ( ${extraCondition} )
+	</if>
+    </sql>
+    
+</mapper>

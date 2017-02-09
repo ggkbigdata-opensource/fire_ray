@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fire.platform.modules.report.dao.CheckItemResultStatisMapper">
+
+    <resultMap id="ResultStatisBean" type="org.fire.platform.modules.report.bean.CheckItemResultStatisBean">
+        <result property="reportId" column="r_id" jdbcType="NUMERIC"/>
+        <result property="name" column="c_name" jdbcType="VARCHAR" />
+        <result property="code" column="c_code" jdbcType="VARCHAR" />
+        <association property="statisList" select="selectStatis" column="{code=c_code,reportId=r_id}"/>
+    </resultMap>
+
+    <insert id="sumStatisByReportId">
+        INSERT INTO check_item_result_statis (report_id,code, level , check_num,unqualified_num)
+        SELECT cir.report_id , tmp.parent_code code , tmp.level , SUM(cir.check_num) check_num , sum(cir.unqualified_num) unqualified_num
+        from check_item_result cir
+        LEFT JOIN (
+        SELECT a.id , a.code , a.level ,  b.parent_code from check_item_def a
+        LEFT JOIN check_item_def b on a.parent_code = b.code
+        WHERE b.parent_code > 0 and b.LEVEL is NULL
+        ) tmp on tmp.id = cir.item_id
+        WHERE cir.report_id = #{param1}
+        GROUP BY tmp.parent_code , tmp.level
+        ORDER BY tmp.parent_code+0
+    </insert>
+    <insert id="batchInsert">
+        INSERT INTO check_item_result_statis (report_id,code, level , check_num,unqualified_num)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.reportId,jdbcType=NUMERIC},#{item.code,jdbcType=VARCHAR},#{item.level,jdbcType=VARCHAR},
+             #{item.checkNum,jdbcType=NUMERIC},#{item.unqualifiedNum,jdbcType=NUMERIC})
+        </foreach>
+    </insert>
+
+    <select id="queryStatisBeanByReportId" resultMap="ResultStatisBean">
+        SELECT #{param1} as r_id , name as c_name , code as c_code FROM check_item_def
+        WHERE parent_code = 0
+    </select>
+
+    <select id="selectStatis" resultMap="CheckItemResultStatis">
+        SELECT * FROM check_item_result_statis
+        WHERE report_id = #{reportId} and code = #{code}
+    </select>
+</mapper>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fire.platform.modules.notice.dao.NoticeMapper">
+
+  <select id="selectByTitle"  resultType="Long" >
+   SELECT  A.id  FROM  NOTICE A
+   WHERE title=#{title,jdbcType=VARCHAR}
+  </select>
+
+    <delete id="batchDeleteNotice" parameterType="java.util.List">
+        DELETE FROM NOTICE WHERE id IN
+        <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="selectByUUID"  resultType="Long" >
+        SELECT  A.id  FROM  NOTICE A
+        WHERE uuid=#{uuid,jdbcType=VARCHAR}
+    </select>
+
+
+</mapper>

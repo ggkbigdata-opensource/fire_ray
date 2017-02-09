@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fire.platform.modules.statis.dao.PunishEventSumMapper">
+  
+  <select id="selectAll" resultMap="PunishEventSum">
+      SELECT A.*   FROM PUNISH_EVENT_SUM A
+      <if test="extraOrderColumns != null and extraOrderColumns !=''">
+    		ORDER BY ${extraOrderColumns}
+      </if>
+  </select> 
+  
+  <select id="selectByMap" resultMap="PunishEventSum"  parameterType="map"> 
+   SELECT A.*   FROM PUNISH_EVENT_SUM A
+   <where>
+      <include refid="queryCondition"/>
+   </where>
+	<if test="extraOrderColumns != null and extraOrderColumns !=''">
+    		ORDER BY ${extraOrderColumns}
+    </if>
+  </select> 
+
+  <select id="selectByPrimaryKey"  resultMap="PunishEventSum"   parameterType="org.fire.platform.modules.statis.domain.PunishEventSum"> 
+   SELECT  A.*  FROM  PUNISH_EVENT_SUM A 
+   WHERE id=#{id,jdbcType=NUMERIC}
+  </select>  
+  
+  <update id="updateByPrimaryKey"> 
+   UPDATE PUNISH_EVENT_SUM
+  <set>  
+     <if test="year != null">  
+            year = #{year,jdbcType=VARCHAR},
+      </if> 
+     <if test="month != null">  
+            month = #{month,jdbcType=VARCHAR},
+      </if> 
+     <if test="districtId != null">  
+            district_id = #{districtId,jdbcType=NUMERIC},
+      </if> 
+     <if test="streetId != null">  
+            street_id = #{streetId,jdbcType=NUMERIC},
+      </if> 
+     <if test="blockId != null">  
+            block_id = #{blockId,jdbcType=NUMERIC},
+      </if> 
+     <if test="detainedNum != null">  
+            detained_num = #{detainedNum,jdbcType=NUMERIC},
+      </if> 
+     <if test="fineNum != null">  
+            fine_num = #{fineNum,jdbcType=NUMERIC},
+      </if> 
+     <if test="fineTotal != null">  
+            fine_total = #{fineTotal,jdbcType=NUMERIC},
+      </if> 
+     <if test="threeStopNum != null">  
+            three_stop_num = #{threeStopNum,jdbcType=NUMERIC},
+      </if> 
+     <if test="createDate != null">  
+            create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if> 
+     <if test="createUser != null">  
+            create_user = #{createUser,jdbcType=NUMERIC},
+      </if> 
+     <if test="closeDownNum != null">  
+            close_down_num = #{closeDownNum,jdbcType=NUMERIC},
+      </if> 
+   <if test="extraUpdateColumns != null and extraUpdateColumns !=''">
+    		${extraUpdateColumns}
+   </if>
+  </set>  
+   WHERE id=#{id,jdbcType=NUMERIC}
+  </update>  
+  
+  <delete id="deleteByPrimaryKey"> 
+   DELETE FROM PUNISH_EVENT_SUM
+     WHERE id=#{id,jdbcType=NUMERIC}
+  </delete>  
+
+  <delete id="deleteByParam"> 
+   DELETE FROM PUNISH_EVENT_SUM  WHERE 
+   <trim prefixOverrides="AND" > 
+  <if test="id!=null">
+  		AND id=#{id,jdbcType=NUMERIC}
+  </if>
+  <if test="year!=null and  year !=''">
+    <if test="year!=null">
+  		AND year=#{year,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="month!=null and  month !=''">
+    <if test="month!=null">
+  		AND month=#{month,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="districtId!=null">
+  		AND district_id=#{districtId,jdbcType=NUMERIC}
+  </if>
+  <if test="streetId!=null">
+  		AND street_id=#{streetId,jdbcType=NUMERIC}
+  </if>
+  <if test="blockId!=null">
+  		AND block_id=#{blockId,jdbcType=NUMERIC}
+  </if>
+  <if test="detainedNum!=null">
+  		AND detained_num=#{detainedNum,jdbcType=NUMERIC}
+  </if>
+  <if test="fineNum!=null">
+  		AND fine_num=#{fineNum,jdbcType=NUMERIC}
+  </if>
+  <if test="fineTotal!=null">
+  		AND fine_total=#{fineTotal,jdbcType=NUMERIC}
+  </if>
+  <if test="threeStopNum!=null">
+  		AND three_stop_num=#{threeStopNum,jdbcType=NUMERIC}
+  </if>
+    <if test="createDate!=null">
+    		AND create_date = #{createDate,jdbcType=TIMESTAMP} 
+    </if>
+  <if test="createUser!=null">
+  		AND create_user=#{createUser,jdbcType=NUMERIC}
+  </if>
+  <if test="closeDownNum!=null">
+  		AND close_down_num=#{closeDownNum,jdbcType=NUMERIC}
+  </if>
+   <if test="extraCondition!=null and extraCondition!=''">
+	   AND  ( ${extraCondition} )
+	</if> 
+   </trim>
+  </delete>  
+ 
+  <insert id="insert"> 
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey> 
+    INSERT INTO PUNISH_EVENT_SUM (
+	id,
+	year,
+	month,
+	district_id,
+	street_id,
+	block_id,
+	detained_num,
+	fine_num,
+	fine_total,
+	three_stop_num,
+	create_date,
+	create_user,
+	close_down_num
+	)  VALUES(
+	#{id,jdbcType=NUMERIC},
+	#{year,jdbcType=VARCHAR},
+	#{month,jdbcType=VARCHAR},
+	#{districtId,jdbcType=NUMERIC},
+	#{streetId,jdbcType=NUMERIC},
+	#{blockId,jdbcType=NUMERIC},
+	#{detainedNum,jdbcType=NUMERIC},
+	#{fineNum,jdbcType=NUMERIC},
+	#{fineTotal,jdbcType=NUMERIC},
+	#{threeStopNum,jdbcType=NUMERIC},
+	#{createDate,jdbcType=TIMESTAMP},
+	#{createUser,jdbcType=NUMERIC},
+	#{closeDownNum,jdbcType=NUMERIC}
+    ) 
+  </insert>  
+
+
+
+  <resultMap  id="PunishEventSum"  type="org.fire.platform.modules.statis.domain.PunishEventSum" >
+	<result property="id" column="id"  jdbcType="NUMERIC" />
+	<result property="year" column="year"  jdbcType="VARCHAR" />
+	<result property="month" column="month"  jdbcType="VARCHAR" />
+	<result property="districtId" column="district_id"  jdbcType="NUMERIC" />
+	<result property="streetId" column="street_id"  jdbcType="NUMERIC" />
+	<result property="blockId" column="block_id"  jdbcType="NUMERIC" />
+	<result property="detainedNum" column="detained_num"  jdbcType="NUMERIC" />
+	<result property="fineNum" column="fine_num"  jdbcType="NUMERIC" />
+	<result property="fineTotal" column="fine_total"  jdbcType="NUMERIC" />
+	<result property="threeStopNum" column="three_stop_num"  jdbcType="NUMERIC" />
+	<result property="createDate" column="create_date"  jdbcType="TIMESTAMP" />
+	<result property="createUser" column="create_user"  jdbcType="NUMERIC" />
+	<result property="closeDownNum" column="close_down_num"  jdbcType="NUMERIC" />
+  </resultMap>
+ 
+  <sql id="queryCondition">
+  <if test="id!=null">
+  		AND A.id=#{id,jdbcType=NUMERIC}
+  </if>
+  <if test="year!=null and  year !=''">
+   		AND year = #{year,jdbcType=VARCHAR}
+  </if>
+  <if test="yearLike!=null and  yearLike !=''">
+  		AND year LIKE CONCAT(CONCAT('%', #{yearLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="month!=null and  month !=''">
+   		AND month = #{month,jdbcType=VARCHAR}
+  </if>
+  <if test="monthLike!=null and  monthLike !=''">
+  		AND month LIKE CONCAT(CONCAT('%', #{monthLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="districtId!=null">
+  		AND A.district_id=#{districtId,jdbcType=NUMERIC}
+  </if>
+  <if test="streetId!=null">
+  		AND A.street_id=#{streetId,jdbcType=NUMERIC}
+  </if>
+  <if test="blockId!=null">
+  		AND A.block_id=#{blockId,jdbcType=NUMERIC}
+  </if>
+  <if test="detainedNum!=null">
+  		AND A.detained_num=#{detainedNum,jdbcType=NUMERIC}
+  </if>
+  <if test="fineNum!=null">
+  		AND A.fine_num=#{fineNum,jdbcType=NUMERIC}
+  </if>
+  <if test="fineTotal!=null">
+  		AND A.fine_total=#{fineTotal,jdbcType=NUMERIC}
+  </if>
+  <if test="threeStopNum!=null">
+  		AND A.three_stop_num=#{threeStopNum,jdbcType=NUMERIC}
+  </if>
+   <if test="createDateRange1!=null">
+    		AND create_date &gt; #{createDateRange1,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="createDateRange2!=null">
+    		AND create_date &lt; #{createDateRange2,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="createDate!=null">
+    		AND create_date = #{createDate,jdbcType=TIMESTAMP} 
+    </if>
+  <if test="createUser!=null">
+  		AND A.create_user=#{createUser,jdbcType=NUMERIC}
+  </if>
+  <if test="closeDownNum!=null">
+  		AND A.close_down_num=#{closeDownNum,jdbcType=NUMERIC}
+  </if>
+   <if test="extraCondition!=null and extraCondition!=''">
+	   AND  ( ${extraCondition} )
+	</if>
+    </sql>
+    
+</mapper>

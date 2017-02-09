@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fire.platform.modules.area.dao.AreaMapper">
+    <resultMap  id="AreaVo"  type="org.fire.platform.modules.area.vo.AreaVo" >
+        <result property="districtId" column="district_id"  jdbcType="NUMERIC" />
+        <result property="streetId" column="street_id"  jdbcType="NUMERIC" />
+		<result property="areaId" column="id"  jdbcType="NUMERIC" />
+		<result property="areaType" column="area_type"  jdbcType="NUMERIC" />
+		<result property="typeName" column="type_name"  jdbcType="VARCHAR" />
+		<result property="areaName" column="name"  jdbcType="VARCHAR" />
+		<result property="image" column="images"  jdbcType="VARCHAR" />
+		<result property="remark" column="remark"  jdbcType="VARCHAR" />
+		<result property="population" column="population"  jdbcType="VARCHAR" />
+		<result property="coverArea" column="cover_area"  jdbcType="VARCHAR" />
+    </resultMap>
+    
+    <resultMap  id="AreaDataVo"  type="org.fire.platform.modules.area.vo.AreaDataVo" >
+		<result property="month" column="month"  jdbcType="VARCHAR" />
+		<result property="total" column="total"  jdbcType="NUMERIC" />
+    </resultMap>
+    
+    <resultMap  id="AreaTypeDataVo"  type="org.fire.platform.modules.area.vo.AreaTypeDataVo" >
+    	<result property="year" column="year"  jdbcType="VARCHAR" />
+        <result property="streetName" column="street_name"  jdbcType="VARCHAR" />
+		<result property="data1" column="data1"  jdbcType="NUMERIC" />
+		<result property="data2" column="data2"  jdbcType="NUMERIC" />
+		<result property="data3" column="data3"  jdbcType="NUMERIC" />
+		<result property="data4" column="data4"  jdbcType="NUMERIC" />
+		<result property="data5" column="data5"  jdbcType="NUMERIC" />
+        <result property="data6" column="data6"  jdbcType="NUMERIC" />
+        <result property="data7" column="data7"  jdbcType="NUMERIC" />
+        <result property="data8" column="data8"  jdbcType="NUMERIC" />
+        <result property="data9" column="data9"  jdbcType="NUMERIC" />
+        <result property="data10" column="data10"  jdbcType="NUMERIC" />
+    </resultMap>
+    
+    <resultMap  id="SimpleAreaVo"  type="org.fire.platform.modules.area.vo.SimpleAreaVo" >
+    	<result property="id" column="id"  jdbcType="NUMERIC" />
+		<result property="name" column="name"  jdbcType="VARCHAR" />
+    </resultMap>
+   
+   <!-- 关注社区 -->
+   <select id="selectConcernArea" resultMap="AreaVo">
+       select a.id,a.name,a.images,a.remark,b.area_type,'行政区' as type_name,a.population,a.cover_area,b.create_date
+       from district a,user_concern_area b
+       where a.id = b.area_id
+       and b.area_type = 0
+       and b.user_id = #{userId}
+       union
+       select a.id,a.name,a.images,a.remark,b.area_type,'街道' as type_name,a.population,a.cover_area,b.create_date
+       from street a,user_concern_area b
+       where a.id = b.area_id
+       and b.area_type = 1
+       and b.user_id = #{userId}
+       union
+       select a.id,a.name,a.images,a.remark,b.area_type,block_type as type_name,a.population,a.cover_area,b.create_date
+       from block a,user_concern_area b
+       where a.id = b.area_id
+       and b.area_type = 2
+       and b.user_id = #{userId}
+       order by create_date desc
+   </select>
+   
+   <select id="selectArea" resultMap="AreaVo">
+       select a.id,
+       	a.id as district_id,
+		0 AS street_id,
+		0 AS block_id,a.name,a.images,a.remark,0 as area_type,'行政区' as type_name,a.population,a.cover_area from district a
+        <where>
+        <if test="code != null">  
+           AND  a.code = #{code,jdbcType=VARCHAR}
+        </if>
+        <if test="name != null">  
+           AND  a.name LIKE CONCAT(CONCAT('%', #{name,jdbcType=VARCHAR}),'%')
+        </if>
+        </where>
+       union
+       select a.id,	
+       b.id as district_id,
+		a.id AS street_id,
+		0 AS block_id,a.name,a.images,a.remark,1 as area_type,'街道' as type_name,a.population,a.cover_area  from street a,district b
+		where a.district_id=b.id
+        <if test="code != null">  
+           AND  a.code = #{code,jdbcType=VARCHAR}
+        </if>
+        <if test="name != null">  
+           AND a.name LIKE CONCAT(CONCAT('%', #{name,jdbcType=VARCHAR}),'%')
+        </if>
+       union
+       select a.id,	
+       		c.id as district_id,
+			b.id as street_id,
+			a.id as block_id,a.name,a.images,a.remark,2 as area_type,block_type as type_name,a.population,a.cover_area from block a,street b,district c
+			where a.street_id = b.id AND a.district_id = c.id
+        <if test="code != null">  
+           AND  a.code = #{code,jdbcType=VARCHAR}
+        </if>
+        <if test="name != null">  
+           and a.name LIKE CONCAT(CONCAT('%', #{name,jdbcType=VARCHAR}),'%')
+        </if>
+        <if test="blockType != null">  
+           and a.block_type = #{blockType,jdbcType=VARCHAR}
+        </if>
+   </select>
+   
+   <select id="selectStreetAndBlock" resultMap="AreaVo">
+       select a.id,a.name,a.images,a.remark,1 as area_type,'街道' as type_name,a.population,a.cover_area from street a
+       <where>
+       <if test="districtId != null">  
+            AND a.district_id = #{districtId,jdbcType=NUMERIC}
+       </if>
+       <if test="name != null">  
+            and a.name LIKE CONCAT(CONCAT('%', #{name,jdbcType=VARCHAR}),'%')
+       </if>
+       </where>
+       union
+       select a.id,a.name,a.images,a.remark,2 as area_type,a.block_type as type_name,a.population,a.cover_area from block a
+       <where>
+       <if test="districtId != null">  
+           AND a.district_id = #{districtId,jdbcType=NUMERIC}
+       </if>
+       <if test="name != null">  
+           and a.name LIKE CONCAT(CONCAT('%', #{name,jdbcType=VARCHAR}),'%')
+       </if>
+       <if test="blockType != null">  
+          and a.block_type = #{blockType,jdbcType=VARCHAR}
+       </if>
+       </where>
+   </select>
+   
+   <select id="selectBlock" resultMap="AreaVo">
+       select a.district_id,a.street_id,a.id,a.name,a.images,a.remark,2 as area_type,a.block_type as type_name,a.population,a.cover_area from block a
+       <where>
+       <if test="id != null">  
+           AND a.id = #{id,jdbcType=NUMERIC}
+       </if>
+       <if test="code != null">
+           AND a.code = #{code,jdbcType=VARCHAR}
+        </if>
+       <if test="streetId != null">  
+           AND a.street_id = #{streetId,jdbcType=NUMERIC}
+       </if>
+       <if test="name != null">  
+           and a.name LIKE CONCAT(CONCAT('%', #{name,jdbcType=VARCHAR}),'%')
+        </if>
+        <if test="blockType != null">  
+           and a.block_type = #{blockType,jdbcType=VARCHAR}
+        </if> 
+        </where>
+   </select>
+   
+   
+    <select id="selectDistrict" resultMap="AreaVo">
+      select a.id as district_id,a.id,a.name,a.images,a.remark,0 as area_type,'行政区' as type_name,a.population,a.cover_area from district a
+        <where>
+        <if test="id != null">
+           AND a.id = #{id,jdbcType=NUMERIC}
+        </if>
+        <if test="code != null">
+           AND a.code = #{code,jdbcType=VARCHAR}
+        </if> 
+        <if test="name != null">  
+           AND  a.name LIKE CONCAT(CONCAT('%', #{name,jdbcType=VARCHAR}),'%')
+        </if>
+        </where> 
+   </select>
+   
+   
+    <select id="selectStreet" resultMap="AreaVo">
+       select a.district_id,a.id as street_id,a.id,a.name,a.images,a.remark,1 as area_type,'街道' as type_name,a.population,a.cover_area  from street a
+       <where>
+       <if test="id != null">  
+           and a.id = #{id,jdbcType=NUMERIC}
+       </if>
+       <if test="code != null">
+           and a.code = #{code,jdbcType=VARCHAR}
+        </if>
+       <if test="name != null">  
+           and a.name LIKE CONCAT(CONCAT('%', #{name,jdbcType=VARCHAR}),'%')
+        </if>
+        <if test="districtId != null">  
+           AND a.district_id = #{districtId,jdbcType=NUMERIC}
+       </if>
+       
+        </where> 
+   </select>
+   
+   
+   
+   <select id="selectDistrictSimple" resultMap="SimpleAreaVo">
+       select a.id,a.name from district a
+       <where>
+       <if test="name != null">  
+           AND a.name LIKE CONCAT(CONCAT('%', #{name,jdbcType=VARCHAR}),'%')
+       </if>
+       </where>
+   </select>
+   
+   <select id="selectStreetSimple" resultMap="SimpleAreaVo">
+       select a.id,a.name from street a 
+       <where>
+        <if test="districtId != null">  
+          AND   a.district_id = #{districtId,jdbcType=NUMERIC}
+       </if>
+       <if test="name != null">  
+          AND  and a.name LIKE CONCAT(CONCAT('%', #{name,jdbcType=VARCHAR}),'%')
+       </if>
+       </where>
+   </select>
+   
+   
+   <!-- 统计月份数据趋势图 -->
+   <select id ="selectConfirmFireSum" resultMap = "AreaDataVo">
+      select a.month,sum(confirm_fire_num) as total from fire_event_sum a 
+      <where>
+       <if test="districtId != null">  
+          AND  a.district_id = #{districtId,jdbcType=NUMERIC}
+       </if>
+       <if test="streetId != null">  
+          AND  a.street_id = #{streetId,jdbcType=NUMERIC}
+       </if>
+       <if test="blockId != null">  
+          AND  a.block_id = #{blockId,jdbcType=NUMERIC}
+       </if> 
+       <if test="monthBegin != null">  
+           AND <![CDATA[ a.month >= #{monthBegin,jdbcType=VARCHAR}  ]]> 
+       </if>
+        <if test="monthEnd != null">  
+           AND <![CDATA[ a.month < #{monthEnd,jdbcType=VARCHAR}  ]]> 
+       </if>
+      </where>
+      group by a.month order by a.year,a.month asc
+   </select>
+
+   
+   <select id ="selectUnPassCheckReportSum" resultMap = "AreaDataVo">
+      select a.month,sum(check_num+recheck_num-check_pass_num-recheck_pass_num) as total from check_report_sum a
+      <where>
+       <if test="districtId != null">  
+          AND  a.district_id = #{districtId,jdbcType=NUMERIC}
+       </if>
+       <if test="streetId != null">  
+          AND  a.street_id = #{streetId,jdbcType=NUMERIC}
+       </if>
+       <if test="blockId != null">  
+          AND  a.block_id = #{blockId,jdbcType=NUMERIC}
+       </if> 
+       <if test="monthBegin != null">  
+           AND <![CDATA[ a.month >= #{monthBegin,jdbcType=VARCHAR}  ]]> 
+       </if>
+        <if test="monthEnd != null">  
+           AND <![CDATA[ a.month < #{monthEnd,jdbcType=VARCHAR}  ]]> 
+       </if>
+      </where>
+      group by a.month order by a.year,a.month asc
+   </select>
+   
+   <select id ="selectPunishSum" resultMap = "AreaDataVo">
+      select a.month,sum(IFNULL(detained_num,0)+IFNULL(fine_num,0)+IFNULL(three_stop_num,0)+IFNULL(close_down_num,0)) as total from punish_event_sum a
+      <where>
+       <if test="districtId != null">  
+          AND  a.district_id = #{districtId,jdbcType=NUMERIC}
+       </if>
+       <if test="streetId != null">  
+          AND  a.street_id = #{streetId,jdbcType=NUMERIC}
+       </if>
+       <if test="blockId != null">  
+          AND  a.block_id = #{blockId,jdbcType=NUMERIC}
+       </if>
+       <if test="monthBegin != null">  
+          AND <![CDATA[ a.month >= #{monthBegin,jdbcType=VARCHAR}  ]]> 
+       </if>
+        <if test="monthEnd != null">  
+          AND <![CDATA[ a.month < #{monthEnd,jdbcType=VARCHAR}  ]]> 
+       </if>
+      </where>
+      group by a.month order by a.year,a.month asc
+   </select>
+   
+   
+   <!-- 统计类型数量 -->
+   
+   
+   <select id ="selectFireTypeSum" resultMap = "AreaTypeDataVo">
+      select a.year,sum(a.original_fire_num) as data1,sum(a.confirm_fire_num) as data2,sum(a.smoke_fire_num) as data3 from fire_event_sum a
+      <where>
+       <if test="districtId != null">  
+           AND a.district_id = #{districtId,jdbcType=NUMERIC}
+       </if>
+       <if test="streetId != null">  
+           AND a.street_id = #{streetId,jdbcType=NUMERIC}
+       </if>
+       <if test="blockId != null">  
+           AND a.block_id = #{blockId,jdbcType=NUMERIC}
+       </if>
+       <if test="year != null">
+           AND a.year = #{year,jdbcType=VARCHAR}
+       </if>
+       <if test="monthBegin != null">  
+           AND <![CDATA[ a.month >= #{monthBegin,jdbcType=VARCHAR}  ]]> 
+       </if>
+        <if test="monthEnd != null">  
+           AND <![CDATA[ a.month < #{monthEnd,jdbcType=VARCHAR}  ]]> 
+       </if>
+      </where>
+   </select>
+
+    <select id ="selectFireTypeSumGroup" resultMap = "AreaTypeDataVo"  parameterType="map">
+        select a.year,
+        (SELECT b.name FROM street b WHERE a.street_id = b.id) as street_name,
+        sum(a.original_fire_num) as data1,sum(a.confirm_fire_num) as data2,sum(a.smoke_fire_num) as data3 from fire_event_sum a
+        <where>
+            <if test="districtId != null">
+                AND a.district_id = #{districtId,jdbcType=NUMERIC}
+            </if>
+            <if test="streetId != null">
+                AND a.street_id = #{streetId,jdbcType=NUMERIC}
+            </if>
+            <if test="blockId != null">
+                AND a.block_id = #{blockId,jdbcType=NUMERIC}
+            </if>
+            <if test="year != null">
+                AND a.year = #{year,jdbcType=VARCHAR}
+            </if>
+            <if test="monthBegin != null">
+                AND <![CDATA[ a.month >= #{monthBegin,jdbcType=VARCHAR}  ]]>
+            </if>
+            <if test="monthEnd != null">
+                AND <![CDATA[ a.month < #{monthEnd,jdbcType=VARCHAR}  ]]>
+            </if>
+        </where>
+        group by a.street_id
+    </select>
+
+
+    <select id ="selectPunishTypeSum" resultMap = "AreaTypeDataVo">
+      select a.year,sum(a.detained_num) as data1,sum(a.fine_num) as data2,sum(a.three_stop_num) as data3,sum(a.close_down_num) as data4,
+      sum(a.fine_total) as data5 from punish_event_sum a 
+      <where>
+       <if test="districtId != null">  
+           AND a.district_id = #{districtId,jdbcType=NUMERIC}
+       </if>
+       <if test="streetId != null">  
+           AND a.street_id = #{streetId,jdbcType=NUMERIC}
+       </if>
+       <if test="blockId != null">  
+           AND a.block_id = #{blockId,jdbcType=NUMERIC}
+       </if>
+       <if test="year != null">
+           AND a.year = #{year,jdbcType=VARCHAR}
+       </if>
+       <if test="monthBegin != null">  
+           AND <![CDATA[ a.month >= #{monthBegin,jdbcType=VARCHAR}  ]]> 
+       </if>
+        <if test="monthEnd != null">  
+           AND <![CDATA[ a.month < #{monthEnd,jdbcType=VARCHAR}  ]]> 
+       </if>
+      </where>
+   </select>
+   
+   <select id ="selectCheckReportTypeSum" resultMap = "AreaTypeDataVo">
+      select a.year,sum(a.check_num) as data1,sum(a.check_pass_num) as data2,sum(a.recheck_num) as data3,sum(a.recheck_pass_num) as data4 from check_report_sum a 
+      <where>
+       <if test="districtId != null">  
+           AND a.district_id = #{districtId,jdbcType=NUMERIC}
+       </if>
+       <if test="streetId != null">  
+           AND a.street_id = #{streetId,jdbcType=NUMERIC}
+       </if>
+       <if test="blockId != null">  
+           AND a.block_id = #{blockId,jdbcType=NUMERIC}
+       </if>
+       <if test="year != null">
+           AND a.year = #{year,jdbcType=VARCHAR}
+       </if>
+       <if test="monthBegin != null">  
+           AND <![CDATA[ a.month >= #{monthBegin,jdbcType=VARCHAR}  ]]> 
+       </if>
+        <if test="monthEnd != null">  
+           AND <![CDATA[ a.month < #{monthEnd,jdbcType=VARCHAR}  ]]> 
+       </if>
+      </where>
+   </select>
+   
+    <resultMap  id="AreaRiskLevel"  type="org.fire.platform.modules.front.vo.AreaRiskLevelVo" >
+    	<result property="areaCode" column="area_code"  jdbcType="VARCHAR" />
+		<result property="areaName" column="area_name"  jdbcType="VARCHAR" />
+		<result property="areaCenter" column="area_center"  jdbcType="VARCHAR" />
+		<result property="riskLevel" column="latest_risk_index"  jdbcType="NUMERIC" />
+		
+    </resultMap>
+   
+   <select id ="selectAreaRiskLevel" resultMap = "AreaRiskLevel" parameterType="map">
+      SELECT a.area_code,a.area_name,a.area_center,b.latest_risk_index 
+      FROM area_map a
+      LEFT JOIN street b ON b.code = a.area_code
+      <where>
+       <if test="districtId != null">  
+           AND b.district_id = #{districtId,jdbcType=NUMERIC}
+       </if>
+      </where>
+   </select>
+
+</mapper>

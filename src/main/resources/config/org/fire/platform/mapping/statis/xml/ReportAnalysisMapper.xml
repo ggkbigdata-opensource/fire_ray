@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fire.platform.modules.statis.dao.ReportAnalysisMapper">
+  
+  <select id="selectAll" resultMap="ReportAnalysis">
+      SELECT A.*   FROM REPORT_ANALYSIS A
+      <if test="extraOrderColumns != null and extraOrderColumns !=''">
+    		ORDER BY ${extraOrderColumns}
+      </if>
+  </select> 
+  
+  <select id="selectByMap" resultMap="ReportAnalysis"  parameterType="map"> 
+   SELECT A.*   FROM REPORT_ANALYSIS A
+   <where>
+      <include refid="queryCondition"/>
+   </where>
+	<if test="extraOrderColumns != null and extraOrderColumns !=''">
+    		ORDER BY ${extraOrderColumns}
+    </if>
+  </select> 
+
+  <select id="selectByPrimaryKey"  resultMap="ReportAnalysis"   parameterType="org.fire.platform.modules.statis.domain.ReportAnalysis"> 
+   SELECT  A.*  FROM  REPORT_ANALYSIS A 
+   WHERE id=#{id,jdbcType=NUMERIC}
+  </select>  
+  
+  <update id="updateByPrimaryKey"> 
+   UPDATE REPORT_ANALYSIS
+  <set>  
+     <if test="reportId != null">  
+            report_id = #{reportId,jdbcType=NUMERIC},
+      </if> 
+     <if test="totalUnqualified != null">  
+            total_unqualified = #{totalUnqualified,jdbcType=NUMERIC},
+      </if> 
+     <if test="riskLevel != null">  
+            risk_level = #{riskLevel,jdbcType=VARCHAR},
+      </if> 
+     <if test="facilitiesUnqualified != null">  
+            facilities_unqualified = #{facilitiesUnqualified,jdbcType=NUMERIC},
+      </if> 
+     <if test="facilitiesUnqualifiedRatio != null">  
+            facilities_unqualified_ratio = #{facilitiesUnqualifiedRatio,jdbcType=NUMERIC},
+      </if> 
+     <if test="evacuateUnqualified != null">  
+            evacuate_unqualified = #{evacuateUnqualified,jdbcType=NUMERIC},
+      </if> 
+     <if test="evacuateUnqualifiedRatio != null">  
+            evacuate_unqualified_ratio = #{evacuateUnqualifiedRatio,jdbcType=NUMERIC},
+      </if> 
+     <if test="manageUnqualified != null">  
+            manage_unqualified = #{manageUnqualified,jdbcType=NUMERIC},
+      </if> 
+     <if test="manageUnqualifiedRatio != null">  
+            manage_unqualified_ratio = #{manageUnqualifiedRatio,jdbcType=NUMERIC},
+      </if> 
+     <if test="dangerUnqualified != null">  
+            danger_unqualified = #{dangerUnqualified,jdbcType=NUMERIC},
+      </if> 
+     <if test="dangerUnqualifiedRatio != null">  
+            danger_unqualified_ratio = #{dangerUnqualifiedRatio,jdbcType=NUMERIC},
+      </if> 
+     <if test="importantUnqualified != null">  
+            important_unqualified = #{importantUnqualified,jdbcType=NUMERIC},
+      </if> 
+     <if test="importantUnqualifiedRatio != null">  
+            important_unqualified_ratio = #{importantUnqualifiedRatio,jdbcType=NUMERIC},
+      </if> 
+     <if test="checkUnqualified != null">  
+            check_unqualified = #{checkUnqualified,jdbcType=NUMERIC},
+      </if> 
+     <if test="checkUnqualifiedRatio != null">  
+            check_unqualified_ratio = #{checkUnqualifiedRatio,jdbcType=NUMERIC},
+      </if> 
+     <if test="creator != null">  
+            creator = #{creator,jdbcType=NUMERIC},
+      </if> 
+     <if test="createTime != null">  
+            create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if> 
+   <if test="extraUpdateColumns != null and extraUpdateColumns !=''">
+    		${extraUpdateColumns}
+   </if>
+  </set>  
+   WHERE id=#{id,jdbcType=NUMERIC}
+  </update>  
+  
+  <delete id="deleteByPrimaryKey"> 
+   DELETE FROM REPORT_ANALYSIS
+     WHERE id=#{id,jdbcType=NUMERIC}
+  </delete>  
+
+  <delete id="deleteByParam"> 
+   DELETE FROM REPORT_ANALYSIS  WHERE 
+   <trim prefixOverrides="AND" > 
+  <if test="id!=null">
+  		AND id=#{id,jdbcType=NUMERIC}
+  </if>
+  <if test="reportId!=null">
+  		AND report_id=#{reportId,jdbcType=NUMERIC}
+  </if>
+  <if test="totalUnqualified!=null">
+  		AND total_unqualified=#{totalUnqualified,jdbcType=NUMERIC}
+  </if>
+  <if test="riskLevel!=null and  riskLevel !=''">
+    <if test="riskLevel!=null">
+  		AND risk_level=#{riskLevel,jdbcType=VARCHAR}
+  </if>
+  </if>
+  <if test="facilitiesUnqualified!=null">
+  		AND facilities_unqualified=#{facilitiesUnqualified,jdbcType=NUMERIC}
+  </if>
+  <if test="facilitiesUnqualifiedRatio!=null">
+  		AND facilities_unqualified_ratio=#{facilitiesUnqualifiedRatio,jdbcType=NUMERIC}
+  </if>
+  <if test="evacuateUnqualified!=null">
+  		AND evacuate_unqualified=#{evacuateUnqualified,jdbcType=NUMERIC}
+  </if>
+  <if test="evacuateUnqualifiedRatio!=null">
+  		AND evacuate_unqualified_ratio=#{evacuateUnqualifiedRatio,jdbcType=NUMERIC}
+  </if>
+  <if test="manageUnqualified!=null">
+  		AND manage_unqualified=#{manageUnqualified,jdbcType=NUMERIC}
+  </if>
+  <if test="manageUnqualifiedRatio!=null">
+  		AND manage_unqualified_ratio=#{manageUnqualifiedRatio,jdbcType=NUMERIC}
+  </if>
+  <if test="dangerUnqualified!=null">
+  		AND danger_unqualified=#{dangerUnqualified,jdbcType=NUMERIC}
+  </if>
+  <if test="dangerUnqualifiedRatio!=null">
+  		AND danger_unqualified_ratio=#{dangerUnqualifiedRatio,jdbcType=NUMERIC}
+  </if>
+  <if test="importantUnqualified!=null">
+  		AND important_unqualified=#{importantUnqualified,jdbcType=NUMERIC}
+  </if>
+  <if test="importantUnqualifiedRatio!=null">
+  		AND important_unqualified_ratio=#{importantUnqualifiedRatio,jdbcType=NUMERIC}
+  </if>
+  <if test="checkUnqualified!=null">
+  		AND check_unqualified=#{checkUnqualified,jdbcType=NUMERIC}
+  </if>
+  <if test="checkUnqualifiedRatio!=null">
+  		AND check_unqualified_ratio=#{checkUnqualifiedRatio,jdbcType=NUMERIC}
+  </if>
+  <if test="creator!=null">
+  		AND creator=#{creator,jdbcType=NUMERIC}
+  </if>
+    <if test="createTime!=null">
+    		AND create_time = #{createTime,jdbcType=TIMESTAMP} 
+    </if>
+   <if test="extraCondition!=null and extraCondition!=''">
+	   AND  ( ${extraCondition} )
+	</if> 
+   </trim>
+  </delete>  
+ 
+  <insert id="insert"> 
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey> 
+    INSERT INTO REPORT_ANALYSIS (
+	id,
+	report_id,
+	total_unqualified,
+	risk_level,
+	facilities_unqualified,
+	facilities_unqualified_ratio,
+	evacuate_unqualified,
+	evacuate_unqualified_ratio,
+	manage_unqualified,
+	manage_unqualified_ratio,
+	danger_unqualified,
+	danger_unqualified_ratio,
+	important_unqualified,
+	important_unqualified_ratio,
+	check_unqualified,
+	check_unqualified_ratio,
+	creator,
+	create_time
+	)  VALUES(
+	#{id,jdbcType=NUMERIC},
+	#{reportId,jdbcType=NUMERIC},
+	#{totalUnqualified,jdbcType=NUMERIC},
+	#{riskLevel,jdbcType=VARCHAR},
+	#{facilitiesUnqualified,jdbcType=NUMERIC},
+	#{facilitiesUnqualifiedRatio,jdbcType=NUMERIC},
+	#{evacuateUnqualified,jdbcType=NUMERIC},
+	#{evacuateUnqualifiedRatio,jdbcType=NUMERIC},
+	#{manageUnqualified,jdbcType=NUMERIC},
+	#{manageUnqualifiedRatio,jdbcType=NUMERIC},
+	#{dangerUnqualified,jdbcType=NUMERIC},
+	#{dangerUnqualifiedRatio,jdbcType=NUMERIC},
+	#{importantUnqualified,jdbcType=NUMERIC},
+	#{importantUnqualifiedRatio,jdbcType=NUMERIC},
+	#{checkUnqualified,jdbcType=NUMERIC},
+	#{checkUnqualifiedRatio,jdbcType=NUMERIC},
+	#{creator,jdbcType=NUMERIC},
+	#{createTime,jdbcType=TIMESTAMP}
+    ) 
+  </insert>  
+
+
+
+  <resultMap  id="ReportAnalysis"  type="org.fire.platform.modules.statis.domain.ReportAnalysis" >
+	<result property="id" column="id"  jdbcType="NUMERIC" />
+	<result property="reportId" column="report_id"  jdbcType="NUMERIC" />
+	<result property="totalUnqualified" column="total_unqualified"  jdbcType="NUMERIC" />
+	<result property="riskLevel" column="risk_level"  jdbcType="VARCHAR" />
+	<result property="facilitiesUnqualified" column="facilities_unqualified"  jdbcType="NUMERIC" />
+	<result property="facilitiesUnqualifiedRatio" column="facilities_unqualified_ratio"  jdbcType="NUMERIC" />
+	<result property="evacuateUnqualified" column="evacuate_unqualified"  jdbcType="NUMERIC" />
+	<result property="evacuateUnqualifiedRatio" column="evacuate_unqualified_ratio"  jdbcType="NUMERIC" />
+	<result property="manageUnqualified" column="manage_unqualified"  jdbcType="NUMERIC" />
+	<result property="manageUnqualifiedRatio" column="manage_unqualified_ratio"  jdbcType="NUMERIC" />
+	<result property="dangerUnqualified" column="danger_unqualified"  jdbcType="NUMERIC" />
+	<result property="dangerUnqualifiedRatio" column="danger_unqualified_ratio"  jdbcType="NUMERIC" />
+	<result property="importantUnqualified" column="important_unqualified"  jdbcType="NUMERIC" />
+	<result property="importantUnqualifiedRatio" column="important_unqualified_ratio"  jdbcType="NUMERIC" />
+	<result property="checkUnqualified" column="check_unqualified"  jdbcType="NUMERIC" />
+	<result property="checkUnqualifiedRatio" column="check_unqualified_ratio"  jdbcType="NUMERIC" />
+	<result property="creator" column="creator"  jdbcType="NUMERIC" />
+	<result property="createTime" column="create_time"  jdbcType="TIMESTAMP" />
+  </resultMap>
+ 
+  <sql id="queryCondition">
+  <if test="id!=null">
+  		AND A.id=#{id,jdbcType=NUMERIC}
+  </if>
+  <if test="reportId!=null">
+  		AND A.report_id=#{reportId,jdbcType=NUMERIC}
+  </if>
+  <if test="totalUnqualified!=null">
+  		AND A.total_unqualified=#{totalUnqualified,jdbcType=NUMERIC}
+  </if>
+  <if test="riskLevel!=null and  riskLevel !=''">
+   		AND risk_level = #{riskLevel,jdbcType=VARCHAR}
+  </if>
+  <if test="riskLevelLike!=null and  riskLevelLike !=''">
+  		AND risk_level LIKE CONCAT(CONCAT('%', #{riskLevelLike,jdbcType=VARCHAR}),'%')  
+  </if>
+  <if test="facilitiesUnqualified!=null">
+  		AND A.facilities_unqualified=#{facilitiesUnqualified,jdbcType=NUMERIC}
+  </if>
+  <if test="facilitiesUnqualifiedRatio!=null">
+  		AND A.facilities_unqualified_ratio=#{facilitiesUnqualifiedRatio,jdbcType=NUMERIC}
+  </if>
+  <if test="evacuateUnqualified!=null">
+  		AND A.evacuate_unqualified=#{evacuateUnqualified,jdbcType=NUMERIC}
+  </if>
+  <if test="evacuateUnqualifiedRatio!=null">
+  		AND A.evacuate_unqualified_ratio=#{evacuateUnqualifiedRatio,jdbcType=NUMERIC}
+  </if>
+  <if test="manageUnqualified!=null">
+  		AND A.manage_unqualified=#{manageUnqualified,jdbcType=NUMERIC}
+  </if>
+  <if test="manageUnqualifiedRatio!=null">
+  		AND A.manage_unqualified_ratio=#{manageUnqualifiedRatio,jdbcType=NUMERIC}
+  </if>
+  <if test="dangerUnqualified!=null">
+  		AND A.danger_unqualified=#{dangerUnqualified,jdbcType=NUMERIC}
+  </if>
+  <if test="dangerUnqualifiedRatio!=null">
+  		AND A.danger_unqualified_ratio=#{dangerUnqualifiedRatio,jdbcType=NUMERIC}
+  </if>
+  <if test="importantUnqualified!=null">
+  		AND A.important_unqualified=#{importantUnqualified,jdbcType=NUMERIC}
+  </if>
+  <if test="importantUnqualifiedRatio!=null">
+  		AND A.important_unqualified_ratio=#{importantUnqualifiedRatio,jdbcType=NUMERIC}
+  </if>
+  <if test="checkUnqualified!=null">
+  		AND A.check_unqualified=#{checkUnqualified,jdbcType=NUMERIC}
+  </if>
+  <if test="checkUnqualifiedRatio!=null">
+  		AND A.check_unqualified_ratio=#{checkUnqualifiedRatio,jdbcType=NUMERIC}
+  </if>
+  <if test="creator!=null">
+  		AND A.creator=#{creator,jdbcType=NUMERIC}
+  </if>
+   <if test="createTimeRange1!=null">
+    		AND create_time &gt; #{createTimeRange1,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="createTimeRange2!=null">
+    		AND create_time &lt; #{createTimeRange2,jdbcType=TIMESTAMP} 
+    </if>
+    <if test="createTime!=null">
+    		AND create_time = #{createTime,jdbcType=TIMESTAMP} 
+    </if>
+   <if test="extraCondition!=null and extraCondition!=''">
+	   AND  ( ${extraCondition} )
+	</if>
+    </sql>
+    
+</mapper>

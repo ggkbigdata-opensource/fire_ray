@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fire.platform.modules.check.dao.CheckReportMapper">
+  <resultMap  id="CheckReportVo"  type="org.fire.platform.modules.check.vo.CheckReportVo" >
+	<result property="id" column="id"  jdbcType="NUMERIC" />
+	<result property="streetName" column="street_name"  jdbcType="VARCHAR" />
+	<result property="placeName" column="place_name"  jdbcType="VARCHAR" />
+	<result property="name" column="name"  jdbcType="VARCHAR" />
+	<result property="reportType" column="report_type"  jdbcType="VARCHAR" />
+	<result property="pubTime" column="pub_time"  jdbcType="TIMESTAMP" />
+	<result property="isPass" column="is_pass"  jdbcType="NUMERIC" />
+	<result property="score" column="score"  jdbcType="NUMERIC" />
+	<result property="unpassNum" column="unpass_num"  jdbcType="NUMERIC" />
+	<result property="riskIndex" column="risk_index"  jdbcType="VARCHAR" />
+	<result property="buildingLevel" column="base_level"  jdbcType="VARCHAR" />
+	<result property="buildingClass" column="base_building_class"  jdbcType="VARCHAR" />
+	<result property="reportFileUrl" column="report_file_url"  jdbcType="VARCHAR" />
+  </resultMap>
+  
+	<resultMap id="CheckReportDetailVo" type="org.fire.platform.modules.check.vo.CheckReportDetailVo" extends="CheckReport">
+		<result property="reportType" column="report_type"  jdbcType="VARCHAR" />
+		<result property="streetName" column="street_name"  jdbcType="VARCHAR" />
+		<result property="buildingLevel" column="base_level"  jdbcType="VARCHAR" />
+		<result property="buildingClass" column="base_building_class"  jdbcType="VARCHAR" />
+	</resultMap>
+	
+  <select id="selectCheckReport" resultMap="CheckReportVo">
+      SELECT A.id,a.place_name,a.name,a.report_type,a.pub_time,a.is_pass,a.unpass_num,
+      a.risk_index,a.score,a.report_file_url,b.name as street_name,c.base_level,c.base_building_class 
+      FROM CHECK_REPORT A 
+      left join street b on a.street_id = b.id 
+      left join building c on a.building_id = c.id
+      <where>
+      <if test="districtId!=null">
+  		And A.district_id=#{districtId,jdbcType=NUMERIC}
+	  </if>
+	  <if test="streetId!=null">
+	  	AND A.street_id=#{streetId,jdbcType=NUMERIC}
+	  </if>
+	  <if test="buildingId!=null">
+	  	AND A.building_id=#{buildingId,jdbcType=NUMERIC}
+	  </if>
+      <if test="nameLike!=null and  nameLike !=''">
+  		AND a.name LIKE CONCAT(CONCAT('%', #{nameLike,jdbcType=VARCHAR}),'%')  
+  	  </if>
+  	  <if test="reportType!=null and  reportType !=''">
+  		AND a.report_type = #{reportType,jdbcType=VARCHAR}
+  	  </if>
+  	  <if test="notEqualId!=null and  notEqualId !=''">
+  		AND a.id != #{notEqualId,jdbcType=VARCHAR}
+  	  </if>
+  	  <if test="pubTime!=null and  pubTime !=''">
+  		AND DATE_FORMAT(a.pub_time,'%Y') = #{pubTime,jdbcType=VARCHAR}
+  	  </if>
+  	  </where>
+  </select>
+
+	<select id="getDetailVo" resultMap="CheckReportDetailVo">
+		SELECT a.* ,b.name as street_name,c.base_level,c.base_building_class
+		FROM CHECK_REPORT a
+		left join street b on a.street_id = b.id
+		left join building c on a.building_id = c.id
+		WHERE a.id = #{param1}
+	</select>
+
+
+</mapper>
