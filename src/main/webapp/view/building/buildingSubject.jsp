@@ -204,6 +204,10 @@
 					   data-options="required:true,editable:false,width:173" />
 			</div>
 			<div class="fitem_building">
+				<label>设计单位:</label>
+				<input name="designUnit" class="easyui-textbox" prompt="设计单位"/>
+			</div>
+			<div class="fitem_building">
 				<label>使用单位数量:</label>
 				<input name="useUnitNum" class="easyui-numberbox" precision="0" prompt="请输入数字"/>
 			</div>

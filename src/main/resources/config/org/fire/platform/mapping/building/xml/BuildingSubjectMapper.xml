@@ -53,6 +53,9 @@
             <if test="ownerUnitName != null">
                 owner_unit_name = #{ownerUnitName,jdbcType=VARCHAR},
             </if>
+            <if test="designUnit != null">
+                design_unit = #{designUnit,jdbcType=VARCHAR},
+            </if>
             <if test="address != null">
                 address = #{address,jdbcType=VARCHAR},
             </if>
@@ -365,6 +368,7 @@
         <result property="streetId" column="street_id" jdbcType="NUMERIC"/>
         <result property="blockId" column="block_id" jdbcType="NUMERIC"/>
         <result property="ownerUnitName" column="owner_unit_name" jdbcType="VARCHAR"/>
+        <result property="designUnit" column="design_unit" jdbcType="VARCHAR"/>
         <result property="address" column="address" jdbcType="VARCHAR"/>
         <result property="fireManager" column="fire_manager" jdbcType="VARCHAR"/>
         <result property="contactName" column="contact_name" jdbcType="VARCHAR"/>

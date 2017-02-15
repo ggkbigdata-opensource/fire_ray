@@ -18,6 +18,7 @@ public class BuildingSubject extends BaseEntity{
 		private Long streetId;
 		private Long blockId;
 		private String ownerUnitName;
+		private String designUnit;
 		private String address;
 		private String fireManager;
 		private String contactName;
@@ -291,6 +292,12 @@ public class BuildingSubject extends BaseEntity{
 			this.thirdPartyFireDetection=thirdPartyFireDetection;
 		}
 
+		public String getDesignUnit() {
+			return designUnit;
+		}
+		public void setDesignUnit(String designUnit) {
+			this.designUnit = designUnit;
+		}
 	//toString
 	@Override
 	public String toString() {

@@ -9,3 +9,4 @@ gradle/
 .springBeans
 /.apt_generated/
 .factorypath
+/target/
