@@ -56,6 +56,19 @@
             <if test="designUnit != null">
                 design_unit = #{designUnit,jdbcType=VARCHAR},
             </if>
+            
+            <if test="totalArea != null">
+                total_area = #{totalArea,jdbcType=NUMERIC},
+            </if>
+            
+            <if test="undergroundArea != null">
+                underground_area = #{undergroundArea,jdbcType=NUMERIC},
+            </if>
+            
+            <if test="overgroundArea != null">
+                overground_area = #{overgroundArea,jdbcType=NUMERIC},
+            </if>
+            
             <if test="address != null">
                 address = #{address,jdbcType=VARCHAR},
             </if>
@@ -86,6 +99,11 @@
             <if test="baseBuildingClass != null">
                 base_building_class = #{baseBuildingClass,jdbcType=VARCHAR},
             </if>
+            
+            <if test="baseBuildingCategory != null">
+                base_building_category = #{baseBuildingCategory,jdbcType=VARCHAR},
+            </if>
+            
             <if test="conCoverArea != null">
                 con_cover_area = #{conCoverArea,jdbcType=NUMERIC},
             </if>
@@ -369,6 +387,9 @@
         <result property="blockId" column="block_id" jdbcType="NUMERIC"/>
         <result property="ownerUnitName" column="owner_unit_name" jdbcType="VARCHAR"/>
         <result property="designUnit" column="design_unit" jdbcType="VARCHAR"/>
+        <result property="undergroundArea" column="underground_area" jdbcType="NUMERIC"/>
+        <result property="overgroundArea" column="overground_area" jdbcType="NUMERIC"/>
+        <result property="totalArea" column="total_area" jdbcType="NUMERIC"/>
         <result property="address" column="address" jdbcType="VARCHAR"/>
         <result property="fireManager" column="fire_manager" jdbcType="VARCHAR"/>
         <result property="contactName" column="contact_name" jdbcType="VARCHAR"/>
@@ -379,6 +400,7 @@
         <result property="latitude" column="latitude" jdbcType="NUMERIC"/>
         <result property="useTime" column="use_time" jdbcType="VARCHAR"/>
         <result property="baseBuildingClass" column="base_building_class" jdbcType="VARCHAR"/>
+        <result property="baseBuildingCategory" column="base_building_category" jdbcType="VARCHAR"/>
         <result property="conCoverArea" column="con_cover_area" jdbcType="NUMERIC"/>
         <result property="conBuildArea" column="con_build_area" jdbcType="NUMERIC"/>
         <result property="conBuildHight" column="con_build_hight" jdbcType="NUMERIC"/>

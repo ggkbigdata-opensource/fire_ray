@@ -10,7 +10,7 @@
   </select> 
   
   <select id="selectByMap" resultMap="BuildingFunction"  parameterType="map"> 
-   SELECT A.*   FROM BUILDING_FUNCTION A
+   SELECT A.* FROM BUILDING_FUNCTION A
    <where>
       <include refid="queryCondition"/>
    </where>

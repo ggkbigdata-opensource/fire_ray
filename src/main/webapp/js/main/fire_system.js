@@ -2,7 +2,7 @@ var column =[
     { field: 'id', title: 'ID', hidden: true },
     { field: 'systemConstituentName', title: '系统组件名称',width:30},
     { field: 'modelSize', title: '型号规格' ,editor:"text",width:30},
-    { field: 'amount', title: '数量（台/个）' ,editor:"numberbox",width:30},
+    { field: 'amount', title: '数量（台/个/套）' ,editor:"numberbox",width:30},
     { field: 'manufacturer', title: '生产厂家' ,editor:"text",width:30},
     { field: 'position', title: '设置位置' ,editor:"text",width:30},
     { field: 'useTime', title: '投入使用时间(年月)' ,editor:"text",width:40},
