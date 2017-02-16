@@ -458,8 +458,10 @@
 		<div title="主要消防系统概况表" style="padding: 22px;height: 440px">
 			<%--注意:table id 不能修改--%>
 			<div class="windownTab">
-				<table id="hydrant001">
+				<div>
+					<table id="hydrant001">
 				</table>
+				</div>
 				<div class="windownTabBtnDiv">
 					<a href="javascript:void(0);" class="resetBtn"  plain="true"  onclick="saveChanges('#hydrant001')">保存</a>
 					<a href="javascript:void(0);" class="queryBtn" plain="true" onclick="reject('#hydrant001')">重置</a>
@@ -489,6 +491,15 @@
 				<div class="windownTabBtnDiv">
 					<a href="javascript:void(0);" class="resetBtn"  plain="true"  onclick="saveChanges('#gasFire004')">保存</a>
 					<a href="javascript:void(0);" class="queryBtn" plain="true" onclick="reject('#gasFire004')">重置</a>
+				</div>
+			</div>
+			
+			<div class="windownTab">
+				<table id="bubbleFire004">
+				</table>
+				<div class="windownTabBtnDiv">
+					<a href="javascript:void(0);" class="resetBtn"  plain="true"  onclick="saveChanges('#bubbleFire004')">保存</a>
+					<a href="javascript:void(0);" class="queryBtn" plain="true" onclick="reject('#bubbleFire004')">重置</a>
 				</div>
 			</div>
 
@@ -799,11 +810,13 @@ $(document).ready(function() {
 								if(data.rows && data.rows.length > 0 ){
 									reloadAllFireSystemDatagrid(edit_row_id);
 								}else{
+									
 									$.ajax({
 										url:"${pageContext.request.contextPath}/app/fireSystem/insertData?id="+edit_row_id,
 										async: true,      //async : false,表示同步
 										type:"get",
 										success: function(data){
+											alert(url);
 											if(data.successful){
 												reloadAllFireSystemDatagrid(edit_row_id);
 											}else{
@@ -898,15 +911,15 @@ $(document).ready(function() {
 
 		bindData('（三）雨淋、水幕及水喷雾灭火系统','#waterSpraySystem003',fireSystemQueryAllUrl+'?systemName=waterSpraySystem003&buildingId='+building_subject_id,saveChangesFireSystemUrl);
 		bindData('（四）气体灭火系统','#gasFire004',fireSystemQueryAllUrl+'?systemName=gasFire004&buildingId='+building_subject_id,saveChangesFireSystemUrl);
+		bindData('（五）泡沫灭火系统','#bubbleFire004',fireSystemQueryAllUrl+'?systemName=bubbleFire004&buildingId='+building_subject_id,saveChangesFireSystemUrl);
+		bindData('（六）火灾自动报警系统','#automaticAlarm005',fireSystemQueryAllUrl+'?systemName=automaticAlarm005&buildingId='+building_subject_id,saveChangesFireSystemUrl);
+		bindData('（七）防烟和排烟系统','#smokeSystem006',fireSystemQueryAllUrl+'?systemName=smokeSystem006&buildingId='+building_subject_id,saveChangesFireSystemUrl);
 
-		bindData('（五）火灾自动报警系统','#automaticAlarm005',fireSystemQueryAllUrl+'?systemName=automaticAlarm005&buildingId='+building_subject_id,saveChangesFireSystemUrl);
-		bindData('（六）防烟和排烟系统','#smokeSystem006',fireSystemQueryAllUrl+'?systemName=smokeSystem006&buildingId='+building_subject_id,saveChangesFireSystemUrl);
+		bindData('（八）防火门、窗和防火卷帘','#fireproofRolling007',fireSystemQueryAllUrl+'?systemName=fireproofRolling007&buildingId='+building_subject_id,saveChangesFireSystemUrl);
+		bindData('（九）消防电源及其配电','#powerSupply008',fireSystemQueryAllUrl+'?systemName=powerSupply008&buildingId='+building_subject_id,saveChangesFireSystemUrl);
 
-		bindData('（七）防火门、窗和防火卷帘','#fireproofRolling007',fireSystemQueryAllUrl+'?systemName=fireproofRolling007&buildingId='+building_subject_id,saveChangesFireSystemUrl);
-		bindData('（八）消防电源及其配电','#powerSupply008',fireSystemQueryAllUrl+'?systemName=powerSupply008&buildingId='+building_subject_id,saveChangesFireSystemUrl);
-
-		bindData('（九）消防应急照明和疏散指示系统','#evacuationIndicating009',fireSystemQueryAllUrl+'?systemName=evacuationIndicating009&buildingId='+building_subject_id,saveChangesFireSystemUrl);
-		bindData('（十）建筑灭火器','#buildingExtinguisher010',fireSystemQueryAllUrl+'?systemName=buildingExtinguisher010&buildingId='+building_subject_id,saveChangesFireSystemUrl);
+		bindData('（十）消防应急照明和疏散指示系统','#evacuationIndicating009',fireSystemQueryAllUrl+'?systemName=evacuationIndicating009&buildingId='+building_subject_id,saveChangesFireSystemUrl);
+		bindData('（十一）建筑灭火器','#buildingExtinguisher010',fireSystemQueryAllUrl+'?systemName=buildingExtinguisher010&buildingId='+building_subject_id,saveChangesFireSystemUrl);
 	}
 	
 	function setFormForKeypartInfo() {
