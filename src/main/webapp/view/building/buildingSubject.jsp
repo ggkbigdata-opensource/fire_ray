@@ -308,11 +308,15 @@
                     <input type="hidden" name="buildingId" /> <input type="hidden"
                         name="id" />
                     <div class="fitem_building">
-                        <label>单位名称:</label> <input name="managerUnitName"
-                            class="easyui-textbox" required="true" />
+                        <label>物业单位名称:</label> 
+                        <input name="managerUnitName" class="easyui-textbox" required="true" />
                     </div>
                     <div class="fitem_building">
-                        <label>单位负责人:</label> <input name="chargePerson"
+                        <label class="area">物业单位地址:</label> 
+                        <input name="managerAddress" class="easyui-textbox"">
+                    </div>
+                    <div class="fitem_building">
+                        <label>物业单位负责人:</label> <input name="chargePerson"
                             class="easyui-textbox">
                     </div>
                     <div class="fitem_building">
@@ -338,24 +342,31 @@
                             data-options="required:true,showSeconds:false"
                             value="3/4/2010 2:3" style="width: 173px">
                     </div>
-                    <div class="fitem_building">
+                    <div class="fitem_building" style="display:none">
                         <label>注册资金（元）:</label> <input name="registeredMoney"
                             class="easyui-numberbox" precision="2" prompt="请输入数字" />
+                    </div>
+                    <div class="fitem_building">
+                        <label>物业资质等级:</label>
+                        <input name="qualificationLevel" class="easyui-textbox">
                     </div>
                     <div class="fitem_building">
                         <label>从业人员数量:</label> <input name="employeesNum"
                             class="easyui-numberbox" precision="0" prompt="请输入数字" />
                     </div>
-                    <div class="fitem_building">
+                    <div class="fitem_building" style="display:none">
                         <label>消防持证人员:</label> <input name="fireWitnessNum"
                             class="easyui-numberbox" precision="0" prompt="请输入数字" />
                     </div>
-                    <div class="fitem">
-                        <label class="area">单位地址:</label> <input class="easyui-textbox"
-                            data-options="multiline:true" name="managerAddress"
-                            style="width: 500px; height: 70px">
+                    <div class="fitem_building">
+                        <label>初级消防持证人数:</label> <input name="primaryCredential"
+                            class="easyui-numberbox" precision="0" prompt="请输入数字" />
                     </div>
-                    <div class="fitem">
+                    <div class="fitem_building">
+                        <label>中级消防持证人数:</label> <input name="secondaryCredential"
+                            class="easyui-numberbox" precision="0" prompt="请输入数字" />
+                    </div>
+                    <div class="fitem" style="display:none">
                         <label class="area">说明:</label> <input class="easyui-textbox"
                             data-options="multiline:true" name="remark"
                             style="width: 500px; height: 70px">
@@ -368,7 +379,8 @@
                         cellspacing="0" cellpadding="0">
                         <tr name="title">
                             <td rowspan="2" class="firecontrol-td">消防控制室</td>
-                            <td>设置位置</td>
+                            <td>设置楼层</td>
+                            <td>设置方位</td>
                             <td>面积（m2）</td>
                             <td>所配消防设施</td>
                             <td colspan="2">每班值班人数（人）</td>
@@ -379,9 +391,11 @@
                             <input type="hidden" name="buildingId" />
                             <input type="hidden" name="managementId" />
                             <input type="hidden" name="keypartName" value="消防控制室" />
+                            <td><input type="text" name="floor" /></td>
                             <td><input type="text" name="position" /></td>
                             <td><input type="text" name="area" /></td>
                             <td><input type="text" name="fireEquipment" /></td>
+                            <input type="hidden" name="anotherPart"/>
                             <td colspan="2"><input type="text" name="dutyNum" /></td>
                             <td colspan="2"><input type="text" name="diplomaNum" /></td>
                             <input type="hidden" name="firePumpNum" value="0" />
@@ -393,7 +407,8 @@
                         </tr>
                         <tr name="title">
                             <td rowspan="2" class="firecontrol-td">消防水泵房</td>
-                            <td>设置位置</td>
+                            <td>设置楼层</td>
+                            <td>设置方位</td>
                             <td>面积（m2）</td>
                             <td>所配消防设施</td>
                             <td>消火栓泵数量（台）</td>
@@ -406,9 +421,11 @@
                             <input type="hidden" name="buildingId" />
                             <input type="hidden" name="managementId" />
                             <input type="hidden" name="keypartName" value="消防水泵房" />
+                            <td><input type="text" name="floor" /></td>
                             <td><input type="text" name="position" /></td>
                             <td><input type="text" name="area" /></td>
                             <td><input type="text" name="fireEquipment" /></td>
+                            <input type="hidden" name="anotherPart"/>
                             <td><input type="text" name="firePumpNum" /></td>
                             <td><input type="text" name="sprayPumpNum" /></td>
                             <td><input type="text" name="pressurePumpNum" /></td>
@@ -420,7 +437,8 @@
                         </tr>
                         <tr name="title">
                             <td rowspan="2" class="firecontrol-td">柴油发电机房</td>
-                            <td>设置位置</td>
+                            <td>设置楼层</td>
+                            <td>设置方位</td>
                             <td>面积（m2）</td>
                             <td>所配消防设施</td>
                             <td colspan="2">储油间面积（m2）</td>
@@ -431,9 +449,11 @@
                             <input type="hidden" name="buildingId" />
                             <input type="hidden" name="managementId" />
                             <input type="hidden" name="keypartName" value="柴油发电机房" />
+                            <td><input type="text" name="floor" /></td>
                             <td><input type="text" name="position" /></td>
                             <td><input type="text" name="area" /></td>
                             <td><input type="text" name="fireEquipment" /></td>
+                            <input type="hidden" name="anotherPart"/>
                             <td colspan="2"><input type="text" name="storageArea" /></td>
                             <td colspan="2"><input type="text" name="oilVolume" /></td>
                             <input type="hidden" name="dutyNum" value="0" />
@@ -445,7 +465,8 @@
                         </tr>
                         <tr name="title">
                             <td rowspan="2" class="firecontrol-td">变、配电室</td>
-                            <td>设置位置</td>
+                            <td>设置楼层</td>
+                            <td>设置方位</td>
                             <td>面积（m2）</td>
                             <td colspan="6">所配消防设施</td>
                         </tr>
@@ -454,9 +475,11 @@
                             <input type="hidden" name="buildingId" />
                             <input type="hidden" name="managementId" />
                             <input type="hidden" name="keypartName" value="变、配电室" />
+                            <td><input type="text" name="floor" /></td>
                             <td><input type="text" name="position" /></td>
                             <td><input type="text" name="area" /></td>
                             <td colspan="6"><input type="text" name="fireEquipment" /></td>
+                            <input type="hidden" name="anotherPart"/>
                             <input type="hidden" name="dutyNum" value="0" />
                             <input type="hidden" name="diplomaNum" value="0" />
                             <input type="hidden" name="firePumpNum" value="0" />
@@ -469,18 +492,22 @@
                         <tr name="title">
                             <td rowspan="3" class="firecontrol-td">其它消防<br>重点部位
                             </td>
-                            <td>设置位置</td>
+                            <td>设置楼层</td>
+                            <td>设置方位</td>
                             <td>面积（m2）</td>
-                            <td colspan="6">所配消防设施</td>
+                            <td colspan="3">消防系统或设施</td>
+                            <td colspan="3">其他所设重点部位名称</td>
                         </tr>
                         <tr>
                             <input type="hidden" name="id" />
                             <input type="hidden" name="buildingId" />
                             <input type="hidden" name="managementId" />
                             <input type="hidden" name="keypartName" value="其它消防重点部位一" />
+                            <td><input type="text" name="floor" /></td>
                             <td><input type="text" name="position" /></td>
                             <td><input type="text" name="area" /></td>
-                            <td colspan="6"><input type="text" name="fireEquipment" /></td>
+                            <td colspan="3"><input type="text" name="fireEquipment" /></td>
+                            <td colspan="3"><input type="text" name="anotherPart" /></td>
                             <input type="hidden" name="dutyNum" value="0" />
                             <input type="hidden" name="diplomaNum" value="0" />
                             <input type="hidden" name="firePumpNum" value="0" />
@@ -495,9 +522,11 @@
                             <input type="hidden" name="buildingId" />
                             <input type="hidden" name="managementId" />
                             <input type="hidden" name="keypartName" value="其它消防重点部位二" />
+                            <td><input type="text" name="floor" /></td>
                             <td><input type="text" name="position" /></td>
                             <td><input type="text" name="area" /></td>
-                            <td colspan="6"><input type="text" name="fireEquipment" /></td>
+                            <td colspan="3"><input type="text" name="fireEquipment" /></td>
+                            <td colspan="3"><input type="text" name="anotherPart"/></td>
                             <input type="hidden" name="dutyNum" value="0" />
                             <input type="hidden" name="diplomaNum" value="0" />
                             <input type="hidden" name="firePumpNum" value="0" />
